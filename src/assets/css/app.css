@@ -1,0 +1,22 @@
+#container{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+#content{
+	flex: 1;
+}
+
+#footer{
+	padding-top: 5vh;
+	min-height: 3vh;
+}
+
+/* source of code^: https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
+
+
+.article-image{
+	max-width: 100%;
+	overflow: hidden;
+}

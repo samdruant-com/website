@@ -1,0 +1,43 @@
+{
+	"name": "samoliver",
+	"version": "1.0.0",
+	"description": "personal website",
+	"author": "@olivermanzi <olivermanzi.dev@gmail.com>",
+	"bugs": {
+		"url": "https://github.com/olivermanzi/olivermanzi/issues"
+	},
+	"homepage": "samdruant.com",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/olivermanzi/samdruant.git"
+	},
+	"scripts": {
+		"dev": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint"
+	},
+	"dependencies": {
+		"bootstrap-vue": "^2.21.2",
+		"core-js": "^3.9.1",
+		"vue": "^2.6.11",
+		"vue-router": "^3.4.9",
+		"vuex": "^3.6.0"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "~4.5.0",
+		"@vue/cli-plugin-eslint": "~4.5.0",
+		"@vue/cli-service": "~4.5.0",
+		"babel-eslint": "^10.1.0",
+		"eslint": "^6.7.2",
+		"eslint-plugin-vue": "^7.0.0-beta.4",
+		"vue-template-compiler": "^2.6.11"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	],
+	"engines": {
+		"node": "12.16.2"
+	}
+}
