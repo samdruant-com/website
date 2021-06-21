@@ -1,29 +1,35 @@
 {
 	"root": true,
 	"env": {
+		"browser": true,
 		"node": true
 	},
 	"extends": ["plugin:vue/vue3-strongly-recommended", "eslint:recommended"],
-	"parserOptions": {
-		"parser": "babel-eslint"
-	},
 	"rules": {
+		"no-tabs": ["error", { "allowIndentationTabs": true }],
 		"indent": ["error", "tab"],
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
-		"vue/script-indent": [
-			"warn",
-			"tab",
-			{
-				"baseIndent": 1
-			}
-		],
+		"vue/script-indent": ["warn", "tab", { "baseIndent": 1 }],
 		"vue/custom-event-name-casing": ["error"],
 		"vue/attribute-hyphenation": ["error", "always"],
-		"vue/html-closing-bracket-newline": ["error", {
-    "singleline": "never",
-    "multiline": "never"
-  }]
+		"vue/html-indent": [
+			"error",
+			"tab",
+			{
+				"attribute": 1,
+				"baseIndent": 1,
+				"closeBracket": 0,
+				"alignAttributesVertically": true
+			}
+		],
+		"vue/html-closing-bracket-newline": [
+			"error",
+			{
+				"singleline": "never",
+				"multiline": "never"
+			}
+		]
 	},
 	"overrides": [
 		{
@@ -34,5 +40,3 @@
 		}
 	]
 }
-
-/* eslint-vue rules: https://eslint.vuejs.org/rules/ */
