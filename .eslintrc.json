@@ -10,9 +10,16 @@
 		"indent": ["error", "tab"],
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
-		"vue/script-indent": ["warn", "tab", { "baseIndent": 1 }],
 		"vue/custom-event-name-casing": ["error"],
 		"vue/attribute-hyphenation": ["error", "always"],
+		"vue/script-indent": [
+			"error",
+			"tab",
+			{
+				"baseIndent": 1,
+				"switchCase": 0
+			}
+		],
 		"vue/html-indent": [
 			"error",
 			"tab",

@@ -14,29 +14,18 @@
 </template>
 
 <script>
-import TheFooter from "../components/TheFooter.vue";
-import TheNavbar from "../components/TheNavbar.vue";
-import TheSidebar from "../components/TheSidebar.vue";
-export default {
-	components: { TheSidebar, TheNavbar, TheFooter },
-	data: function() {
-		return {
-			showSidebar: false
-		};
-	}
-};
+	import { mapGetters } from "vuex";
+
+	import TheFooter from "../components/TheFooter.vue";
+	import TheNavbar from "../components/TheNavbar.vue";
+	import TheSidebar from "../components/TheSidebar.vue";
+
+	export default {
+		components: { TheSidebar, TheNavbar, TheFooter },
+		computed: {
+			...mapGetters({
+				showSidebar: "base/sidebar/getVisibility"
+			})
+		}
+	};
 </script>
-
-<style>
-#app-container {
-	min-height: 80vh;
-
-	display: grid;
-	place-items: center;
-	grid-template-rows: auto 1fr auto;
-}
-
-#app-footer {
-	max-height: 5vh;
-}
-</style>
