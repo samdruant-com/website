@@ -6,10 +6,12 @@
 		backdrop-variant="dark"
 		@hidden="setSidebarVisibility(false)">
 		<b-row class="my-2 mx-2">
-			<b-col
-				cols="auto my-2 mx-2"
-				class="brand">
-				Sam Druant
+			<b-col cols="auto my-1 mx-1">
+				<a
+					class="brand"
+					href="/">
+					Sam Druant
+				</a>
 			</b-col>
 		</b-row>
 
@@ -21,7 +23,7 @@
 				class="my-2">
 				<nuxt-link
 					class="link"
-					to="#">
+					to="works">
 					Work
 				</nuxt-link>
 			</b-col>
@@ -30,7 +32,16 @@
 				class="my-2">
 				<nuxt-link
 					class="link"
-					to="#">
+					to="about">
+					About
+				</nuxt-link>
+			</b-col>
+			<b-col
+				cols="10"
+				class="my-2">
+				<nuxt-link
+					class="link"
+					to="cv">
 					CV
 				</nuxt-link>
 			</b-col>

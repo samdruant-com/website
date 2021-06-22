@@ -2,7 +2,7 @@
 	<b-navbar toggleable="lg">
 		<b-navbar-brand
 			class="brand"
-			href="#">
+			href="/">
 			Sam Druant
 		</b-navbar-brand>
 
@@ -12,15 +12,24 @@
 
 		<b-collapse is-nav>
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item>
+				<b-nav-item class="mx-1">
 					<nuxt-link
-						class="link mx-1"
-						to="#">
+						class="link"
+						to="works">
 						Work
 					</nuxt-link>
+				</b-nav-item>
+				<b-nav-item class="mx-1">
 					<nuxt-link
-						class="link mx-1"
-						to="#">
+						class="link"
+						to="about">
+						About
+					</nuxt-link>
+				</b-nav-item>
+				<b-nav-item class="mx-1">
+					<nuxt-link
+						class="link"
+						to="cv">
 						CV
 					</nuxt-link>
 				</b-nav-item>
