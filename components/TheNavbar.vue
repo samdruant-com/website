@@ -33,6 +33,15 @@
 						CV
 					</nuxt-link>
 				</b-nav-item>
+				<b-nav-item class="mx-1">
+					<a
+						class="link"
+						href="mailto: sam.druant@gmail.com">
+						Send email
+					</a>
+					&nbsp;
+					<mail-icon />
+				</b-nav-item>
 			</b-navbar-nav>
 		</b-collapse>
 	</b-navbar>
@@ -40,9 +49,13 @@
 
 <script>
 	import { mapMutations } from "vuex";
+	import { BIconMailbox } from "bootstrap-vue";
 
 	export default {
 		name: "Navbar",
+		components: {
+			"mail-icon": BIconMailbox
+		},
 		methods: {
 			...mapMutations({
 				toggleSidebar: "base/sidebar/toggle"
