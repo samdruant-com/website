@@ -21,11 +21,27 @@
 			<b-col
 				cols="10"
 				class="my-2">
-				<nuxt-link
+				<a
 					class="link"
-					to="works">
+					v-b-toggle.work-collapse>
 					Work
-				</nuxt-link>
+				</a>
+				<b-collapse
+					v-if="works.length > 0"
+					id="work-collapse"
+					class="mt-2 ml-2">
+					<p
+						v-for="item in works"
+						:key="item"
+						class="mt-2">
+						->
+						<nuxt-link
+							class="link"
+							to="#">
+							{{ item }}
+						</nuxt-link>
+					</p>
+				</b-collapse>
 			</b-col>
 			<b-col
 				cols="10"
@@ -87,7 +103,10 @@
 		computed: {
 			...mapGetters({
 				showSidebar: "base/sidebar/getVisibility"
-			})
+			}),
+			works () {
+				return ["2017", "2018", "2019", "2020"];
+			}
 		},
 		methods: {
 			...mapMutations({

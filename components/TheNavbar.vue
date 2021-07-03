@@ -12,13 +12,22 @@
 
 		<b-collapse is-nav>
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item class="mx-1">
-					<nuxt-link
-						class="link"
-						to="works">
-						Work
-					</nuxt-link>
-				</b-nav-item>
+				<b-nav-item-dropdown class="mx-1">
+					<template #button-content>
+						<span class="link">
+							Work
+						</span>
+					</template>
+					<b-dropdown-item
+						v-for="item in works"
+						:key="item">
+						<nuxt-link
+							class="link"
+							to="#">
+							{{ item }}
+						</nuxt-link>
+					</b-dropdown-item>
+				</b-nav-item-dropdown>
 				<b-nav-item class="mx-1">
 					<nuxt-link
 						class="link"
@@ -35,8 +44,8 @@
 				</b-nav-item>
 				<b-nav-item class="mx-1">
 					<a
-						class="link"
-						href="mailto: sam.druant@gmail.com">
+						href="mailto: sam.druant@gmail.com"
+						class="link">
 						Send email
 					</a>
 					&nbsp;
@@ -55,6 +64,11 @@
 		name: "Navbar",
 		components: {
 			"mail-icon": BIconMailbox
+		},
+		computed: {
+			works () {
+				return ["2017", "2018", "2019", "2020"];
+			}
 		},
 		methods: {
 			...mapMutations({
