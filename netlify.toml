@@ -1,0 +1,7 @@
+# Settings in the [build] context are global and are applied to all contexts
+# unless otherwise overridden by more specific contexts.
+[build]
+  # Git commits that should be ignored.
+  # This is looks for commits by dependabot
+  # which can eat up a lot of build time
+  ignore = "git log -1 --pretty=%B | grep dependabot"
