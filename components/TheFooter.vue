@@ -1,22 +1,24 @@
 <template>
-	<b-row
-		class="mx-2 my-2"
-		align-h="center">
-		<b-col cols="auto">
-			<a
-				class="link"
-				target="_blank"
-				href="https://www.instagram.com/samdruant/">
-				<b-img
-					height="15"
-					src="~/assets/img/icons/instagram.png" />
-			</a>
-		</b-col>
-	</b-row>
+	<v-footer app>
+		<v-row
+			class="mx-2 my-2"
+			justify="center">
+			<v-col cols="auto">
+				<a
+					class="link"
+					target="_blank"
+					href="https://www.instagram.com/samdruant/">
+					<img
+						height="15"
+						src="~/assets/images/icons/instagram.webp">
+				</a>
+			</v-col>
+		</v-row>
+	</v-footer>
 </template>
 
 <script>
-	export default {
-		name: "Footer"
-	};
+export default {
+	name: "Footer"
+};
 </script>

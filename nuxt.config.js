@@ -16,6 +16,11 @@ export default {
 		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
 	},
 
+	// Generate settings
+	generate: {
+		fallback: true
+	},
+
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
 		// font styles
@@ -24,10 +29,13 @@ export default {
 		"~/assets/css/layout.css"],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-	plugins: [],
+	plugins: [{ src: "~/plugins/mixin.js", mode: "client" }],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: true,
+
+	// Build Configuration: https://go.nuxtjs.dev/config-build
+	build: {},
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
@@ -37,14 +45,12 @@ export default {
 
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
-		// https://go.nuxtjs.dev/bootstrap
-		"bootstrap-vue/nuxt",
 		// https://go.nuxtjs.dev/axios
 		"@nuxtjs/axios",
+		// https://github.com/nuxt-community/vuetify-module
+		"@nuxtjs/vuetify",
 		// https://go.nuxtjs.dev/pwa
-		"@nuxtjs/pwa",
-		// https://www.npmjs.com/package/@nuxtjs/svg#installation
-		"@nuxtjs/svg"
+		"@nuxtjs/pwa"
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -57,6 +63,15 @@ export default {
 		}
 	},
 
-	// Build Configuration: https://go.nuxtjs.dev/config-build
-	build: {}
+	// Vuetify config
+	vuetify: {
+		/* module options */
+		defaultAssets: {
+			font: {
+				family: "Roboto"
+			},
+			icons: "md" // "md", "mdi", "fa", "fa4", false
+		}
+	}
+
 };

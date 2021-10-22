@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<b-img
+		<img
 			height="350"
-			src="~/assets/img/works/test.JPG" />
+			src="~/assets/images/test.webp">
 	</div>
 </template>
 
 <script>
-	export default {
-		name: "Landing"
-	};
+export default {
+	name: "Landing"
+};
 </script>
