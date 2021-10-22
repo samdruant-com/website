@@ -29,6 +29,13 @@ export default {
 
 <style scoped>
 #contact {
-	padding: 50% 0;
+	margin-top: 15%;
+}
+
+@media screen and (max-width: 480px) {
+  /* add styling for mobile screens here */
+	#contact {
+		margin-top: 50%;
+	}
 }
 </style>
