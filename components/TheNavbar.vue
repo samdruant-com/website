@@ -1,52 +1,53 @@
 <template>
-	<b-navbar toggleable="lg">
-		<b-navbar-brand
-			class="brand"
-			href="/">
-			Sam Druant
-		</b-navbar-brand>
+	<v-app-bar
+		app
+		dense
+		elevation="0"
+		color="transparent"
+		:value="inStartPage">
+		<v-app-bar-title>
+			<nuxt-link
+				class="hide-link"
+				to="/">
+				<b>Sam Druant</b>
+			</nuxt-link>
+		</v-app-bar-title>
 
-		<b-nav-toggle
-			target="sidebar"
-			@click="toggleSidebar" />
+		<v-spacer />
 
-		<b-collapse is-nav>
-			<b-navbar-nav class="ml-auto">
-				<b-nav-item class="mx-1">
-					<nuxt-link
-						class="link"
-						to="works">
-						Work
-					</nuxt-link>
-				</b-nav-item>
-				<b-nav-item class="mx-1">
-					<nuxt-link
-						class="link"
-						to="about">
-						About
-					</nuxt-link>
-				</b-nav-item>
-				<b-nav-item class="mx-1">
-					<nuxt-link
-						class="link"
-						to="cv">
-						CV
-					</nuxt-link>
-				</b-nav-item>
-			</b-navbar-nav>
-		</b-collapse>
-	</b-navbar>
+		<div v-if="isScreenDesktop">
+			<nuxt-link
+				v-for="page in routes"
+				:key="page.path"
+				class="mx-1 hide-link"
+				:to="page.path">
+				{{ page.name }}
+			</nuxt-link>
+		</div>
+		<v-app-bar-nav-icon
+			v-else
+			@click="setSidebar(!showSidebar)" />
+	</v-app-bar>
 </template>
 
 <script>
-	import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
-	export default {
-		name: "Navbar",
-		methods: {
-			...mapMutations({
-				toggleSidebar: "base/sidebar/toggle"
-			})
+export default {
+	name: "Navbar",
+	computed: {
+		...mapGetters({
+			routes: "app/nav/getRoutes",
+			showSidebar: "app/sidebar/getVisibility"
+		}),
+		inStartPage(){
+			return this.$route.path !== "/";
 		}
-	};
+	},
+	methods: {
+		...mapMutations({
+			setSidebar: "app/sidebar/setVisbitility"
+		})
+	}
+};
 </script>

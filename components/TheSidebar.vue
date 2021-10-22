@@ -1,98 +1,41 @@
 <template>
-	<b-sidebar
-		:visible="showSidebar"
-		no-header
-		backdrop
-		backdrop-variant="dark"
-		@hidden="setSidebarVisibility(false)">
-		<b-row class="my-2 mx-2">
-			<b-col cols="auto my-1 mx-1">
-				<a
-					class="brand"
-					href="/">
-					Sam Druant
-				</a>
-			</b-col>
-		</b-row>
-
-		<b-row
-			class="my-2 mx-2"
-			align-h="center">
-			<b-col
-				cols="10"
-				class="my-2">
+	<v-navigation-drawer
+		v-model="showSidebar"
+		app>
+		<template #prepend>
+			<div class="pa-2">
 				<nuxt-link
-					class="link"
-					to="works">
-					Work
+					class="hide-link"
+					to="/">
+					<h2>Sam Druant</h2>
 				</nuxt-link>
-			</b-col>
-			<b-col
-				cols="10"
-				class="my-2">
-				<nuxt-link
-					class="link"
-					to="about">
-					About
-				</nuxt-link>
-			</b-col>
-			<b-col
-				cols="10"
-				class="my-2">
-				<nuxt-link
-					class="link"
-					to="cv">
-					CV
-				</nuxt-link>
-			</b-col>
-			<b-col
-				cols="10"
-				class="my-2">
-				<mail-icon />
-				&nbsp;
-				<a
-					class="link"
-					href="mailto: sam.druant@gmail.com">Send Email</a>
-			</b-col>
-		</b-row>
-
-		<template #footer>
-			<b-row
-				class="my-2 mx-2"
-				align-h="center">
-				<b-col
-					cols="10"
-					class="my-2">
-					<b-button
-						block
-						variant="outline-dark"
-						@click="setSidebarVisibility(false);">
-						Close Now
-					</b-button>
-				</b-col>
-			</b-row>
+			</div>
 		</template>
-	</b-sidebar>
+
+		<v-list nav>
+			<v-list-item
+				v-for="page in routes"
+				:key="page.path"
+				:to="page.path">
+				{{ page.name }}
+			</v-list-item>
+		</v-list>
+	</v-navigation-drawer>
 </template>
 
 <script>
-	import { mapGetters, mapMutations } from "vuex";
-	import {BIconMailbox} from "bootstrap-vue";
+import { mapGetters } from "vuex";
 
-	export default {
-		name: "Sidebar",
-		components: {
-			"mail-icon": BIconMailbox
-		},
-		computed: {
-			...mapGetters({
-				showSidebar: "base/sidebar/getVisibility"
-			})
-		},
-		methods: {
-			...mapMutations({
-				setSidebarVisibility: "base/sidebar/setVisbitility"
-			})
+export default {
+	name: "Sidebar",
+	computed: {
+		...mapGetters({
+			routes: "app/nav/getRoutes"
+		}),
+		showSidebar: {
+			get: function(){ return this.$store.getters["app/sidebar/getVisibility"];},
+			set: function(value){ return this.$store.commit("app/sidebar/setVisbitility", value);}
 		}
-	};
+	}
+};
 </script>
