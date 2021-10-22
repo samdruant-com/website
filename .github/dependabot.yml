@@ -3,6 +3,7 @@ updates:
 # Fetch and update latest `npm` packages
 - package-ecosystem: npm
   directory: '/'
+  target-branch: "dev"
   schedule:
     interval: monthly
     time: '00:00'
