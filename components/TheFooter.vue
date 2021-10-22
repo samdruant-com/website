@@ -1,5 +1,8 @@
 <template>
-	<v-footer app>
+	<v-footer
+		app
+		padless
+		color="transparent">
 		<v-row
 			class="mx-2 my-2"
 			justify="center">
@@ -7,7 +10,7 @@
 				<a
 					class="link"
 					target="_blank"
-					href="https://www.instagram.com/samdruant/">
+					href="https://www.instagram.com/samdruant">
 					<img
 						height="15"
 						src="~/assets/images/icons/instagram.webp">

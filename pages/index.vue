@@ -1,8 +1,12 @@
 <template>
-	<div>
-		<img
-			height="350"
-			src="~/assets/images/test.webp">
+	<div id="start-page">
+		<h1 class="text-center white--text">
+			<nuxt-link
+				class="hide-link"
+				to="/contact">
+				Sam Druant
+			</nuxt-link>
+		</h1>
 	</div>
 </template>
 
@@ -11,3 +15,15 @@ export default {
 	name: "Landing"
 };
 </script>
+
+<style scoped>
+#start-page {
+	height: 100vh;
+	background-size: cover;
+	background-color: #cccccc;
+	background-repeat: no-repeat;
+	background-image: url('~assets/images/img-1.webp');
+
+	padding: 30vh 5vw;
+}
+</style>

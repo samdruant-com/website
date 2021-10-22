@@ -1,6 +1,7 @@
 export const state = () => ({
 	routes: [
-		{ name: "page", path: "/page" }
+		//{ name: "Projects", path: "/projects" },
+		{ name: "Contact", path: "/contact" }
 	]
 });
 

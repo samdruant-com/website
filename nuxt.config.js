@@ -24,9 +24,8 @@ export default {
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
 		// font styles
-		"~/assets/css/font.css",
-		// layout styles
-		"~/assets/css/layout.css"],
+		"~/assets/css/font.css"
+	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 	plugins: [
@@ -71,7 +70,7 @@ export default {
 		/* module options */
 		defaultAssets: {
 			font: {
-				family: "Roboto"
+				family: "Helvetica"
 			},
 			icons: "md" // "md", "mdi", "fa", "fa4", false
 		}

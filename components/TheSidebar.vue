@@ -3,11 +3,13 @@
 		v-model="showSidebar"
 		app>
 		<template #prepend>
-			<nuxt-link
-				class="brand"
-				to="/">
-				Sam Druant
-			</nuxt-link>
+			<div class="pa-2">
+				<nuxt-link
+					class="hide-link"
+					to="/">
+					<h2>Sam Druant</h2>
+				</nuxt-link>
+			</div>
 		</template>
 
 		<v-list nav>
