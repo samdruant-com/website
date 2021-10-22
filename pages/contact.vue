@@ -12,7 +12,9 @@
 				<v-col cols="auto">
 					<a
 						class="hide-link"
-						href="mailto: sam.druant@gmail.com"><b>visit</b> my instagram</a>
+						target="_blank"
+						rel="noreferrer"
+						href="https://www.instagram.com/samdruant"><b>visit</b> my instagram</a>
 				</v-col>
 			</v-row>
 		</div>
