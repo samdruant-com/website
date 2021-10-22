@@ -29,7 +29,10 @@ export default {
 		"~/assets/css/layout.css"],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-	plugins: [{ src: "~/plugins/mixin.js", mode: "client" }],
+	plugins: [
+		{ src: "~/plugins/api.js" },
+		{ src: "~/plugins/mixin.js", mode: "client" }
+	],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: true,
@@ -47,10 +50,10 @@ export default {
 	modules: [
 		// https://go.nuxtjs.dev/axios
 		"@nuxtjs/axios",
-		// https://github.com/nuxt-community/vuetify-module
-		"@nuxtjs/vuetify",
 		// https://go.nuxtjs.dev/pwa
-		"@nuxtjs/pwa"
+		"@nuxtjs/pwa",
+		// https://github.com/nuxt-community/vuetify-module
+		"@nuxtjs/vuetify"
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios

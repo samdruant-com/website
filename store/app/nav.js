@@ -1,6 +1,6 @@
 export const state = () => ({
 	routes: [
-		{name: "page", path: "/page"}
+		{ name: "page", path: "/page" }
 	]
 });
 
