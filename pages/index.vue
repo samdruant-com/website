@@ -2,7 +2,7 @@
 	<div id="start-page">
 		<h1 class="text-center white--text">
 			<nuxt-link
-				class="hide-link"
+				class="s-brand hide-link"
 				to="/contact">
 				Sam Druant
 			</nuxt-link>

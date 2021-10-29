@@ -7,7 +7,7 @@
 		:value="inStartPage">
 		<v-app-bar-title>
 			<nuxt-link
-				class="hide-link"
+				class="s-brand hide-link"
 				to="/">
 				<b>Sam Druant</b>
 			</nuxt-link>
@@ -19,7 +19,7 @@
 			<nuxt-link
 				v-for="page in routes"
 				:key="page.path"
-				class="mx-1 hide-link"
+				class="s-brand mx-1 hide-link"
 				:to="page.path">
 				{{ page.name }}
 			</nuxt-link>
