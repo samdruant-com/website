@@ -1,14 +1,18 @@
 <template>
 	<base-page>
 		<div id="contact">
-			<v-row justify="center">
+			<v-row
+				justify="end"
+				class="mr-2 mr-md-5">
 				<v-col cols="auto">
 					<a
 						class="hide-link"
-						href="mailto: sam.druant@gmail.com"><b>email</b> me</a>
+						href="mailto:sam.druant@gmail.com"><b>email</b> me</a>
 				</v-col>
 			</v-row>
-			<v-row justify="center">
+			<v-row
+				justify="end"
+				class="mr-2 mr-md-5">
 				<v-col cols="auto">
 					<a
 						class="hide-link"
