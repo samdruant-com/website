@@ -5,7 +5,7 @@
 		<template #prepend>
 			<div class="pa-2">
 				<nuxt-link
-					class="hide-link"
+					class="s-brand hide-link"
 					to="/">
 					<h2>Sam Druant</h2>
 				</nuxt-link>
@@ -16,7 +16,7 @@
 			<v-list-item
 				v-for="page in routes"
 				:key="page.path"
-				:to="page.path">
+				@click="goTo(page.path)">
 				{{ page.name }}
 			</v-list-item>
 		</v-list>
@@ -35,6 +35,12 @@ export default {
 		showSidebar: {
 			get: function(){ return this.$store.getters["app/sidebar/getVisibility"];},
 			set: function(value){ return this.$store.commit("app/sidebar/setVisbitility", value);}
+		}
+	},
+	methods: {
+		goTo(path){
+			if(this.$route.path !== path) this.$router.push(path);
+			this.$store.commit("app/sidebar/setVisbitility", false);
 		}
 	}
 };
