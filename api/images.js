@@ -5,6 +5,6 @@ export default axios => ({
 		return images;
 	},
 	get(id){
-		return images.find( image => image.id === id);
+		return images.find( image => image.id === Number(id));
 	}
 });
