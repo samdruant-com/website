@@ -1,25 +1,12 @@
+import MockHelper from "./mock/helper";
 import MockProjects from "./mock/projects";
-import MockWorks from "./mock/works";
-
-function getProjectWorks(project){
-	if(!project) return [];
-
-	const works = [];
-
-	for(let i = 0; i < project.works.length; i++){
-		const workId = project.works[i];
-		const work = MockWorks.find((item) => { item.id === workId;});
-
-		works.push(work);
-	}
-
-	return works;
-}
 
 export default axios => ({
 	index(){
-		const projects = MockProjects.map((project) => {
-			const works = getProjectWorks(project);
+
+		const mockProjects = MockProjects();
+		const projects = mockProjects.map((project) => {
+			const works = MockHelper.populateProjectWorks(project);
 			project.works = works;
 
 			return project;
@@ -28,9 +15,17 @@ export default axios => ({
 		return { data: projects };
 	},
 	get(id){
-		const project = MockProjects.find( project => project.id === Number(id));
-		const works = getProjectWorks(project);
-		project.works = works;
+		const mockProjects = MockProjects();
+		const project = mockProjects.find( project => project._id === Number(id));
+		const works = MockHelper.populateProjectWorks(project);
+
+		const worksWithImages = works.map(work => {
+			const images = MockHelper.populateWorkImages(work);
+			work.images = images;
+			return work;
+		});
+
+		project.works = worksWithImages;
 
 		return { data: project };
 	}

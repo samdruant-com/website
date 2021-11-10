@@ -1,12 +1,14 @@
 <template>
-	<div id="base-page">
+	<div
+		id="base-page"
+		class="pa-2">
 		<slot name="title">
 			<h1 class="text-center">
 				{{ title }}
 			</h1>
 		</slot>
 
-		<div class="pa-2">
+		<div class="mt-2">
 			<slot />
 		</div>
 	</div>

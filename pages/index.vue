@@ -3,7 +3,7 @@
 		<h1 class="text-center white--text">
 			<nuxt-link
 				class="s-brand hide-link"
-				to="/contact">
+				to="/projects">
 				Sam Druant
 			</nuxt-link>
 		</h1>
@@ -22,7 +22,7 @@ export default {
 	background-size:cover;
 	background-color: #cccccc;
 	background-repeat: no-repeat;
-	background-image: url('~assets/images/img-1.webp');
+	background-image: url('~assets/images/WITP4.webp');
 
 	padding: 30vh 5vw;
 }

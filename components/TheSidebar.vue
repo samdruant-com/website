@@ -17,7 +17,8 @@
 				v-for="page in routes"
 				:key="page.path"
 				@click="goTo(page.path)">
-				{{ page.name }}
+				<b v-if="$route.path.includes(page.path)">{{ page.name }}</b>
+				<span v-else>{{ page.name }}</span>
 			</v-list-item>
 		</v-list>
 	</v-navigation-drawer>

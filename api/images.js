@@ -1,10 +1,11 @@
-import images from "./mock/images";
+import MockImages from "./mock/images";
 
 export default axios => ({
 	index(){
-		return images;
+		return { data: MockImages() };
 	},
 	get(id){
-		return images.find( image => image.id === Number(id));
+		const image = MockImages().find( image => image._id === Number(id));
+		return { data: image };
 	}
 });

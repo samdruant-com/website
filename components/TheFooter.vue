@@ -2,7 +2,7 @@
 	<v-footer
 		app
 		color="transparent">
-		<div class="my-2 mr-auto ml-auto">
+		<div class="my-2 ml-auto mr-2">
 			<a
 				target="_blank"
 				rel="noreferrer"

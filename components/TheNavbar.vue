@@ -21,7 +21,8 @@
 				:key="page.path"
 				class="s-brand mx-1 hide-link"
 				:to="page.path">
-				{{ page.name }}
+				<b v-if="$route.path.includes(page.path)">{{ page.name }}</b>
+				<span v-else>{{ page.name }}</span>
 			</nuxt-link>
 		</div>
 		<v-app-bar-nav-icon
