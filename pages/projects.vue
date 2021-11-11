@@ -13,6 +13,7 @@
 					<v-list-item
 						v-for="project in projects"
 						:key="project._id"
+						:ripple="false"
 						@click="setCurrentProject(project)">
 						<b v-if="selectedProject && project._id === selectedProject._id">{{ `${project.name}, ${project.date}` }}</b>
 						<span v-else>{{ `${project.name}, ${project.date}` }}</span>
