@@ -36,6 +36,10 @@
 import { mapGetters } from "vuex";
 import BasePage from "~/components/base/BasePage.vue";
 
+// meta text
+const metaTitle = "Projects - Sam Druant";
+const metaDescription = "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer.";
+
 export default {
 	components: { BasePage },
 	data(){
@@ -46,15 +50,35 @@ export default {
 	},
 	head() {
 		return {
-			title: "Projects - Sam Druant",
+			title: metaTitle,
 			meta: [
 				// hid is used as unique identifier. Do not use `vmid` for it as it will not work
 				{
 					hid: "description",
 					name: "description",
-					content: "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+					content: metaDescription
 				},
-				// hid for image in url
+				// og meta tags
+				{
+					hid: "og:url",
+					property: "og:type",
+					content: window.location.origin + this.$route.path
+				},
+				{
+					hid: "og:type",
+					property: "og:type",
+					content: "website"
+				},
+				{
+					hid: "og:title",
+					property: "og:title",
+					content: metaTitle
+				},
+				{
+					hid: "og:description",
+					property: "og:description",
+					content: metaDescription
+				},
 				{
 					hid: "og:image",
 					property: "og:image",
