@@ -1,3 +1,7 @@
+// meta text
+const metaTitle = "Sam Druant";
+const metaDescription = "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer.";
+
 export default {
 	// Server-side rendering: https://go.nuxtjs.dev/ssr-mode
 	ssr: false,
@@ -7,15 +11,30 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		title: "Sam Druant",
+		title: metaTitle,
 		meta: [
 			{ charset: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{
 				hid: "description",
 				name: "description",
-				content:
-					"Sam plays with the idea of rewriting history and reality, questioning and updating the dominant narrative. In a playful and ironic way, she provides a feminist critique of the narratives about gender roles embedded in Western culture and of the sexism still confronting women on a daily basis. Her work aims to spark a conversation about how women are perceived, the male gaze, and prevailing binary hierarchical oppositions."
+				content: metaDescription
+			},
+			// og meta tags
+			{
+				hid: "og:type",
+				property: "og:type",
+				content: "website"
+			},
+			{
+				hid: "og:title",
+				property: "og:title",
+				content: "Sam Druant"
+			},
+			{
+				hid: "og:description",
+				property: "og:description",
+				content: metaDescription
 			}
 		],
 		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]

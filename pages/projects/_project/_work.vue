@@ -38,15 +38,35 @@ export default {
 	},
 	head() {
 		return {
-			title: `${this.workName} - Sam Druant`,
+			title: this.metaTitle,
 			meta: [
 				// hid is used as unique identifier. Do not use `vmid` for it as it will not work
 				{
 					hid: "description",
 					name: "description",
-					content: this.workMaterial && this.workSize ? `${this.workMaterial} (${this.workSize})` : "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+					content: this.metaDescription
 				},
 				// hid for image in url
+				{
+					hid: "og:url",
+					property: "og:type",
+					content: window.location.origin + this.$route.path
+				},
+				{
+					hid: "og:type",
+					property: "og:type",
+					content: "website"
+				},
+				{
+					hid: "og:title",
+					property: "og:title",
+					content: this.metaTitle
+				},
+				{
+					hid: "og:description",
+					property: "og:description",
+					content: this.metaDescription
+				},
 				{
 					hid: "og:image",
 					property: "og:image",
@@ -56,6 +76,12 @@ export default {
 		};
 	},
 	computed: {
+		metaTitle(){
+			return `${this.workName} - Sam Druant`;
+		},
+		metaDescription(){
+			return this.workMaterial && this.workSize ? `${this.workMaterial} (${this.workSize})` : "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer.";
+		},
 		workName(){
 			return this.work ? this.work.name : "A work by Sam";
 		},
