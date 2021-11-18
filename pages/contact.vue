@@ -12,7 +12,7 @@
 					<base-image
 						:src="require('@/assets/images/web-contact.jpg')"
 						size="contain"
-						:width="isScreenMobile ? 300 : 600" />
+						:width="isScreenMobile ? 300 : 400" />
 				</v-col>
 				<v-col
 					cols="12"
@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 #contact {
-	margin-top: 15%;
+	margin-top: 5%;
 }
 
 @media screen and (max-width: 480px) {
