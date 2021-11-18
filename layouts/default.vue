@@ -27,7 +27,7 @@ export default {
 				{
 					hid: "og:image",
 					property: "og:image",
-					content: require("@/assets/images/DRAGONS1.jpg")
+					content: "/images/DRAGONS1.jpg"
 				},
 				{
 					hid: "og:url",

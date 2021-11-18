@@ -10,7 +10,7 @@
 					cols="12"
 					md="auto">
 					<base-image
-						:src="require('@/assets/images/web-contact.jpg')"
+						src="/images/web-contact.jpg"
 						size="contain"
 						:width="isScreenMobile ? 300 : 400" />
 				</v-col>

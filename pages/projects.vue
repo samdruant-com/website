@@ -105,7 +105,7 @@ export default {
 
 			if(project.works.length > 0){
 				const image = await this.$store.dispatch("projects/images/get", project.works[0]._id);
-				this.metaImage = image ? require(`@/assets/images/${image.src}`) : null;
+				this.metaImage = image ? `/images/${image.src}` : null;
 			}
 		}
 	},

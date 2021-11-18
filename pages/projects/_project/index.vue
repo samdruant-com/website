@@ -85,8 +85,8 @@ export default {
 			}
 		},
 		getImage(work){
-			if(!work || work.images.length === 0) return require("@/assets/images/icons/instagram.webp");
-			else return require(`@/assets/images/${work.images[0].src}`);
+			if(!work || work.images.length === 0) return "/images/icons/instagram.webp";
+			else return `/images/${work.images[0].src}`;
 		},
 		getPhotographer(work){
 			if(!work || work.images.length === 0) return null;
