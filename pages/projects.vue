@@ -82,7 +82,7 @@ export default {
 				{
 					hid: "og:image",
 					property: "og:image",
-					content: this.metaImage
+					content: window.location.origin + this.metaImage
 				}
 			]
 		};

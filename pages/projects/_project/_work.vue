@@ -70,7 +70,7 @@ export default {
 				{
 					hid: "og:image",
 					property: "og:image",
-					content: this.workImages.length > 0 ? this.getSrc(this.workImages[0]) : null
+					content: this.workImages.length > 0 ? window.location.origin + this.getSrc(this.workImages[0]) : null
 				}
 			]
 		};
