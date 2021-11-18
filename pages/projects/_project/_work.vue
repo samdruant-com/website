@@ -108,9 +108,9 @@ export default {
 	},
 	methods: {
 		getSrc(image){
-			if(!image) return require("@/assets/images/icons/instagram.webp");
-			else if(!image.src) return require("@/assets/images/icons/instagram.webp");
-			else return require(`@/assets/images/${image.src}`);
+			if(!image) return "/images/icons/instagram.webp";
+			else if(!image.src) return "/images/icons/instagram.webp";
+			else return `/images/${image.src}`;
 		},
 		getPhotographer(image){
 			if(!image) return null;

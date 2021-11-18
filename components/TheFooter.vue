@@ -11,7 +11,7 @@
 					rel="noreferrer"
 					href="https://www.instagram.com/samdruant">
 					<base-image
-						:src="require('@/assets/images/icons/instagram.webp')"
+						src="/images/icons/instagram.webp"
 						:height="15"
 						size="contain" />
 				</a>

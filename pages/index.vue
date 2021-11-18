@@ -22,7 +22,7 @@ export default {
 	background-size:cover;
 	background-color: #cccccc;
 	background-repeat: no-repeat;
-	background-image: url('~assets/images/WITP4.webp');
+	background-image: url('/images/WITP4.webp');
 
 	padding: 30vh 5vw;
 }

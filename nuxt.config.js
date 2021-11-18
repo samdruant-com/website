@@ -35,6 +35,11 @@ export default {
 				hid: "og:description",
 				property: "og:description",
 				content: metaDescription
+			},
+			{
+				hid: "og:image",
+				property: "og:image",
+				content: "/images/DRAGONS1.jpg"
 			}
 		],
 		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
