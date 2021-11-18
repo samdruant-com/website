@@ -15,7 +15,7 @@
 						:key="project._id"
 						:ripple="false"
 						@click="setCurrentProject(project)">
-						<b v-if="selectedProject && project._id === selectedProject._id">{{ `${project.name}, ${project.date}` }}</b>
+						<b v-if="currentProject && project._id === currentProject._id">{{ `${project.name}, ${project.date}` }}</b>
 						<span v-else>{{ `${project.name}, ${project.date}` }}</span>
 					</v-list-item>
 				</v-list>
@@ -40,8 +40,8 @@ export default {
 	components: { BasePage },
 	data(){
 		return {
-			selectedProject: null,
-			selectedProjectImage: null
+			currentProject: null,
+			metaImage: null
 		};
 	},
 	head() {
@@ -53,6 +53,12 @@ export default {
 					hid: "description",
 					name: "description",
 					content: "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+				},
+				// hid for image in url
+				{
+					hid: "og:image",
+					property: "og:image",
+					content: this.metaImage
 				}
 			]
 		};
@@ -72,12 +78,17 @@ export default {
 		if(this.projects.length > 0){
 			const project = this.projects[0];
 			await this.setCurrentProject(project);
+
+			if(project.works.length > 0){
+				const image = await this.$store.dispatch("projects/images/get", project.works[0]._id);
+				this.metaImage = image ? require(`@/assets/images/${image.src}`) : null;
+			}
 		}
 	},
 	methods: {
 		async setCurrentProject(project){
-			this.selectedProject = project;
-			this.$router.push(`/projects/${this.selectedProject._id}`);
+			this.currentProject = project;
+			this.$router.push(`/projects/${this.currentProject._id}`);
 		}
 	}
 };

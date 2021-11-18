@@ -20,6 +20,18 @@ import TheSidebar from "~/components/TheSidebar.vue";
 
 export default {
 	components: { TheSidebar, TheNavbar, TheFooter },
+	head() {
+		return {
+			meta: [
+				// hid for image in url
+				{
+					hid: "og:image",
+					property: "og:image",
+					content: require("@/assets/images/DRAGONS1.jpg")
+				}
+			]
+		};
+	},
 	computed: {
 		...mapGetters({
 			showSidebar: "app/sidebar/getVisibility"
