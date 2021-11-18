@@ -44,6 +44,19 @@ export default {
 			selectedProjectImage: null
 		};
 	},
+	head() {
+		return {
+			title: "Projects - Sam Druant",
+			meta: [
+				// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+				{
+					hid: "description",
+					name: "description",
+					content: "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+				}
+			]
+		};
+	},
 	computed:{
 		...mapGetters({
 			projects: "projects/getProjects"

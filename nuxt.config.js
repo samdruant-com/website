@@ -7,11 +7,16 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		title: "samdruant",
+		title: "Sam Druant",
 		meta: [
 			{ charset: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ hid: "description", name: "description", content: "" }
+			{
+				hid: "description",
+				name: "description",
+				content:
+					"Sam plays with the idea of rewriting history and reality, questioning and updating the dominant narrative. In a playful and ironic way, she provides a feminist critique of the narratives about gender roles embedded in Western culture and of the sexism still confronting women on a daily basis. Her work aims to spark a conversation about how women are perceived, the male gaze, and prevailing binary hierarchical oppositions."
+			}
 		],
 		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
 	},

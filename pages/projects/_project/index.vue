@@ -30,12 +30,25 @@ export default {
 			project: null
 		};
 	},
+	head() {
+		return {
+			title: `${this.projectName} - Sam Druant`,
+			meta: [
+				// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+				{
+					hid: "description",
+					name: "description",
+					content: "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+				}
+			]
+		};
+	},
 	computed: {
 		_project(){
 			return this.$route.params.project;
 		},
 		projectName(){
-			return this.project ? this.project.name : "Project Name";
+			return this.project ? this.project.name : "A project by Sam";
 		},
 		projectWorks(){
 			return this.project ? this.project.works : [];

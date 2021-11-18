@@ -36,9 +36,22 @@ export default {
 			work: null
 		};
 	},
+	head() {
+		return {
+			title: `${this.workName} - Sam Druant`,
+			meta: [
+				// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+				{
+					hid: "description",
+					name: "description",
+					content: this.workMaterial && this.workSize ? `${this.workMaterial} (${this.workSize})` : "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+				}
+			]
+		};
+	},
 	computed: {
 		workName(){
-			return this.work ? this.work.name : "work";
+			return this.work ? this.work.name : "A work by Sam";
 		},
 		workDate(){
 			return this.work ? this.work.date : "date";
