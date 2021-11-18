@@ -60,9 +60,9 @@ export default {
 			return this.project ? this.project.works : [];
 		},
 		metaImage(){
-			if(!this.project || !this.project[0]) return null;
+			if(!this.project || !this.project.works[0]) return null;
 
-			const work = this.project[0];
+			const work = this.project.works[0];
 			return this.getImage(work);
 		}
 	},
@@ -90,7 +90,7 @@ export default {
 		},
 		getPhotographer(work){
 			if(!work || work.images.length === 0) return null;
-			else if(work.images[0].photographer.trim().length === 0) return "";
+			else if(work.images[0].photographer.trim().length === 0) return null;
 			else return `(Photographed by ${work.images[0].photographer})`;
 		}
 	}
