@@ -39,6 +39,12 @@ export default {
 					hid: "description",
 					name: "description",
 					content: "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer."
+				},
+				// hid for image in url
+				{
+					hid: "og:image",
+					property: "og:image",
+					content: this.metaImage
 				}
 			]
 		};
@@ -52,6 +58,12 @@ export default {
 		},
 		projectWorks(){
 			return this.project ? this.project.works : [];
+		},
+		metaImage(){
+			if(!this.project || !this.project[0]) return null;
+
+			const work = this.project[0];
+			return this.getImage(work);
 		}
 	},
 	watch: {
