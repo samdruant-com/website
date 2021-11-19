@@ -28,6 +28,11 @@ export default {
 					hid: "og:url",
 					property: "og:type",
 					content: window.location.origin + this.$route.path
+				},
+				{
+					hid: "og:image",
+					property: "og:image",
+					content: window.location.origin + "/images/DRAGONS1.jpg"
 				}
 			]
 		};
