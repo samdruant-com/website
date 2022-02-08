@@ -89,8 +89,8 @@ export default {
 			else return `/images/${work.images[0].src}`;
 		},
 		getPhotographer(work){
-			if(!work || work.images.length === 0) return null;
-			else if(work.images[0].photographer.trim().length === 0) return null;
+			if(!work || work.images.length === 0) return "";
+			else if(work.images[0].photographer.trim().length === 0) return "";
 			else return `(Photographed by ${work.images[0].photographer})`;
 		}
 	}
