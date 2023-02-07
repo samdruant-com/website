@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/samdruant-com/website/issues"
   },
-  "homepage": "https://github.com/samdruant-com/website#readme"
+  "homepage": "https://github.com/samdruant-com/website#readme",
+  "type": "module"
 }
