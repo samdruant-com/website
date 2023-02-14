@@ -23,6 +23,7 @@
 				Date
 				<input-text
 					v-model="form.date"
+					type="date"
 					place-holder="Date of work" />
 			</v-col>
 			<v-col cols="12">

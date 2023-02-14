@@ -17,6 +17,7 @@
 		"@tiptap/starter-kit": "^2.0.0-beta.214",
 		"@tiptap/vue-2": "^2.0.0-beta.214",
 		"core-js": "^3.9.1",
+		"dayjs": "^1.11.7",
 		"nuxt": "^2.15.8"
 	},
 	"devDependencies": {

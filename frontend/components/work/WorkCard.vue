@@ -20,7 +20,7 @@
 				cols="12"
 				md="6">
 				<span>
-					<b>{{ work.name }}</b>, {{ work.date }}
+					<b>{{ work.name }}</b>, {{ getDate }}
 				</span>
 			</v-col>
 			<v-col cols="12">
@@ -35,6 +35,7 @@
 <script>
 import BaseCard from "~/components/base/BaseCard.vue";
 import BaseImage from "../base/BaseImage.vue";
+import TimeUtil from "~/utils/time.js";
 
 export default {
 	components: { BaseCard, BaseImage },
@@ -50,6 +51,9 @@ export default {
 	},
 	emits: ["update", "delete"],
 	computed: {
+		getWorkId(){
+			return this.work.slug && this.work.slug.length > 0 ? this.work.slug : this.work._id;
+		},
 		getImage(){
 			const images = [...this.work.images];
 
@@ -58,8 +62,8 @@ export default {
 
 			return sortedImages[0].src || null;
 		},
-		getWorkId(){
-			return this.work.slug && this.work.slug.length > 0 ? this.work.slug : this.work._id;
+		getDate(){
+			return TimeUtil.format(this.work.date, "YYYY");
 		}
 	},
 	methods:{

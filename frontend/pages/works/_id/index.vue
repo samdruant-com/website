@@ -20,7 +20,7 @@
 			v-if="work"
 			justify="center">
 			<v-col cols="12">
-				<h2>{{ work.name }}, <small>{{ work.date }}</small></h2>
+				<h2>{{ work.name }}, <small>{{ getDate }}</small></h2>
 				<p>{{ work.description }}</p>
 			</v-col>
 			<v-col
@@ -42,6 +42,7 @@ import { mapGetters } from "vuex";
 import BaseImage from "~/components/base/BaseImage.vue";
 import BasePage from "~/components/base/BasePage.vue";
 import SeoUtil from "~/utils/seo.js";
+import TimeUtil from "~/utils/time.js";
 
 export default {
 	components: { BasePage, BaseImage },
@@ -63,7 +64,10 @@ export default {
 	computed: {
 		...mapGetters({
 			user: "user/getUser"
-		})
+		}),
+		getDate(){
+			return TimeUtil.format(this.work.date, "YYYY");
+		}
 	},
 	async created(){
 		const id = this.$route.params.id;
