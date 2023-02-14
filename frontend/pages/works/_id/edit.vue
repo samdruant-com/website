@@ -35,7 +35,12 @@ export default {
 	},
 	methods: {
 		async goToWorks() {
-			await this.$store.dispatch("works/index");
+			try {
+				await this.$store.dispatch("works/index");
+			} catch (error) {
+				this.$store.commit("app/notifications/notifyError", error.message);
+			}
+
 			this.$router.push("/works");
 		}
 	}

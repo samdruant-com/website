@@ -18,7 +18,13 @@ import WorkForm from "~/components/work/WorkForm.vue";
 export default {
 	components: { BasePage, WorkForm },
 	methods: {
-		goToWorks() {
+		async goToWorks() {
+			try {
+				await this.$store.dispatch("works/index");
+			} catch (error) {
+				this.$store.commit("app/notifications/notifyError", error.message);
+			}
+
 			this.$router.push("/works");
 		}
 	}
