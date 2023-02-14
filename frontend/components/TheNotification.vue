@@ -11,22 +11,34 @@
 			:right="notification.right"
 			:centered="notification.right === false"
 			:timeout="notification.time"
-			class="my-1">
+			class="ignore-uppercase my-1"
+			:style="`height: ${notification.height}px; padding-top: ${notification.padding}px;`">
 			<!--eslint-disable-next-line vue/no-v-html-->
 			<b v-html="notification.title" />
 
 			<v-divider v-if="notification.message" />
 			<!--eslint-disable-next-line vue/no-v-html-->
 			<span v-html="notification.message" />
+
+			<template #action="{ attrs }">
+				<base-btn
+					:small="true"
+					v-bind="attrs"
+					@click="removeNotification(notification.id)">
+					Close
+				</base-btn>
+			</template>
 		</v-snackbar>
 	</div>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import BaseBtn from "./base/BaseBtn.vue";
 
 export default {
 	name: "NotificationBar",
+	components: { BaseBtn },
 	data() {
 		return {
 			count: 0,
@@ -89,12 +101,10 @@ export default {
 			right = true,
 			time = 5000
 		) {
-			// TODO: sanitize potential html
 
 			const activeNotification = this.getActiveNotifications;
 			const NOTIFICATION_HEIGHT_PX = 30;
-			const NOTIFICATION_PADDING_PX =
-				3 * NOTIFICATION_HEIGHT_PX * activeNotification;
+			const NOTIFICATION_PADDING_PX = 3 * NOTIFICATION_HEIGHT_PX * activeNotification;
 
 			this.notifications.push({
 				id: this.count,
@@ -126,6 +136,11 @@ export default {
 			time = 5000
 		) {
 			this.toast(title, message, color, top, right, time);
+		},
+		removeNotification(id) {
+			this.notifications = this.notifications.filter(
+				(notification) => notification.id !== id
+			);
 		}
 	}
 };

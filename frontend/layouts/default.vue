@@ -37,7 +37,11 @@ export default {
 		})
 	},
 	async mounted() {
-		await this.$store.dispatch("user/init");
+		try {
+			await this.$store.dispatch("user/init");
+		} catch (error) {
+			this.$store.commit("app/notifications/notifyError", error.message);
+		}
 	}
 };
 </script>

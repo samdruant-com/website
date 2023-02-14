@@ -71,7 +71,7 @@ export default {
 		}
 	},
 	async created(){
-		await this.$store.dispatch("works/index");
+		await this.indexWorks();
 
 		if(process.client){
 			// eslint-disable-next-line nuxt/no-globals-in-created
@@ -79,12 +79,20 @@ export default {
 		}
 	},
 	methods: {
-		editWork(work){
-			this.$router.push(`/works/${work._id}/edit`);
+		async indexWorks(){
+			try {
+				await this.$store.dispatch("works/index");
+			} catch (error) {
+				console.error(error);
+				this.$store.commit("app/notifications/notifyError", error.message);
+			}
 		},
 		async deleteWork(work){
 			await this.$store.dispatch("works/delete", work._id);
-			await this.$store.dispatch("works/index");
+			await this.indexWorks();
+		},
+		editWork(work){
+			this.$router.push(`/works/${work._id}/edit`);
 		},
 		handleScroll(){
 			const innerHeight = window.innerHeight;

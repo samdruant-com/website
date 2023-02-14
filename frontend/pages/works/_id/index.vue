@@ -67,7 +67,11 @@ export default {
 	},
 	async created(){
 		const id = this.$route.params.id;
-		this.work = await this.$store.dispatch("works/get", id);
+		try {
+			this.work = await this.$store.dispatch("works/get", id);
+		} catch (error) {
+			this.$store.commit("app/notifications/notifyError", error.message);
+		}
 	}
 };
 </script>

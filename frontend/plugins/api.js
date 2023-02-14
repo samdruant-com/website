@@ -12,21 +12,18 @@ export default function ({ $axios, $config, redirect, store, route }, inject) {
 
 		const loggedIn = store.getters["auth/isLoggedIn"];
 
-		console.error({responseError: error});
-
 		if (code === 401 && loggedIn) {
 			// set login to false
 			store.commit("auth/setLoggedIn", false);
 
 			try {
-			// try to refresh token
+				// try to refresh token
 				await store.dispatch("auth/refresh");
 
 				// retry request
 				return await api.request(error.config);
 
 			} catch (error) {
-				console.error({refreshError: error});
 				// if refresh token fails, logout user
 				store.commit("auth/logout");
 				store.commit("app/notifications/notifyError", "Your session has expired. Please login again.");
