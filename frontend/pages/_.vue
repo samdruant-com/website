@@ -1,10 +1,9 @@
 <template>
-	<v-row
-		id="status-404"
-		justify="center">
+	<v-row justify="center">
 		<v-col
 			cols="10"
-			md="5">
+			md="5"
+			class="error-text">
 			<h1 class="underline">
 				404
 			</h1>
@@ -22,18 +21,8 @@ export default {
 </script>
 
 <style>
-#status-404 {
-	margin-top: 20%;
-}
 .underline {
 	text-decoration: underline;
-}
-
-@media screen and (max-width: 480px) {
-  /* add styling for mobile screens here */
-	#status-404 {
-		margin-top: 40%;
-	}
 }
 
 </style>

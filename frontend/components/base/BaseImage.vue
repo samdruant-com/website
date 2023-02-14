@@ -1,11 +1,21 @@
 <template>
-	<div>
-		<img
-			:src="src"
-			:class="style"
-			:width="width"
-			:height="height">
-	</div>
+	<v-img
+		v-if="lazy"
+		:src="src"
+		:lazy-src="src"
+		:alt="alt"
+		:height="height"
+		:width="width"
+		:max-height="maxHeight"
+		:max-width="maxWidth"
+		:aspect-ratio="aspectRatio"
+		:style="getStyle" />
+	<img
+		v-else
+		:src="src"
+		:width="width"
+		:height="height"
+		:style="getStyle">
 </template>
 
 <script>
@@ -13,7 +23,7 @@ export default {
 	props: {
 		src: {
 			type: String,
-			required: true
+			default: "/images/feedback_error.png"
 		},
 		alt: {
 			type: String,
@@ -21,52 +31,58 @@ export default {
 		},
 		width: {
 			type: [Number, String],
-			default: undefined
+			default: "auto"
 		},
 		height: {
 			type: [Number, String],
+			default: "100%"
+		},
+		maxHeight: {
+			type: [String, Number],
+			default: undefined
+		},
+		maxWidth: {
+			type: [String, Number],
+			default: undefined
+		},
+		aspectRatio: {
+			type: [String, Number],
 			default: undefined
 		},
 		size: {
 			type: String,
 			default: undefined
+		},
+		crop: {
+			type: Boolean,
+			default: false
+		},
+		scaleDown: {
+			type: Boolean,
+			default: false
+		},
+		lazy: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
-		style(){
-			switch (this.size) {
-			case "fill":
-				return "img-fill";
-			case "contain":
-				return "img-contain";
-			case "cover":
-				return "img-cover";
-			case "scale-down":
-				return "img-scale-down";
-			default:
-				return "img-none";
+		getStyle() {
+			let width = this.width;
+			let height = this.height;
+			let objectFit = "cover";
+
+			if (this.crop) {
+				height = this.height === "auto" ? "200px" : this.height;
+				width = this.width === "100%" ? "100%" : this.width;
 			}
+
+			if (this.scaleDown) {
+				objectFit = "scale-down;";
+			}
+
+			return ` width: ${width}; height: ${height}; object-fit: ${objectFit};`;
 		}
 	}
 };
 </script>
-
-<style scoped>
-/*object-fit: fill || contain || cover || none || scale-down;*/
-
-.img-fill {
-	object-fit: fill;
-}
-.img-contain {
-	object-fit: contain;
-}
-.img-cover {
-	object-fit: cover;
-}
-.img-scale-down {
-	object-fit: scale-down;
-}
-.img-none {
-	object-fit: none;
-}
-</style>

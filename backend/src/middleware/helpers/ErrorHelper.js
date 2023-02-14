@@ -8,7 +8,7 @@ const { NODE_ENV } = Env;
  * @param {express.Response} res
  * @returns {express.Response} response
  */
-export default function (error, res) {
+export default function(error, res) {
 	if (NODE_ENV === "development") {
 		console.debug(error);
 	}

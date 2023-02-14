@@ -2,10 +2,26 @@ html, body {
 	text-transform: uppercase;
 }
 
+input, .ignore-uppercase {
+	text-transform: none;
+}
+
 .s-brand {
 	text-transform: uppercase;
 }
 
 .hide-link {
 	text-decoration: none !important; color: inherit !important;
+}
+
+
+.error-text {
+	margin-top: 15%;
+}
+
+@media screen and (max-width: 480px) {
+  /* add styling for mobile screens here */
+	.error-text {
+		margin-top: 30%;
+	}
 }

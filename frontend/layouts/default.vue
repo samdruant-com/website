@@ -8,6 +8,7 @@
 		</v-main>
 
 		<the-footer />
+		<the-notification />
 	</v-app>
 </template>
 
@@ -17,30 +18,26 @@ import { mapGetters } from "vuex";
 import TheFooter from "~/components/TheFooter.vue";
 import TheNavbar from "~/components/TheNavbar.vue";
 import TheSidebar from "~/components/TheSidebar.vue";
+import TheNotification from "~/components/TheNotification.vue";
+import SeoUtil from "~/utils/seo.js";
 
 export default {
-	components: { TheSidebar, TheNavbar, TheFooter },
+	components: { TheSidebar, TheNavbar, TheFooter, TheNotification },
 	head() {
-		return {
-			meta: [
-				// hid for image in url
-				{
-					hid: "og:url",
-					property: "og:type",
-					content: window.location.origin + this.$route.path
-				},
-				{
-					hid: "og:image",
-					property: "og:image",
-					content: window.location.origin + "/images/DRAGONS1.jpg"
-				}
-			]
-		};
+		return SeoUtil.formulateSeo({
+			title: this.user?.name,
+			description: this.user?.bio,
+			image: window.location.origin + "/images/DRAGONS1.jpg"
+		});
 	},
 	computed: {
 		...mapGetters({
-			showSidebar: "app/sidebar/getVisibility"
+			user: "user/getUser",
+			showSidebar: "app/nav/getSidebarVisibility"
 		})
+	},
+	async mounted() {
+		await this.$store.dispatch("user/init");
 	}
 };
 </script>

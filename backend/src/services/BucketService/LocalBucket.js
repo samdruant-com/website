@@ -1,22 +1,25 @@
 import axios from "axios";
 import formData from "form-data";
-import Config from "../../config/EnvConfig.js";
+import Env from "../../config/EnvConfig.js";
 import { IBucket } from "./IBucket.js";
 
+const { STATIC_URL } = Env;
+
 const axiosClient = axios.create({
-	baseURL: Config.STATIC_URL,
+	baseURL: STATIC_URL
 });
 
 class LocalBucket extends IBucket {
 	/**
 	 * saves image
 	 *
+	 * @param id
 	 * @param {Express.Multer.File} file
 	 * @returns {Promise<string>} image path
 	 */
-	async save(file) {
+	async save(id, file) {
 		const form = new formData();
-		form.append("files", file.buffer, file.originalname);
+		form.append("files", file.buffer, id + file.originalname);
 
 		const config = {
 			maxContentLength: Infinity,
@@ -28,8 +31,9 @@ class LocalBucket extends IBucket {
 
 		if (response.status === 201) {
 			const images = response.data;
-			return images[0].src;
-		} else {
+			return images[0].url;
+		}
+		else {
 			throw response;
 		}
 	}

@@ -9,6 +9,6 @@ Router.post("/login", AuthMiddleware.Login);
 // register
 Router.post("/register", AdminMiddleware.PostAdmin);
 // refresh access tokens
-Router.post("/tokens", AuthMiddleware.Refresh);
+Router.post("/refresh", AuthMiddleware.Refresh);
 
 export default Router;

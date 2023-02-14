@@ -1,3 +1,9 @@
 import DoBucket from "./DoBucket.js";
+import LocalBucket from "./LocalBucket.js";
+import Env from "../../config/EnvConfig.js";
 
-export default DoBucket;
+const { NODE_ENV } = Env;
+
+const bucket = NODE_ENV === "development" ? LocalBucket : DoBucket;
+
+export default bucket;

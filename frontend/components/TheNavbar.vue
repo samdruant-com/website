@@ -9,7 +9,8 @@
 			<nuxt-link
 				class="s-brand hide-link"
 				to="/">
-				<b>Sam Druant</b>
+				<b v-if="user">{{ user.name }}</b>
+				<b v-else>Welcome</b>
 			</nuxt-link>
 		</v-app-bar-title>
 
@@ -24,6 +25,14 @@
 				<b v-if="$route.path.includes(page.path)">{{ page.name }}</b>
 				<span v-else>{{ page.name }}</span>
 			</nuxt-link>
+			<base-btn
+				v-if="isLoggedIn"
+				small
+				color="error"
+				class="s-brand mx-1 hide-link"
+				@click="logout()">
+				Logout
+			</base-btn>
 		</div>
 		<v-app-bar-nav-icon
 			v-else
@@ -33,13 +42,16 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import BaseBtn from "./base/BaseBtn.vue";
 
 export default {
 	name: "Navbar",
+	components: { BaseBtn },
 	computed: {
 		...mapGetters({
+			user: "user/getUser",
 			routes: "app/nav/getRoutes",
-			showSidebar: "app/sidebar/getVisibility"
+			showSidebar: "app/nav/getSidebarVisibility"
 		}),
 		inStartPage(){
 			return this.$route.path !== "/";
@@ -47,7 +59,8 @@ export default {
 	},
 	methods: {
 		...mapMutations({
-			setSidebar: "app/sidebar/setVisbitility"
+			setSidebar: "app/nav/setSidebarVisbitility",
+			logout: "auth/logout"
 		})
 	}
 };

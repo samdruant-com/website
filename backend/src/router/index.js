@@ -1,10 +1,8 @@
 import express from "express";
-import AboutRoutes from "./AboutRoutes.js";
+import UserRoutes from "./UserRoutes.js";
 import AdminRoutes from "./AdminRoutes.js";
 import AuthRoutes from "./AuthRoutes.js";
-import ProjectRoutes from "./ProjectRoutes.js";
-import SecretRoutes from "./SecretRoutes.js";
-import AuthMiddleware from "../middleware/AuthMiddleware.js";
+import WorkRoutes from "./WorkRoutes.js";
 
 const router = express.Router();
 
@@ -21,20 +19,14 @@ router.get("/api", (req, res) => {
 // define routes
 const routes = [
 	{ path: "/auth", hanlder: AuthRoutes },
-	{ path: "/about", hanlder: AboutRoutes },
-	{ path: "/projects", hanlder: ProjectRoutes },
-	{ path: "/admins", hanlder: AdminRoutes, protected: true },
-	{ path: "/secrets", hanlder: SecretRoutes, protected: true },
+	{ path: "/users", hanlder: UserRoutes },
+	{ path: "/works", hanlder: WorkRoutes },
+	{ path: "/admins", hanlder: AdminRoutes }
 ];
 
 // apply routes to app
 routes.forEach((route) => {
-	// authentificate routes if protected
-	if (route.protected) {
-		router.use("/api" + route.path, AuthMiddleware.Authenticate, route.hanlder);
-	} else {
-		router.use("/api" + route.path, route.hanlder);
-	}
+	router.use("/api" + route.path, route.hanlder);
 });
 
 // define wildcard route

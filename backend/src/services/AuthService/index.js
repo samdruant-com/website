@@ -89,7 +89,7 @@ class AuthService extends IAuth {
 			admin = await AdminData.getAdminByEmail(email, { secret: true });
 		}
 		catch (error) {
-			if(error.status === 404){
+			if(error.statusCode === 404){
 				throw new GeneralError("Invalid credentials", 401);
 			}
 		}
@@ -119,7 +119,7 @@ class AuthService extends IAuth {
 			return await AdminData.getAdmin(id, { secret: true });
 		}
 		catch (error) {
-			if(error.status === 404){
+			if(error.statusCode === 404){
 				throw new GeneralError("Invalid token", 401);
 			}
 		} 

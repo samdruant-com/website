@@ -32,6 +32,8 @@ export default {
 			const accessToken = req.headers?.authorization?.split(" ")[1];
 			const refreshToken = req.body?.refreshToken;
 
+			if(!accessToken || !refreshToken) throw new Error("Unauthorized access");
+
 			const credentials = AuthService.refresh(accessToken, refreshToken);
 			return res.status(201).send(credentials);
 		}

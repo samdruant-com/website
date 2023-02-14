@@ -19,52 +19,37 @@ export default {
 			{
 				hid: "description",
 				name: "description",
-				content: metaDescription
+				content: metaDescription,
 			},
 			// og meta tags
 			{
 				hid: "og:type",
 				property: "og:type",
-				content: "website"
+				content: "website",
 			},
 			{
 				hid: "og:title",
 				property: "og:title",
-				content: "Sam Druant"
+				content: "Sam Druant",
 			},
 			{
 				hid: "og:description",
 				property: "og:description",
-				content: metaDescription
+				content: metaDescription,
 			},
 			{
 				hid: "og:image",
 				property: "og:image",
-				content: "/images/DRAGONS1.jpg"
-			}
+				content: "/images/DRAGONS1.jpg",
+			},
 		],
-		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
 	},
 
 	// Generate settings
 	generate: {
-		fallback: true
+		fallback: true,
 	},
-
-	// Global CSS: https://go.nuxtjs.dev/config-css
-	css: [
-		// font styles
-		"~/assets/css/font.css"
-	],
-
-	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-	plugins: [
-		{ src: "~/plugins/api.js" },
-		{ src: "~/plugins/mixin.js", mode: "client" }
-	],
-
-	// Auto import components: https://go.nuxtjs.dev/config-components
-	components: true,
 
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {},
@@ -72,17 +57,35 @@ export default {
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
 		// https://go.nuxtjs.dev/eslint
-		"@nuxtjs/eslint-module"
+		"@nuxtjs/eslint-module",
 	],
+
+	// Global CSS: https://go.nuxtjs.dev/config-css
+	css: [
+		// font styles
+		"~/assets/css/font.css",
+	],
+
+	// Auto import components: https://go.nuxtjs.dev/config-components
+	components: true,
 
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
 		// https://github.com/nuxt-community/vuetify-module
-		"@nuxtjs/vuetify"
+		"@nuxtjs/vuetify",
+		// https://axios.nuxtjs.org/usage
+		"@nuxtjs/axios",
 	],
 
-	router: {
-		middleware: "wip"
+	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+	plugins: [
+		{ src: "~/plugins/api.js" },
+		{ src: "~/plugins/mixin.js", mode: "client" },
+	],
+
+	// env variable
+	publicRuntimeConfig: {
+		API_URL: process.env.API_URL,
 	},
 
 	// Vuetify config
@@ -90,9 +93,9 @@ export default {
 		/* module options */
 		defaultAssets: {
 			font: {
-				family: "Helvetica"
+				family: "Helvetica",
 			},
-			icons: "md" // "md", "mdi", "fa", "fa4", false
-		}
-	}
+			icons: "md", // "md", "mdi", "fa", "fa4", false
+		},
+	},
 };

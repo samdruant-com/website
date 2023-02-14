@@ -8,7 +8,7 @@ import { GeneralError } from "../logic/ErrorLogic.js";
 const { AUTH_ADMIN_SECRET } = EnvConfig;
 export default {
 	/**
-	 * post about
+	 * post user
 	 *
 	 * @param {express.Request} req
 	 * @param {express.Response} res
@@ -29,7 +29,7 @@ export default {
 		}
 	},
 	/**
-	 * get about
+	 * get user
 	 *
 	 * @param {express.Request} req
 	 * @param {express.Response} res
@@ -45,7 +45,7 @@ export default {
 		}
 	},
 	/**
-	 * patch about
+	 * patch user
 	 *
 	 * @param {express.Request} req
 	 * @param {express.Response} res

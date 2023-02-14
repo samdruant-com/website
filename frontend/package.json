@@ -12,6 +12,10 @@
 		"lint": "npm run lint:js"
 	},
 	"dependencies": {
+		"@nuxtjs/axios": "^5.13.6",
+		"@tiptap/pm": "^2.0.0-beta.214",
+		"@tiptap/starter-kit": "^2.0.0-beta.214",
+		"@tiptap/vue-2": "^2.0.0-beta.214",
 		"core-js": "^3.9.1",
 		"nuxt": "^2.15.8"
 	},

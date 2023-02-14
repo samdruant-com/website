@@ -1,21 +1,27 @@
 import Joi from "joi";
 
 const ImageSchema = Joi.object({
-	url: Joi.string().required(),
+	src: Joi.string().required(),
 	caption: Joi.string(),
 	order: Joi.number(),
 });
 
-const ProjectSchema = Joi.object({
+const WorkSchema = Joi.object({
 	name: Joi.string().required(),
+	date: Joi.string(),
 	description: Joi.string(),
-	publish: Joi.boolean(),
 	images: Joi.array().items(ImageSchema),
 });
 
-const AboutSchema = Joi.object({
+const UserSchema = Joi.object({
+	name: Joi.string().required(),
 	bio: Joi.string().required(),
-	image: Joi.string().allow(null),
+	email: Joi.string().allow(null),
+	links: Joi.array().items(Joi.object({
+		label: Joi.string().required(),
+		url: Joi.string().required(),
+	})),
+	image: ImageSchema,
 });
 
 const AdminSchema = Joi.object({
@@ -35,11 +41,14 @@ function validate(object, schema) {
 }
 
 export default {
-	validateProject(project) {
-		return validate(project, ProjectSchema);
+	validateImage(image) {
+		return validate(image, ImageSchema);
 	},
-	validateAbout(about) {
-		return validate(about, AboutSchema);
+	validateWork(work) {
+		return validate(work, WorkSchema);
+	},
+	validateUser(user) {
+		return validate(user, UserSchema);
 	},
 	validateAdmin(admin) {
 		return validate(admin, AdminSchema);

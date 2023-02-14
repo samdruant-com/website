@@ -21,7 +21,7 @@ class DoBucket extends IBucket {
 	/**
 	 * saves image
 	 *
-	 * @param {string} id - project id
+	 * @param {string} id - image unique identifier
 	 * @param {Express.Multer.File} file - image file
 	 * @returns {Promise<string>} image path
 	 */
@@ -41,18 +41,6 @@ class DoBucket extends IBucket {
 	}
 
 	/**
-	 * saves files
-	 *
-	 * @param {Express.Multer.File[]} files
-	 * @returns {Promise<string[]>} - image paths
-	 */
-	saveMany(files) {
-		return files.map(async (file) => {
-			return await this.save(file);
-		});
-	}
-
-	/**
 	 *
 	 * @param {string} id - file unique identifier
 	 * @returns {Promise<boolean>} deleted
@@ -69,17 +57,6 @@ class DoBucket extends IBucket {
 		catch (error) {
 			return false;
 		}
-	}
-
-	/**
-	 *
-	 * @param {string[]} files - list of file unique identifiers
-	 * @returns {Promise<boolean>} deleted
-	 */
-	async removeMany(files) {
-		return files.map(async (file) => {
-			return await this.remove(file);
-		});
 	}
 }
 
