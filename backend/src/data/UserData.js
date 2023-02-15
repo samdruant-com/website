@@ -100,12 +100,21 @@ export default {
 		user.bio = patch.bio;
 		user.email = patch.email;
 		user.image = patch.image;
+		user.links = patch.links;
 
 		let newUser = null;
 		
 		try {
 			// save user
 			newUser = await user.save();
+
+			// remove old image from bucket
+			if (imageHasChanged) {
+				await BucketService.remove(oldImage.src);
+			}
+
+			return newUser;
+
 		}
 		catch (error) {
 			// if patch fails, remove new image from bucket
@@ -115,17 +124,5 @@ export default {
 
 			throw error;
 		}
-
-		try {
-			// remove old image from bucket
-			if (imageHasChanged) {
-				await BucketService.remove(oldImage.src);
-			}
-		}
-		catch (error) {
-			// do nothing
-		}
-
-		return newUser;
 	},
 };
