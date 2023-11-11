@@ -1,0 +1,9 @@
+{
+  "global": {
+    "language": "Language"
+  },
+  "example": {
+    "title": "Support multiple languages with i18n (Internationalization)",
+    "message": "Hello, {name}! Welcome to the example page for i18n in this {projectName} project. Hopefully, you can make your projects accessible to more people around the world by using this feature. I'd like to end this message by quoting Nelson Mandela: \"If you talk to a man in a language he understands, that goes to his head. If you talk to him in his own language, that goes to his heart.\""
+  }
+}

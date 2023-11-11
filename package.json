@@ -2,20 +2,8 @@
   "name": "samdruant",
   "version": "1.0.0",
   "description": "sam druant's website",
-  "main": "index.js",
+  "repository": "samdruant-com/website",
   "scripts": {
-    "frontend:start": "cd frontend && npm run start",
-    "frontend:dev": "cd frontend && npm run dev"
-  },
-  "dependencies": {
-    "core-js": "^3.9.1",
-    "nuxt": "^2.15.8"
-  },
-  "author": "this-oliver <olivermanzi.dev@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/samdruant-com/website/issues"
-  },
-  "homepage": "https://github.com/samdruant-com/website#readme",
-  "type": "module"
+    "bump": "npx fist-bump"
+  }
 }

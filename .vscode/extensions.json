@@ -1,0 +1,12 @@
+{
+	"recommendations": [
+		// Style VS Code
+		"johnpapa.vscode-peacock",
+		// Volar for Vue
+		"vue.volar",
+		// Volar extension for typescript
+		"vue.vscode-typescript-vue-plugin",
+		// i18n Ally
+		"lokalise.i18n-ally"
+	]
+}
