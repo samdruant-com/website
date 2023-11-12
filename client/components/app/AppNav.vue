@@ -1,57 +1,43 @@
 <script setup lang="ts">
-import { useNavigationStore } from '~/stores/navigation-store';
-import { useSidebarStore } from '~/stores/sidebar-store';
-import { computed } from 'vue';
-import { useDisplay } from 'vuetify';
+import { useNavigationStore } from "~/stores/navigation-store";
+import { useSidebarStore } from "~/stores/sidebar-store";
+import { useDisplay } from "vuetify";
 
 const drawer = useSidebarStore();
+const { smAndDown } = useDisplay();
 const navigation = useNavigationStore();
-
-const { name } = useDisplay();
-
-const isSmallScreen = computed(() => {
-  return name.value === 'xs' || name.value === 'sm';
-});
-
 </script>
 
 <template>
-  <v-app-bar
-  id="app-nav"
-  app
-  flat
-  color="transparent">
-    <v-app-bar-nav-icon
-      v-if="isSmallScreen"
-      @click="drawer.toggle" />
+	<v-app-bar id="app-nav" app flat color="transparent">
+		<v-app-bar-nav-icon v-if="smAndDown" @click="drawer.toggle" />
 
-    <router-link
-      class="plain"
-      to="/">
-      <app-logo />
-    </router-link>
+		<router-link class="s-brand hide-link plain" to="/">
+			<b>Sam Druant</b>
+		</router-link>
 
-    <v-spacer />
+		<v-spacer />
 
-    <div v-if="!isSmallScreen" >
-      <base-btn
-        v-for="option in navigation.options"
-        :key="option.label"
-        class="mx-1"
-        plain
-        :color="option.color"
-        :to="option.to"
-        @click="option.action">
-        {{ option.label }}
-      </base-btn>
-    </div>
-  </v-app-bar>
+		<div v-if="!smAndDown">
+			<base-btn
+				v-for="option in navigation.options"
+				:key="option.label"
+				class="mx-1 s-brand hide-link"
+				plain
+				:color="option.color"
+				:to="option.to"
+				@click="option.action"
+			>
+				{{ option.label }}
+			</base-btn>
+		</div>
+	</v-app-bar>
 </template>
 
 <style scoped>
 @media (min-width: 600px) {
-  #app-nav {
-    padding: 0 2rem;
-  }
+	#app-nav {
+		padding: 0 2rem;
+	}
 }
 </style>

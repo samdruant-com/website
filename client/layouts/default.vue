@@ -1,24 +1,32 @@
+<script setup lang="ts">
+const router = useRouter();
+
+const inStartPage = computed<boolean>(
+	() => router.currentRoute.value.path === "/"
+);
+</script>
+
 <template>
-  <v-app>
-    <!-- navigation -->
-    <app-nav />
-    <app-sidebar />
+	<v-app>
+		<!-- navigation -->
+		<app-nav v-if="!inStartPage" />
+		<app-sidebar />
 
-    <!-- main content -->
-    <v-main>
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="11" md="10">
-            <slot></slot>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
+		<!-- main content -->
+		<v-main>
+			<v-container>
+				<v-row justify="center">
+					<v-col cols="11" md="10">
+						<slot></slot>
+					</v-col>
+				</v-row>
+			</v-container>
+		</v-main>
 
-    <!-- footer -->
-    <app-footer />
+		<!-- footer -->
+		<app-footer />
 
-    <!-- notification -->
-    <toaster />
-  </v-app>
+		<!-- notification -->
+		<Toaster />
+	</v-app>
 </template>

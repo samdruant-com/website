@@ -1,8 +1,31 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <v-footer app>
-    <p>template made by <a href="www.oliverrr.net" target="_blank">oliverrr 🤠</a></p>
-  </v-footer>
+	<v-footer app color="transparent">
+		<v-row justify="end" align="center">
+			<v-col cols="auto">
+				<a
+					target="_blank"
+					rel="noreferrer"
+					href="https://www.instagram.com/samdruant"
+				>
+					<base-image
+						src="/images/icons/instagram.webp"
+						:height="15"
+						size="contain"
+					/>
+				</a>
+			</v-col>
+			<v-col cols="auto">
+				<a
+					class="hide-link"
+					target="_blank"
+					rel="noreferrer"
+					href="https://olivermanzi.com"
+				>
+					🤠
+				</a>
+			</v-col>
+		</v-row>
+	</v-footer>
 </template>

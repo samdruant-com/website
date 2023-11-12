@@ -7,22 +7,13 @@ export const useNavigationStore = defineStore('navigation', () => {
   
   const options: ActionItem[] = [
     { 
-      label: 'about',
-      icon: 'mdi-information-outline',
-      to: '/about'
+      label: 'Projects',
+      to: '/projects'
     },
     { 
-      label: 'ui components',
-      icon: 'mdi-view-dashboard-outline',
-      to: '/components'
+      label: 'Contact',
+      to: '/contact'
     },
-    { 
-      label: 'notifications',
-      icon: 'mdi-bell-outline',
-      action: () => {
-        notify('Nav Bar', 'Notification triggered', 'success')
-      }
-    }
   ]
 
   return {

@@ -1,55 +1,55 @@
-# Nuxt Template
+# **Sam's Personal Website**
 
-> Build apps faster with templates 🔥
+> Forked from `this-oliver/template-nuxt`
 
-The purpose of this project is to provide a template for Nuxt projects so that I can quickly start new projects without having to set up the same things over and over again.
+## 🏯 **Architecture**
 
-## 🧪 Features
+### **Project**
 
-- [x] Base Components (buttons, inputs, etc.)
-- [x] State Management with `pinia`
-- [x] Responsive UI Framework with `vuetify`
-- [x] User-friendly editor with `tiptap`
-- [x] Multi-language support with `vue-i18n` (See [locales/README.md](locales/README.md) for more info).
+- name: String
+- date: String
+- works: Array of ids (Work)
 
-## Getting Started
+### **Work**
 
-> For the best experience, use `nodejs@18.18.0` and `pnpm@8.9.2`
+- name: String
+- date: String
+- size: String
+- material/technique: String
+- images: Array of ids (Image)
 
-```bash
-# install dependencies (alternatively, use `npm install`)
-pnpm install --shamefully-hoist
+### **Image**
 
-# serve with hot reload at localhost:3000 (alternatively, use `npm run dev`)
-pnpm dev
+- src: String
+- name: String
+- place: String
+- photographer: String
 
-# build for production and launch server (alternatively, use `npm run build`)
-pnpm build
-```
+## 📄 **start page**
 
-## 🚀 Deployment
+issue url: https://github.com/SamDruant/samdruant/issues/28
 
-### Docker Support
+- [x] big cover image
+- [x] "sam druant" brand in the center of cover image with link to projects page
 
-```bash
-# build image (pnpm docker:build)
-docker build -t nuxt-template .
+## 📄 **projects page**
 
-# spin up container (pnpm docker:run)
-docker run -p 3000:3000 --env-file .env nuxt-template
-```
+issue url: https://github.com/SamDruant/samdruant/issues/31
 
-## ⛓️ Dependencies
+- [x] show projects list
+- [x] each project should show "name", "year" and a cover image
 
-- Base Components (buttons, inputs, etc.)
-- State Management with `Pinia`
-- Responsive UI Framework with `Vuetify`
-- Multi-language support with `vue-i18n`
-  - [@nuxt/i18n](https://i18n.nuxtjs.org/)
-  - `@intlify/unplugin-vue-i18n/vite` (optimizes purposes as explained in this [guide](https://vue-i18n.intlify.dev/guide/integrations/nuxt3.html#optimize-with-intlify-unplugin-vue-i18n))
-- User-friendly editor with `tiptap`
-  - `@tiptap/vue-3` - core library
-  - `@tiptap/pm` - prosemirror for tiptap
-  - `@tiptap/starter-kit` - basic editor styling
-  - `@tiptap/extension-placeholder` - placeholder for empty editor
-  - `sass` for editor styling
+## 📄 **single project page**
+
+issue url: https://github.com/SamDruant/samdruant/issues/41
+
+- [x] show works in a horizontal list on desktop and vertical list on mobile screens
+- [x] each work should show "name", "date", "size", "material" and an array of images 
+
+## 📄 **contact page**
+
+issue url: https://github.com/SamDruant/samdruant/issues/29
+
+- [x] download cv
+- [x] show instagram link
+- [x] send email to sam

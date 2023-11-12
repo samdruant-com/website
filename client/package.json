@@ -1,6 +1,5 @@
 {
-  "name": "template-nuxt",
-  "version": "0.9.5",
+  "name": "samdruant-client",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --dotenv .env.local",
