@@ -1,0 +1,23 @@
+{
+	"env": {
+		"commonjs": true,
+		"es2021": true,
+		"node": true,
+		"mocha": true
+	},
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 12
+	},
+	"plugins": ["@typescript-eslint", "mocha"],
+	"rules": {
+		"indent": ["error", "tab"],
+		"semi": ["error", "always"],
+		"prefer-const": "error",
+		"no-var": "error",
+		"no-unused-vars": "error",
+		"object-curly-spacing": ["error", "always"],
+		"object-curly-newline": ["error", { "multiline": true }]
+	}
+}
