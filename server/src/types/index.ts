@@ -21,12 +21,14 @@ interface IWork {
   size: string;
   material: string;
   images: IImage[];
+  slug?: string;
 }
 
 interface IProject {
   name: string;
   date: string;
   works: IWork[];
+  slug?: string;
 }
 
 export { BaseError, IUser, IProject, IWork, IImage };

@@ -4,14 +4,15 @@ export interface User {
 }
 
 export interface Image {
-  _id: string;
+  //_id: string;
+  file?: File; // temporary property for new images
   src: string;
   place: string;
   photographer: string;
 }
 
 export interface Work {
-  _id: string;
+  //_id: string;
   name: string;
   date: string;
   size: string;

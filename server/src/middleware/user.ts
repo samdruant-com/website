@@ -1,6 +1,4 @@
 import * as UserData from "../data/user";
-import { BasicBucket } from "../utils/storage";
-import { BUCKET_S3_URI } from "../config/env";
 import { createErrorResponse } from "./helpers/error";
 import type { AuthenticatedRequest } from "./helpers/types";
 import type { Request, Response } from "express";
@@ -32,19 +30,8 @@ async function patchUser(req: AuthenticatedRequest, res: Response) {
 		return createErrorResponse(res, 'You are not authorized to perform this action.', 401);
 	}
 
-	let avatar: string | undefined = undefined;
-
-	if(req.file){
-		try {
-			avatar = await (new BasicBucket({ endpoint: BUCKET_S3_URI })).uploadFile(req.file);
-		} catch (error) {
-			return createErrorResponse(res, `Failed to upload avatar (${(error as Error).message})`, 400);
-      
-		}
-	}
-  
 	try {
-		const user = await UserData.updateUser(req.user._id, { ...req.body, avatar });
+		const user = await UserData.updateUser(req.user._id, req.body);
 		return res.status(200).send(user);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);

@@ -71,15 +71,13 @@ watch(() => validForm.value, (valid) => {
 </script>
 
 <template>
-  <BaseCard :color="props.color">
-    <v-row justify="center">
-      <v-col v-if="!props.hideTime" :cols="props.hideDate ? 12 : 6" :md="props.hideDate ? 'auto' : 6">
-        <InputText v-model="form.time" type="time" :label="props.labelTime" />
-      </v-col>
+  <v-row justify="center" no-gutters>
+    <v-col v-if="!props.hideTime" :cols="props.hideDate ? 12 : 6">
+      <InputText v-model="form.time" type="time" :label="props.labelTime" />
+    </v-col>
 
-      <v-col v-if="!props.hideTime" :cols="props.hideTime ? 12 : 6" :md="props.hideTime ? 'auto' : 6">
-        <InputText v-model="form.date" type="date" :label="props.labelDate" />
-      </v-col>
-    </v-row>
-  </BaseCard>
+    <v-col v-if="!props.hideDate" :cols="props.hideTime ? 12 : 6">
+      <InputText v-model="form.date" type="date" :label="props.labelDate" />
+    </v-col>
+  </v-row>
 </template>
