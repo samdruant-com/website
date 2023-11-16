@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { useWorkStore } from '~/stores/work-store'
-import type { Work, Image } from '~/types';
+import type { Image, Work } from '~/types';
 
 const props = defineProps({
-	editMode: {
+  work: {
+    type: Object as PropType<Work>
+  },
+  editMode: {
     type: Boolean,
     default: false
   }
 });
 
+const emit = defineEmits(['created', 'updated'])
+
 const workStore = useWorkStore();
+const { notify } = useNotification();
 
 const form = reactive<Partial<Work>>({
   name: '',
@@ -26,14 +31,48 @@ const getFilePath = (file: File): string => {
 }
 
 const post = async (): Promise<void> => {
-  const work: Work = {...form as Work}
-  
-  files.value.forEach((file, index) => {
-    work.images?.push({src: '', place: `image-place-${index}`, photographer: `image-photograph-${index}`, file})
+  const images: Image[] = files.value.map((file, index) => {
+    return { _id: '', src: '', place: `image-place-${index}`, photographer: `image-photograph-${index}`, file }
   })
 
-  await workStore.postWork(work)
+  try {
+    const work = await workStore.postWork({ ...form as Work, images })
+    emit('created', work)
+  } catch (error) {
+    notify('Work Error', (error as Error).message, 'error')
+  }
 }
+
+const update = async (): Promise<void> => {
+  try {
+    if (!props.work) {
+      throw new Error('Missing work id')
+    }
+
+    const images: Image[] = [
+      ...files.value.map((file, index) => {
+        return { _id: '', src: '', place: `image-place-${index}`, photographer: `image-photograph-${index}`, file }
+      }),
+      ...form.images as Image[]
+    ]
+
+    const work = await workStore.updateWork(props.work!._id, { ...form as Work, images })
+    emit('created', work)
+  } catch (error) {
+    notify('Work Error', (error as Error).message, 'error')
+  }
+}
+
+onMounted(() => {
+  //if(props.work){
+  //  Object.keys(form).forEach((key) => form[key] = props.work[key])
+  //}
+  form.name = props.work?.name;
+  form.date = props.work?.date;
+  form.size = props.work?.size;
+  form.material = props.work?.material;
+  form.images = props.work?.images;
+})
 </script>
 
 <template>
@@ -50,9 +89,16 @@ const post = async (): Promise<void> => {
       <p>Type: {{ file.type }}</p>
       <p>Size: {{ file.size }}</p>
     </BaseCard>
+    <BaseCard v-for="image in form.images" :key="image._id">
+      <BaseImage :src="image.src" width="100px" height="100px" crop />
+      <p>Photographer: {{ image.photographer }}</p>
+      <p>Place: {{ image.place }}</p>
+    </BaseCard>
 
     <v-divider class="border-opacity-25" />
 
-    <BaseBtn color="primary" block @click="post()">{{ props.editMode ? 'Update' : 'Upload' }}</BaseBtn>
+    <BaseBtn v-if="!props.editMode" color="primary" block @click="post()">Upload</BaseBtn>
+    <BaseBtn v-if="props.editMode" color="primary" block @click="update()">Update</BaseBtn>
+    <BaseBtn v-if="props.editMode" color="error" block>Delete</BaseBtn>
   </BaseCard>
 </template>

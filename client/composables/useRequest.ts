@@ -11,9 +11,9 @@ interface FetchError {
   content: any;
 }
 
-export function useRequest() {
+function useRequest() {
   const runtimeConfig = useRuntimeConfig();
-  const BASE_URL = runtimeConfig.public.restApi;
+  const BASE_URL = runtimeConfig.public.baseUrl;
 
   /**
    * wrapper for fetch API with base url and default headers
@@ -28,11 +28,18 @@ export function useRequest() {
     const config: RequestInit = {
       ...defaultOptions,
       ...options,
-      headers: {
-        ...defaultOptions.headers,
-        ...options?.headers // merge headers with default and options headers
-      }
     };
+
+    // delete 'content-type' header if method is POST and body is FormData
+    if (
+      config.headers && 
+      config.body instanceof FormData &&
+      (config.method?.toLocaleLowerCase() === 'post' || config.method?.toLocaleLowerCase() === 'put')
+    ) {
+      const headers = new Headers(config.headers);
+      headers.delete('content-type');
+      config.headers = headers;
+    }
 
     try {
       const path: string = options?.external ? url : `${BASE_URL}${url}`;
@@ -60,6 +67,8 @@ export function useRequest() {
       throw error;
     }
   }
-
+  
   return { request };
 }
+
+export { useRequest }

@@ -2,7 +2,7 @@ interface Route {
   /**
    * The HTTP method of the route
    */
-  method: "get" | "post" | "patch" | "delete";
+  method: "get" | "post" | "put" | "delete";
   
   /**
    * The path of the route

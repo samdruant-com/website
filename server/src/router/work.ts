@@ -1,5 +1,5 @@
 import multer from "multer";
-import { postWork } from "../middleware/work";
+import { postWork, indexWorks, getWork, patchWork } from "../middleware/work";
 import type { Route } from "./helpers/types";
 
 // define a multer config that accepts a formdata
@@ -27,6 +27,21 @@ const routes: Route[] = [
 		path: BASE_PATH,
 		method: "post",
 		handler: [upload.any(), postWork]
+	},
+	{
+		path: BASE_PATH + '/:id',
+		method: "get",
+		handler: [getWork]
+	},
+	{
+		path: BASE_PATH,
+		method: "get",
+		handler: [indexWorks]
+	},
+	{
+		path: BASE_PATH + '/:id',
+		method: "put",
+		handler: [upload.any(), patchWork]
 	}
 ];
 

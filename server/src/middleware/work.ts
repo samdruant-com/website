@@ -123,9 +123,10 @@ async function postWork(req: Request, res: Response) {
 
 async function getWork(req: Request, res: Response) {
 	const id = req.params.id;
-
+  
 	try {
-		const works = await WorkData.getWorkById(id);
+		const works = await WorkData.getWork(id);
+      
 		return res.status(200).send(works);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);
@@ -144,10 +145,9 @@ async function indexWorks(req: Request, res: Response) {
 async function patchWork(req: AuthenticatedRequest, res: Response) {
 	const id = req.params.id;
 
-	// TODO: upload new images
-
 	try {
-		const works = await WorkData.updateWork(id, req.body);
+		const images: IImage[] = await _processRequestImages(req);
+		const works = await WorkData.updateWork(id, { ...req.body, images });
 		return res.status(200).send(works);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);

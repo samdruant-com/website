@@ -46,7 +46,7 @@ export default defineNuxtConfig({
    */
 	runtimeConfig: {
     secret: '',
-    public: { apiUrl: '' }
+    public: { baseUrl: '' }
   },
 
   vite: { 

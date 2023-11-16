@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Work } from '~/types';
+const router = useRouter();
+</script>
 
 <template>
   <BasePage>
-    <WorkForm></WorkForm>
+    <WorkForm
+    @created="(work: Work) => router.push(`/works/${work.slug}`)" />
   </BasePage>
 </template>

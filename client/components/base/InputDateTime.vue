@@ -35,39 +35,43 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:model-value']);
 
 const form = reactive({
   date: '',
   time: ''
 });
 
-const dateTime = computed<number>(() => {
-  const [year, month, day] = form.date.split('-');
+const validDate = computed<boolean>(() => {
+  return props.hideDate ? true : DayJs(form.date).isValid();
+})
+
+const validTime = computed<boolean>(() => {
   const [hour, minute] = form.time.split(':');
-
-  const date = (!year || !month || !day)
-    ? DayJs()
-    : DayJs().year(Number(year)).month(Number(month)).day(Number(day));
-
-  return date.hour(Number(hour)).minute(Number(minute)).unix();
-});
+  return props.hideTime ? true : DayJs(validDate.value ? form.date : undefined).hour(Number(hour)).minute(Number(minute)).isValid();
+})
 
 const validForm = computed<boolean>(() => {
-  const validDate = props.hideDate ? true : DayJs(form.date).isValid();
+  return validDate.value && validTime.value;
+});
 
-  if (form.time.length !== 5) { return false; }
+const getDateTimeUnix = computed<number>(() => {
+  let date = !props.hideDate && validDate.value ? DayJs(form.date) : DayJs();
+
   const [hour, minute] = form.time.split(':');
-  const validTime = props.hideTime ? true : DayJs().hour(Number(hour)).minute(Number(minute)).isValid();
+  date = !props.hideTime && validTime.value ? date.hour(Number(hour)).minute(Number(minute)) : date;
 
-  return validDate && validTime;
+  return date.unix();
 });
 
-watch(() => validForm.value, (valid) => {
-  if (valid) {
-    emit('update:modelValue', dateTime.value);
-  }
-});
+watch(() => form,
+  () => {
+    if (validForm.value) {
+      emit('update:model-value', getDateTimeUnix.value);
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <template>

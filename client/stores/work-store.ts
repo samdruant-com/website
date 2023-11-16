@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import type { Work, Image } from '~/types'
 
 export const useWorkStore = defineStore('work', () => {
-  //const runtimeConfig = useRuntimeConfig();
-  const BASE_URL = "http://localhost:3001/api"//runtimeConfig.apiUrl;
+
+  const { request } = useRequest();
 
   /**
    * Package new images (file property) and include existing images (src property)
@@ -39,38 +39,50 @@ export const useWorkStore = defineStore('work', () => {
 
   const postWork = async (work: Work): Promise<Work> => {
     
-    let newWork: Work | undefined;
+    let form = new FormData();
+    form.append('name', work.name)
+    form.append('size', work.size)
+    form.append('date', work.date)
+    form.append('material', work.material)
 
-    try {
-      let form = new FormData();
-      form.append('name', work.name)
-      form.append('size', work.size)
-      form.append('date', work.date)
-      form.append('material', work.material)
+    // process images
+    form = _prepareImages(form, work.images);
 
-      // process images
-      form = _prepareImages(form, work.images);
+    const data = await request('/works', {
+      body: form,
+      method: 'POST'
+    });
 
-      const { data, error, status } = await useFetch(BASE_URL + '/works', { 
-        method: "post",
-        body: form
-      })
-
-      if(error){
-        throw error;
-      }
-
-      if(!data){
-        throw new Error('No data returned')
-      }
-
-      newWork = data as unknown as Work;
-    } catch (error) {
-      console.log({ error })
-    }
-
-    return newWork as Work;
+    return data as unknown as Work;
   }
 
-  return { postWork }
+  const indexWorks = async (): Promise<Work[]> => {
+    const data = await request('/works');
+    return data as unknown as Work[];
+  }
+
+  const getWork = async (id: string): Promise<Work> => {
+    const data = await request(`/works/${id}`);
+    return data as unknown as Work;
+  }
+
+  const updateWork = async (id: string, work: Work): Promise<Work> => {
+    let form = new FormData();
+    form.append('name', work.name)
+    form.append('size', work.size)
+    form.append('date', work.date)
+    form.append('material', work.material)
+
+    // process images
+    form = _prepareImages(form, work.images);
+
+    const data = await request(`/works/${id}`, {
+      body: form,
+      method: 'PUT'
+    });
+
+    return data as unknown as Work;
+  }
+
+  return { postWork, indexWorks, getWork, updateWork }
 })

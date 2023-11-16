@@ -23,7 +23,7 @@ const WorkModel = Mongoose.model("work", new Mongoose.Schema<IWork>(
 			let slug: string = createSlug(this.name);
 			let count = 1;
 
-			while(await getWorkBySlug(slug)) {
+			while(await getWork(slug)) {
 				slug = slug + "-" + count;
 				count++; 
 			}
@@ -39,12 +39,10 @@ async function createWork(work: IWork): Promise<WorkDocument> {
 	return await WorkModel.create(new WorkModel(work));
 }
 
-async function getWorkById(id: string): Promise<WorkDocument | null> {
-	return await WorkModel.findById(id).exec();
-}
-
-async function getWorkBySlug(slug: string): Promise<WorkDocument | null> {
-	return await WorkModel.findOne({ slug }).exec();
+async function getWork(id: string): Promise<WorkDocument | null> {
+	return Mongoose.isValidObjectId(id) 
+		? await WorkModel.findById(id).exec() 
+		: await WorkModel.findOne({ slug: id }).exec();
 }
 
 async function indexWorks(): Promise<WorkDocument[]> {
@@ -52,7 +50,7 @@ async function indexWorks(): Promise<WorkDocument[]> {
 }
 
 async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocument | null> {
-	const work = await getWorkById(id);
+	const work = await getWork(id);
 
 	if(!work){
 		throw new Error(`Work with id ${id} not found`);
@@ -64,7 +62,7 @@ async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocume
 }
 
 async function deleteWork(id: string): Promise<WorkDocument | null> {
-	const work = await getWorkById(id);
+	const work = await getWork(id);
 
 	if(!work){
 		throw new Error(`Work with id ${id} not found`);
@@ -77,4 +75,4 @@ async function deleteWork(id: string): Promise<WorkDocument | null> {
 	return deletedWork;
 }
 
-export { WorkDocument, createWork, getWorkById, getWorkBySlug, indexWorks, updateWork, deleteWork };
+export { WorkDocument, createWork, getWork, indexWorks, updateWork, deleteWork };

@@ -4,7 +4,7 @@ export interface User {
 }
 
 export interface Image {
-  //_id: string;
+  _id: string;
   file?: File; // temporary property for new images
   src: string;
   place: string;
@@ -12,7 +12,8 @@ export interface Image {
 }
 
 export interface Work {
-  //_id: string;
+  _id: string;
+  slug: string;
   name: string;
   date: string;
   size: string;
@@ -22,6 +23,7 @@ export interface Work {
 
 export interface Project {
   _id: string;
+  slug: string;
   name: string;
   date: string;
   works: Work[];
