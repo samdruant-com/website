@@ -37,11 +37,6 @@ app.use(cors({
 }));
 
 /**
- * Configure express to parse json body
- */
-app.use(express.json());
-
-/**
  * Configure morgan to log requests
  */
 app.use(morgan("dev"));

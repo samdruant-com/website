@@ -3,6 +3,7 @@ interface Route {
    * The HTTP method of the route
    */
   method: "get" | "post" | "patch" | "delete";
+  
   /**
    * The path of the route
    */
@@ -12,7 +13,12 @@ interface Route {
    * The handler of the route
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handler: any;
+  handler: any | any[];
+
+  /**
+   * Parse request body as JSON
+   */
+  json?: boolean
 
   /**
    * Whether or not the route requires authentication
@@ -20,7 +26,7 @@ interface Route {
   protected?: boolean;
 
   /**
-   * Configures the file-upload middleware for the route
+   * Configures the parser middleware for the route
    */
   upload?: {
     /**
@@ -28,9 +34,13 @@ interface Route {
      */
     field: string;
     /**
+     * multiple files
+     */
+    multiple?: boolean;
+    /**
      * The maximum number of files to be uploaded
      */
-    maxCount: number;
+    maxCount?: number;
   };
 }
 
