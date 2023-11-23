@@ -26,16 +26,10 @@ onMounted(async () => {
 
 <template>
 	<base-page>
-		<v-row>
-			<v-col
-				v-for="work in project?.works"
-				:key="work._id"
-				cols="12"
-				md="6"
-				lg="4"
-			>
-				<work-card :work="work" />
-			</v-col>
-		</v-row>
+		<project-form
+			v-if="project"
+			:project="project"
+			@updated="router.push(`/projects/${project.slug}`)"
+		/>
 	</base-page>
 </template>

@@ -28,3 +28,8 @@ export interface Project {
   date: string;
   works: Work[];
 }
+
+/** A special type of project with `works` as a list of strings for the purpose of posting or patching projects. */
+export interface SpecialProject extends Omit<Project, 'works'> {
+  works: string[]; // Redefining 'works' as an array of strings
+}

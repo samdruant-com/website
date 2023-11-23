@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import WorkCard from "~/components/cards/WorkCard.vue";
+import { useAuthStore } from "~/stores/auth-store";
 import { useProjectStore } from "~/stores/project-store";
-import type { Work } from "~/types";
+import type { Project } from "~/types";
 
 useSeoMeta({
 	title: "Projects - Sam Druant",
@@ -11,33 +11,23 @@ useSeoMeta({
 	ogImageAlt: "Sam tufting in her studio",
 });
 
-const route = useRoute();
+const authStore = useAuthStore();
 const projectStore = useProjectStore();
-
-const work = ref<Work>();
+const projects = ref<Project[]>([]);
 
 onMounted(async () => {
-	const workId = route.params.work;
-
-	if (!workId) {
-		throw new Error("No work id provided");
-	}
-
-	work.value = await projectStore.getWork(workId as string);
-
-	if (work.value) {
-		// update seo meta
-		useSeoMeta({
-			title: `${work.value.name} - Sam Druant`,
-			description: `${work.value.material} (${work.value.size})`,
-			ogImage: work.value.images[0]?.src,
-		});
-	}
+	projects.value = await projectStore.indexProjects();
 });
 </script>
 
 <template>
 	<base-page>
-		<work-card v-if="work" :work="work" />
+		<v-row justify="center" justify-sm="space-between" align="start">
+			<v-col v-for="project in projects" :key="project._id" cols="12" md="5">
+				<nuxt-link :to="`/projects/${project._id}`">
+					<project-card :project="project" :admin="authStore.isAuthenticated" />
+				</nuxt-link>
+			</v-col>
+		</v-row>
 	</base-page>
 </template>

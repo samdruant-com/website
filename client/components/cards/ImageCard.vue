@@ -15,13 +15,6 @@ const props = defineProps({
 
 const { smAndDown } = useDisplay();
 
-const src = computed<string>(() => {
-	if (!props.image.src) {
-		return "";
-	}
-
-	return "/images/" + props.image.src; // TODO: this is temporary and will be replaced by a cdn url
-});
 const details = computed<string>(() => {
 	const photographer = props.image.photographer
 		? `Photographed by ${props.image.photographer},`
@@ -34,7 +27,11 @@ const details = computed<string>(() => {
 
 <template>
 	<base-card>
-		<base-image :src="src" size="contain" :width="smAndDown ? 300 : 700" />
+		<base-image
+			:src="props.image.src"
+			size="contain"
+			:width="smAndDown ? 300 : 700"
+		/>
 
 		<span v-if="!props.hideDetails">{{ details }}</span>
 	</base-card>
