@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Work } from "~/types";
+import type { Work, Image } from "~/types";
 import ImageCard from "./ImageCard.vue";
 
 const props = defineProps({
@@ -12,24 +12,31 @@ const props = defineProps({
 		default: false,
 	},
 });
+
+const getWorkThumbnail = (work: Work): Image => {
+	return work.images[0];
+};
 </script>
 
 <template>
 	<base-card>
 		<span v-if="!props.hideDetails">
-			<h1>{{ props.work.name }}</h1>
-			<h3>{{ props.work.date }}</h3>
-			<p>{{ `${props.work.material} (${props.work.size})` }}</p>
+			<h1>
+				{{ props.work.name
+				}}<span v-if="props.work.size">, {{ props.work.size }}</span>
+			</h1>
+			<h3 v-if="props.work.date">{{ props.work.date }}</h3>
+			<p v-if="props.work.material">{{ props.work.material }}</p>
 		</span>
 
 		<v-row justify="center">
-			<v-col
-				v-for="image in props.work.images"
-				:key="image._id"
-				cols="12"
-				class="text-center"
-			>
-				<image-card :image="image" :hide-details="props.hideDetails" />
+			<v-col cols="12" class="text-center">
+				<nuxt-link :to="`/works/${props.work.slug}`">
+					<image-card
+						:image="getWorkThumbnail(props.work)"
+						:hide-details="props.hideDetails"
+					/>
+				</nuxt-link>
 			</v-col>
 		</v-row>
 	</base-card>
