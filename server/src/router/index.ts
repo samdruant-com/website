@@ -2,6 +2,7 @@ import { Router, json } from "express";
 import { routes as authRoutes } from "./auth";
 import { routes as userRoutes } from "./user";
 import { routes as workRoutes } from "./work";
+import { routes as projectRoutes } from "./project";
 import { verifyAccessToken } from "../middleware/auth";
 import { parseFile } from "./helpers/parser";
 import type { Route } from "./helpers/types";
@@ -9,7 +10,7 @@ import type { Route } from "./helpers/types";
 const BASE_PATH = "/api";
 
 const router = Router();
-const routes: Route[] = [...authRoutes, ...userRoutes, ...workRoutes];
+const routes: Route[] = [...authRoutes, ...userRoutes, ...workRoutes, ...projectRoutes];
 
 routes.forEach((route) => {
 	const preMiddleware = [];

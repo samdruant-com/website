@@ -114,8 +114,8 @@ async function postWork(req: Request, res: Response) {
 		// extract images from request
 		const images: IImage[] = await _processRequestImages(req);
 
-		const works = await WorkData.createWork({ ...req.body, images });
-		return res.status(201).send(works);
+		const work = await WorkData.createWork({ ...req.body, images });
+		return res.status(201).send(work);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);
 	}
