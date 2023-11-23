@@ -21,7 +21,7 @@ const routes: Route[] = [
 	},
 	{
 		path: BASE_PATH + '/:id',
-		method: "put",
+		method: "patch",
 		handler: [patchProject]
 	}
 ];

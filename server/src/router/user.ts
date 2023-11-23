@@ -16,7 +16,7 @@ const routes: Route[] = [
 	},
 	{
 		path: `${BASE_PATH}/:id`,
-		method: "put",
+		method: "patch",
 		handler: patchUser,
 		protected: true,
 		upload: {
