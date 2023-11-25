@@ -1,14 +1,10 @@
 <script setup lang="ts">
-
-function goToDashboard() {
-  const router = useRouter();
-  router.push('/');
-}
+const router = useRouter();
 
 </script>
 
 <template>
-  <BasePage>
+  <base-page>
     <v-sheet>
       <v-row justify="center">
         <v-col
@@ -23,7 +19,7 @@ function goToDashboard() {
           class="pa-1"
           cols="10"
           md="7">
-          <AuthForm mode="login" @login="goToDashboard()" />
+          <AuthForm mode="login" @login="router.push('/')" />
         </v-col>
 
         <v-divider class="border-opacity-0" />
@@ -35,5 +31,5 @@ function goToDashboard() {
         </v-col>
       </v-row>
     </v-sheet>
-  </BasePage>
+  </base-page>
 </template>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { Project } from "~/types";
+
+definePageMeta({ middleware: ['auth'] });
+
 const router = useRouter();
 </script>
 

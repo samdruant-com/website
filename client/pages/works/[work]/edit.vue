@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Work } from "~/types";
 
+definePageMeta({ middleware: ['auth'] });
+
 const route = useRoute();
 const router = useRouter();
 const workStore = useWorkStore();

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useNavigationStore } from "~/stores/navigation-store";
 import { useSidebarStore } from "~/stores/sidebar-store";
+import { useAuthStore } from "~/stores/auth-store";
 import { useDisplay } from "vuetify";
 
-const drawer = useSidebarStore();
 const { smAndDown } = useDisplay();
+const auth = useAuthStore();
+const drawer = useSidebarStore();
 const navigation = useNavigationStore();
 </script>
 
@@ -30,6 +32,8 @@ const navigation = useNavigationStore();
 			>
 				{{ option.label }}
 			</base-btn>
+
+			<app-admin-menu v-if="auth.isAuthenticated" />
 		</div>
 	</v-app-bar>
 </template>

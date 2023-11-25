@@ -24,9 +24,7 @@ onMounted(async () => {
 	<base-page>
 		<v-row justify="center" justify-sm="space-between" align="start">
 			<v-col v-for="project in projects" :key="project._id" cols="12" md="5">
-				<nuxt-link :to="`/projects/${project._id}`">
-					<project-card :project="project" :admin="authStore.isAuthenticated" />
-				</nuxt-link>
+        <project-card :project="project" :admin="authStore.isAuthenticated" />
 			</v-col>
 		</v-row>
 	</base-page>

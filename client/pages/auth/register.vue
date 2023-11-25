@@ -1,9 +1,6 @@
 <script setup lang="ts">
+const router = useRouter();
 
-function goToDashboard() {
-  const router = useRouter();
-  router.push('/');
-}
 </script>
 
 <template>
@@ -17,7 +14,7 @@ function goToDashboard() {
 				<v-divider class="border-opacity-0" />
 
 				<v-col class="pa-1" cols="10" md="7">
-					<AuthForm mode="register" @register="goToDashboard()"/>
+					<AuthForm mode="register" @register="router.push('/')"/>
 				</v-col>
 
         <v-divider class="border-opacity-0" />

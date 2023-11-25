@@ -19,6 +19,7 @@ const props = defineProps({
 
 const emit = defineEmits(['login', 'register'])
 
+const { notify } = useNotification();
 const { login, register } = useAuthStore();
 
 const form = reactive<AuthForm>({
@@ -36,18 +37,22 @@ const validForm = computed<boolean>(() => {
 });
 
 async function authenticate(){
-  if (props.mode === 'login') {
+  try {
+    if (props.mode === 'login') {
     const user: User = await login(form.username, form.password);
     emit('login', user);
   } else {
     const user: User = await register(form.username, form.password);
     emit('register', user);
   }
+  } catch (error) {
+    notify('Authentication Error', (error as Error).message, 'error')
+  }
 }
 </script>
 
 <template>
-	<v-sheet class="pa-1" color="surface">
+	<base-card class="pa-1">
     <InputText v-model="form.username" label="Username"/>
     <InputText v-model="form.password" type="password" label="Password"/>
     <InputText v-if="props.mode === 'register'" v-model="form.passwordConfirmation" type="password" label="Password Confirmation"/>
@@ -59,5 +64,5 @@ async function authenticate(){
         </BaseBtn>
       </v-col>
     </v-row>
-  </v-sheet>
+  </base-card>
 </template>

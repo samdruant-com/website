@@ -2,6 +2,8 @@
 import { useProjectStore } from "~/stores/project-store";
 import type { Project } from "~/types";
 
+definePageMeta({ middleware: ['auth'] });
+
 const route = useRoute();
 const router = useRouter();
 const projectStore = useProjectStore();
