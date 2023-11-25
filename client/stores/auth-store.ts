@@ -14,6 +14,7 @@ import type { User } from '~/types'
  * 4. refresh tokens
  */
 export const useAuthStore = defineStore('auth', () => {
+  const STORAGE_KEY_USER = 'user';
   const STORAGE_KEY_AUTH = 'auth';
   const STORAGE_KEY_REFRESH = 'refresh';
 
@@ -21,8 +22,8 @@ export const useAuthStore = defineStore('auth', () => {
   const { get, set, remove } = useStorage();
 
   const user = ref<User>();
-  const accessToken = ref<string|undefined>(get(STORAGE_KEY_AUTH) || undefined);
-  const refreshToken = ref<string|undefined>(get(STORAGE_KEY_REFRESH) || undefined);
+  const accessToken = ref<string>();
+  const refreshToken = ref<string>();
 
   const isAuthenticated = computed<boolean>(() => accessToken.value !== undefined);
 
@@ -31,10 +32,10 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function _setUser(setUser: User | undefined){
     if(user === undefined){
-      remove('user');
+      remove(STORAGE_KEY_USER);
     } else {
 
-      set('user', JSON.stringify(setUser));
+      set(STORAGE_KEY_USER, JSON.stringify(setUser));
       user.value = setUser;
     }
   }
@@ -126,6 +127,20 @@ export const useAuthStore = defineStore('auth', () => {
     _setUser(undefined);
     _setTokens(undefined, undefined);
   }
+
+  onMounted(() => {
+    if(get(STORAGE_KEY_USER)){
+      user.value = JSON.parse(get(STORAGE_KEY_USER) as string);
+    }
+
+    if(get(STORAGE_KEY_AUTH)){
+      accessToken.value = get(STORAGE_KEY_AUTH) as string;
+    }
+
+    if(get(STORAGE_KEY_REFRESH)){
+      refreshToken.value = get(STORAGE_KEY_REFRESH) as string;
+    }
+  })
 
   return {
     user,
