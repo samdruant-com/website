@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<base-page>
+	<base-page title="Projects">
 		<v-row justify="center" justify-sm="space-between" align="start">
 			<v-col v-for="project in projects" :key="project._id" cols="12" md="5">
         <project-card :project="project" :admin="authStore.isAuthenticated" />

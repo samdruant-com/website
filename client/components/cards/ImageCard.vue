@@ -16,23 +16,34 @@ const props = defineProps({
 const { smAndDown } = useDisplay();
 
 const details = computed<string>(() => {
-	const photographer = props.image.photographer
-		? `Photographed by ${props.image.photographer},`
-		: "";
-	const place = props.image.place ? props.image.place : "";
-
-	return `${photographer} ${place}`;
+	return getImageDetail(props.image);
 });
+
+const getImageDetail = (image: Image): string => {
+	const { place, photographer } = image;
+
+	let detail = "";
+
+	if (place && photographer) {
+		detail = `Photographed by ${photographer} at ${place}`;
+	} else if (place) {
+		detail = `Displayed at ${place}`;
+	} else if (photographer) {
+		detail = `Photographed by ${photographer}`;
+	}
+
+	return detail;
+};
 </script>
 
 <template>
 	<base-card>
 		<base-image
 			:src="props.image.src"
-			size="contain"
-			:width="smAndDown ? 300 : 700"
+      :height="smAndDown ? 'auto' : 500"
+      :width="smAndDown ? '100%' : 'auto'"
 		/>
 
-		<span v-if="!props.hideDetails">{{ details }}</span>
+		<small v-if="!props.hideDetails">{{ details }}</small>
 	</base-card>
 </template>

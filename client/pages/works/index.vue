@@ -24,7 +24,7 @@ onMounted(async () => {
 <template>
 	<base-page title="Works">
 		<v-row justify="center">
-			<v-col v-for="work in works" cols="11" md="8">
+			<v-col v-for="work in works" cols="12" md="5">
         <work-card :work="work" :admin="authStore.isAuthenticated" />
 			</v-col>
 		</v-row>

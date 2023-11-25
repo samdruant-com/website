@@ -1,43 +1,48 @@
 <script setup lang="ts">
 import type { Work, Image } from "~/types";
-import ImageCard from "./ImageCard.vue";
+import type { ActionItem } from "~/components/base/BaseCard.vue";
 
 const props = defineProps({
-	work: {
-		type: Object as PropType<Work>,
-		required: true,
-	},
-	hideDetails: {
-		type: Boolean,
-		default: false,
-	},
+  work: {
+    type: Object as PropType<Work>,
+    required: true,
+  },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const options = computed<ActionItem[]>(() => {
+  return props.admin
+    ? [
+      {
+        label: "Edit",
+        size: "small",
+        block: true,
+        to: `/works/${props.work.slug}/edit`,
+      },
+    ]
+    : [];
 });
 
 const getWorkThumbnail = (work: Work): Image => {
-	return work.images[0];
+  return work.images[0];
 };
 </script>
 
 <template>
-	<base-card>
-		<span v-if="!props.hideDetails">
-			<h1>
-				{{ props.work.name
-				}}<span v-if="props.work.size">, {{ props.work.size }}</span>
-			</h1>
-			<h3 v-if="props.work.date">{{ props.work.date }}</h3>
-			<p v-if="props.work.material">{{ props.work.material }}</p>
-		</span>
-
-		<v-row justify="center">
-			<v-col cols="12" class="text-center">
-				<nuxt-link :to="`/works/${props.work.slug}`">
-					<image-card
-						:image="getWorkThumbnail(props.work)"
-						:hide-details="props.hideDetails"
-					/>
-				</nuxt-link>
-			</v-col>
-		</v-row>
-	</base-card>
+  <base-card>
+    <nuxt-link :to="`/works/${props.work.slug}`">
+      <image-card :image="getWorkThumbnail(props.work)" />
+    </nuxt-link>
+    <h3 class="px-2">{{ props.work.name }}</h3>
+    <v-row no-gutters>
+      <v-col cols="3" class="mx-1" v-for="option in options" :key="option.label">
+        <base-btn block small :color="option.color" :to="option.to" @click="option.action">
+          {{ option.label }}
+        </base-btn>
+      </v-col>
+    </v-row>
+  </base-card>
 </template>
