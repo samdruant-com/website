@@ -26,7 +26,7 @@ async function indexUsers(req: Request, res: Response) {
 async function patchUser(req: AuthenticatedRequest, res: Response) {
 	const { id } = req.params;
 
-	if(req.user._id !== id){
+	if(req.user.id !== id){
 		return createErrorResponse(res, 'You are not authorized to perform this action.', 401);
 	}
 

@@ -36,9 +36,8 @@ routes.forEach((route) => {
 		preMiddleware.push(parseFile(route.upload.field, route.upload.multiple, { maxCount: route.upload.maxCount } ));
 	}
 
-	const isArray = Array.isArray(route.handler);
 	const path = `${BASE_PATH}${route.path}`;
-	router[route.method](path, ...preMiddleware, isArray ? [...route.handler] : route.handler);
+	router[route.method](path, ...preMiddleware, Array.isArray(route.handler) ? [...route.handler] : route.handler);
 });
 
 router.get("/*", (req, res) => {

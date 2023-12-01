@@ -6,14 +6,15 @@ const GENERIC_PROJECTION = "-password";
 
 type UserDocument = IUser & Mongoose.Document;
 
-const UserModel = Mongoose.model("user", new Mongoose.Schema<IUser>(
-	{
-		username: { type: String, required: true, unique: true },
-		password: { type: String, required: true },
-		avatar: { type: String }
-	},
-	{ timestamps: true })
-	.pre("save", async function(next) {
+const UserModel = Mongoose.model(
+	"user",
+	new Mongoose.Schema<IUser>(
+		{
+			username: { type: String, required: true, unique: true },
+			password: { type: String, required: true },
+		},
+		{ timestamps: true }
+	).pre("save", async function(next) {
 		if(this.isModified("password")) {
 			const hash: string = hashPassword(this.password);
 			this.password = hash;
@@ -22,18 +23,18 @@ const UserModel = Mongoose.model("user", new Mongoose.Schema<IUser>(
 	})
 );
 
-async function createUser(user: IUser, config?: { secrets: boolean }): Promise<UserDocument> {
-	if(await getUserByUsername(user.username)) {
-		throw new Error(`User with username ${user.username} already exists`);
+async function createUser(username: string, password: string, config?: { secrets: boolean }): Promise<UserDocument> {
+	if(await getUserByUsername(username)) {
+		throw new Error(`User with username ${username} already exists`);
 	}
   
-	const newUser = await UserModel.create(new UserModel(user));
+	const user = await UserModel.create(new UserModel({ username, password }));
 
 	if(config?.secrets !== true) {
-		newUser.password = "";
+		user.password = "";
 	}
 
-	return newUser;
+	return user;
 }
 
 async function getUserById(id: string, config?: { secrets: boolean}): Promise<UserDocument | null> {
@@ -62,8 +63,11 @@ async function updateUser(id: string, patch: Partial<IUser>, config?: { secrets:
 	}
 
 	user.username = patch.username || user.username;
-	user.password = patch.password || user.password;
-	user.avatar = patch.avatar || user.avatar;
+
+	// password is hashed in the pre-save hook
+	if(patch.password && patch.password.length > 0) {
+		user.password = patch.password;
+	}
 
 	const patchedUser = await user.save();
 

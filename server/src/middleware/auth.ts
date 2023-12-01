@@ -1,7 +1,5 @@
 import * as UserData from "../data/user";
-import { BasicBucket } from "../utils/storage";
 import { setToken, getToken, comparePasswords } from "../utils/crypto";
-import { BUCKET_S3_URI } from "../config/env";
 import { createErrorResponse } from "./helpers/error";
 import type { UserDocument } from "../data/user";
 import type { AuthenticatedRequest } from "./helpers/types";
@@ -29,20 +27,9 @@ function _generateTokens(userId: string): { accessToken: string, refreshToken: s
  */
 async function register(req: Request, res: Response) {
 	const { username, password } = req.body;
-
-	let avatar: string | undefined = undefined;
-
-	if(req.file){
-		try {
-			avatar = await (new BasicBucket({ endpoint: BUCKET_S3_URI })).uploadFile(req.file);
-		} catch (error) {
-			return createErrorResponse(res, `Failed to upload avatar (${(error as Error).message})`, 400);
-      
-		}
-	}
   
 	try {
-		const user = await UserData.createUser({ username, password, avatar });
+		const user = await UserData.createUser(username, password);
 		const { accessToken, refreshToken } = _generateTokens(user._id);
     
 		return res.status(201).send({ user, accessToken, refreshToken });

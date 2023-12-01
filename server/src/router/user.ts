@@ -7,22 +7,18 @@ const routes: Route[] = [
 	{
 		path: BASE_PATH,
 		method: "get",
-		handler: indexUsers,
+		handler: [indexUsers],
 	},
 	{
 		path: `${BASE_PATH}/:username`,
 		method: "get",
-		handler: getUserByUsername,
+		handler: [getUserByUsername],
 	},
 	{
 		path: `${BASE_PATH}/:id`,
 		method: "patch",
-		handler: patchUser,
-		protected: true,
-		upload: {
-			field: "image",
-			maxCount: 1,
-		},
+		handler: [patchUser],
+		protected: true
 	},
 ];
 
