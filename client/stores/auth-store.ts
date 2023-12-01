@@ -119,6 +119,25 @@ export const useAuthStore = defineStore('auth', () => {
 		_setTokens(response.accessToken, response.refreshToken);
 	}
 
+  /**
+   * Updates user.
+   */
+	async function updateUser (id: string, patchedUser: Partial<User>): Promise<User> {
+		const updatedUser = await request(`/users/${id}`, {
+			method: 'PATCH',
+			body: JSON.stringify(patchedUser),
+			authorization: accessToken.value
+		});
+
+		if (!updatedUser) {
+			throw new Error('Invalid user.');
+		}
+
+		_setUser(updatedUser);
+
+		return user.value as User;
+	}
+
 	/**
    * Removes auth tokens.
    */
@@ -156,6 +175,7 @@ export const useAuthStore = defineStore('auth', () => {
 		register,
 		login,
 		refresh,
+    updateUser,
 		logout
 	};
 });

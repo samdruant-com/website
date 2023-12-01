@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth-store";
-import type { User } from "~/types";
+import type { User, SpecialUser } from "~/types";
 
 type AuthMode = "login" | "register";
 
-interface AuthForm {
-  username: string;
-  password: string;
-  passwordConfirmation?: string;
-}
-
 const props = defineProps({
-	mode: {
+  mode: {
     type: String as PropType<AuthMode>,
     default: 'login'
   }
@@ -22,10 +16,10 @@ const emit = defineEmits(['login', 'register'])
 const { notify } = useNotification();
 const { login, register } = useAuthStore();
 
-const form = reactive<AuthForm>({
-	username: "",
-	password: "",
-	passwordConfirmation: "",
+const form = reactive<SpecialUser>({
+  username: "",
+  password: "",
+  passwordConfirmation: "",
 });
 
 const validForm = computed<boolean>(() => {
@@ -36,15 +30,15 @@ const validForm = computed<boolean>(() => {
   }
 });
 
-async function authenticate(){
+async function authenticate() {
   try {
     if (props.mode === 'login') {
-    const user: User = await login(form.username, form.password);
-    emit('login', user);
-  } else {
-    const user: User = await register(form.username, form.password);
-    emit('register', user);
-  }
+      const user: User = await login(form.username, form.password);
+      emit('login', user);
+    } else {
+      const user: User = await register(form.username, form.password);
+      emit('register', user);
+    }
   } catch (error) {
     notify('Authentication Error', (error as Error).message, 'error')
   }
@@ -52,10 +46,11 @@ async function authenticate(){
 </script>
 
 <template>
-	<base-card class="pa-1">
-    <InputText v-model="form.username" label="Username"/>
-    <InputText v-model="form.password" type="password" label="Password"/>
-    <InputText v-if="props.mode === 'register'" v-model="form.passwordConfirmation" type="password" label="Password Confirmation"/>
+  <base-card class="pa-1">
+    <InputText v-model="form.username" label="Username" />
+    <InputText v-model="form.password" type="password" label="Password" />
+    <InputText v-if="props.mode === 'register'" v-model="form.passwordConfirmation" type="password"
+      label="Password Confirmation" />
 
     <v-row justify="center">
       <v-col md="auto">
