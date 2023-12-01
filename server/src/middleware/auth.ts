@@ -86,9 +86,10 @@ async function login(req: Request, res: Response) {
 }
 
 /**
- * Adds a user to the request object if the access token is valid. Otherwise, returns an error response.
+ * Middleware function that requires authentication for a request. Adds user object to request if
+ * token is valid, otherwise returns an error response and does not continue to next middleware.
  */
-async function verifyAccessToken(req: Request, res: Response, next: NextFunction) {
+async function requireAuthentication(req: Request, res: Response, next: NextFunction) {
 	const requestToken: string | undefined = req.headers?.authorization?.split(" ")[1];
 	if(!requestToken){
 		return createErrorResponse(res, 'Missing auth token.', 401);
@@ -107,9 +108,10 @@ async function verifyAccessToken(req: Request, res: Response, next: NextFunction
 }
 
 /**
- * Adds a user to the request object if the access token is valid. Otherwise, it does nothing.
+ * Middleware function to accept authentication. Adds user object to request if token is valid,
+ * otherwise continues to next middleware.
  */
-async function lookForAccessToken(req: Request, res: Response, next: NextFunction) {
+async function acceptAuthentication(req: Request, res: Response, next: NextFunction) {
 	const requestToken: string | undefined = req.headers?.authorization?.split(" ")[1];
 	if(!requestToken){
 		return next();
@@ -167,7 +169,7 @@ async function refreshAccessToken(req: Request, res: Response) {
 export {
 	register,
 	login,
-	verifyAccessToken,
-	lookForAccessToken,
+	requireAuthentication,
+	acceptAuthentication,
 	refreshAccessToken
 };

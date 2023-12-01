@@ -1,6 +1,6 @@
 import multer from "multer";
 import { postWork, indexWorks, getWork, patchWork } from "../middleware/work";
-import { lookForAccessToken } from "../middleware/auth";
+import { acceptAuthentication } from "../middleware/auth";
 import type { Route } from "./helpers/types";
 
 // define a multer config that accepts a formdata
@@ -33,12 +33,12 @@ const routes: Route[] = [
 	{
 		path: BASE_PATH + '/:id',
 		method: "get",
-		handler: [lookForAccessToken, getWork]
+		handler: [acceptAuthentication, getWork]
 	},
 	{
 		path: BASE_PATH,
 		method: "get",
-		handler: [lookForAccessToken, indexWorks]
+		handler: [acceptAuthentication, indexWorks]
 	},
 	{
 		path: BASE_PATH + '/:id',

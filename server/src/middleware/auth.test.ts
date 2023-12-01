@@ -17,7 +17,7 @@ describe('Auth Middleware', () => {
 		it("should generate renew token with access token as payload");
 	});
 
-	describe('verifyAccessToken', () => {
+	describe('requireAuthentication', () => {
 		it("should return 401 if auth token is missing");
 		it("should return 401 if auth token is invalid");
 		it("should return 401 if user is missing");

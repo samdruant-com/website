@@ -3,7 +3,7 @@ import { routes as authRoutes } from "./auth";
 import { routes as userRoutes } from "./user";
 import { routes as workRoutes } from "./work";
 import { routes as projectRoutes } from "./project";
-import { verifyAccessToken } from "../middleware/auth";
+import { requireAuthentication } from "../middleware/auth";
 import { parseFile } from "./helpers/parser";
 import type { Route } from "./helpers/types";
 
@@ -26,7 +26,7 @@ routes.forEach((route) => {
    * Verify access token and add authenticated user to request object. Returns 401 otherwise.
    */
 	if (route.protected) {
-		preMiddleware.push(verifyAccessToken);
+		preMiddleware.push(requireAuthentication);
 	}
 
 	/**
