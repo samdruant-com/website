@@ -19,6 +19,7 @@ COPY components /app/components
 COPY composables /app/composables
 COPY layouts /app/layouts
 COPY locales /app/locales
+COPY middleware /app/middleware
 COPY pages /app/pages
 COPY plugins /app/plugins
 COPY public /app/public
