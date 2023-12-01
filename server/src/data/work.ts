@@ -15,7 +15,8 @@ const WorkModel = Mongoose.model("work", new Mongoose.Schema<IWork>(
 			place: { type: String },
 			photographer: { type: String }
 		}],
-		slug: { type: String, unique: true }
+		slug: { type: String, unique: true },
+		visible: { type: Boolean, default: false }
 	},
 	{ timestamps: true })
 	.pre("save", async function (next) {
@@ -39,14 +40,18 @@ async function createWork(work: IWork): Promise<WorkDocument> {
 	return await WorkModel.create(new WorkModel(work));
 }
 
-async function getWork(id: string): Promise<WorkDocument | null> {
-	return Mongoose.isValidObjectId(id) 
-		? await WorkModel.findById(id).exec() 
-		: await WorkModel.findOne({ slug: id }).exec();
+async function getWork(id: string, config?: { showHidden?: boolean}): Promise<WorkDocument | null> {
+	const baseQuery = Mongoose.isValidObjectId(id) ? { _id: id } : { slug: id };
+	const query = config?.showHidden ? baseQuery : { ...baseQuery, visible: true };
+
+	return await WorkModel.findOne(query)
+		.exec();
 }
 
-async function indexWorks(): Promise<WorkDocument[]> {
-	return await WorkModel.find().exec();
+async function indexWorks(config?: { showHidden?: boolean}): Promise<WorkDocument[]> {
+	const query = config?.showHidden ? {} : { visible: true };
+	return await WorkModel.find(query)
+		.exec();
 }
 
 async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocument | null> {

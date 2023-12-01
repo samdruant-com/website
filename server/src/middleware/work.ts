@@ -109,7 +109,7 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
 	return await _processImages(rawImages);
 }
 
-async function postWork(req: Request, res: Response) {
+async function postWork(req: AuthenticatedRequest, res: Response) {
 	try {
 		// extract images from request
 		const images: IImage[] = await _processRequestImages(req);
@@ -121,21 +121,25 @@ async function postWork(req: Request, res: Response) {
 	}
 }
 
-async function getWork(req: Request, res: Response) {
+async function getWork(req: Request | AuthenticatedRequest, res: Response) {
 	const id = req.params.id;
   
 	try {
-		const works = await WorkData.getWork(id);
+		const work = (req as AuthenticatedRequest).user 
+			? await WorkData.getWork(id, { showHidden: true }) 
+			: await WorkData.getWork(id);
       
-		return res.status(200).send(works);
+		return res.status(200).send(work);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);
 	}
 }
 
-async function indexWorks(req: Request, res: Response) {
+async function indexWorks(req: Request | AuthenticatedRequest, res: Response) {
 	try {
-		const works = await WorkData.indexWorks();
+		const works = (req as AuthenticatedRequest).user 
+			? await WorkData.indexWorks({ showHidden: true })
+			: await WorkData.indexWorks();
 		return res.status(200).send(works);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);

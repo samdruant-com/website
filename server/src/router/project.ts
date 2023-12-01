@@ -1,4 +1,5 @@
 import { postProject, indexProjects, getProject, patchProject } from "../middleware/project";
+import { lookForAccessToken } from "../middleware/auth";
 import type { Route } from "./helpers/types";
 
 const BASE_PATH = "/projects";
@@ -7,22 +8,24 @@ const routes: Route[] = [
 	{
 		path: BASE_PATH,
 		method: "post",
-		handler: [postProject]
+		handler: [postProject],
+		protected: true
 	},
 	{
 		path: BASE_PATH + '/:id',
 		method: "get",
-		handler: [getProject]
+		handler: [lookForAccessToken, getProject]
 	},
 	{
 		path: BASE_PATH,
 		method: "get",
-		handler: [indexProjects]
+		handler: [lookForAccessToken, indexProjects]
 	},
 	{
 		path: BASE_PATH + '/:id',
 		method: "patch",
-		handler: [patchProject]
+		handler: [patchProject],
+		protected: true
 	}
 ];
 

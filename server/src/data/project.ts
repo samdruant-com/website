@@ -9,7 +9,8 @@ const ProjectModel = Mongoose.model("project", new Mongoose.Schema<IProject>(
 		name: { type: String, required: true },
 		date: { type: String },
 		works: [{ type: Mongoose.Schema.ObjectId, ref: 'work' }],
-		slug: { type: String, unique: true }
+		slug: { type: String, unique: true },
+		visible: { type: Boolean, default: false }
 	},
 	{ timestamps: true })
 	.pre("save", async function (next) {
@@ -33,18 +34,19 @@ async function createProject(project: IProject): Promise<ProjectDocument> {
 	return await ProjectModel.create(new ProjectModel(project));
 }
 
-async function getProject(id: string): Promise<ProjectDocument | null> {
-	const query = Mongoose.isValidObjectId(id) 
-		? ProjectModel.findById(id)
-			.populate('works')
-		: ProjectModel.findOne({ slug: id })
-			.populate('works');
+async function getProject(id: string, config?: { showHidden?: boolean}): Promise<ProjectDocument | null> {
+	const baseQuery = Mongoose.isValidObjectId(id) ? { _id: id } : { slug: id };
+	const query = config?.showHidden ? baseQuery : { ...baseQuery, visible: true };
 
-	return await query.exec();
+	return await ProjectModel.findOne(query)
+		.populate('works')
+		.exec();
 }
 
-async function indexProjects(): Promise<ProjectDocument[]> {
-	return await ProjectModel.find()
+async function indexProjects(config?: { showHidden?: boolean}): Promise<ProjectDocument[]> {
+	const query = config?.showHidden ? {} : { visible: true };
+
+	return await ProjectModel.find(query)
 		.populate('works')
 		.exec();
 }

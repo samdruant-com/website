@@ -22,6 +22,7 @@ interface IWork {
   material: string;
   images: IImage[];
   slug: string;
+  visible: boolean;
 }
 
 interface IProject {
@@ -29,6 +30,7 @@ interface IProject {
   date: string;
   works: IWork[];
   slug: string;
+  visible: boolean;
 }
 
 export { BaseError, IUser, IProject, IWork, IImage };

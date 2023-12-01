@@ -23,6 +23,23 @@ function _generateTokens(userId: string): { accessToken: string, refreshToken: s
 }
 
 /**
+ * Returns a user from a token if the token is valid.
+ */
+async function _decodeToken(token: string): Promise<UserDocument> {
+	const decodedToken: string | null = getToken(token);
+	if(!decodedToken){
+		throw new Error('Invalid auth token.');
+	}
+  
+	const user: UserDocument | null = await UserData.getUserById(decodedToken);
+	if(!user){
+		throw new Error(`User with id ${decodedToken} missing.`);
+	}
+
+	return user;
+}
+
+/**
  * Returns a user and a pair of access and refresh tokens if created successfully.
  */
 async function register(req: Request, res: Response) {
@@ -76,15 +93,34 @@ async function verifyAccessToken(req: Request, res: Response, next: NextFunction
 	if(!requestToken){
 		return createErrorResponse(res, 'Missing auth token.', 401);
 	}
-	
-	const decodedToken: string | null = getToken(requestToken);
-	if(!decodedToken){
-		return createErrorResponse(res, 'Invalid auth token.', 401);
-	}
+
+	let user: UserDocument;
   
-	const user: UserDocument | null = await UserData.getUserById(decodedToken);
-	if(!user){
-		return createErrorResponse(res, `User with id ${decodedToken} missing.`, 401);
+	try {
+		user = await _decodeToken(requestToken);
+	} catch (error) {
+		return createErrorResponse(res, (error as Error).message, 401); 
+	}
+	
+	(req as AuthenticatedRequest).user = user;
+	return next();
+}
+
+/**
+ * Adds a user to the request object if the access token is valid. Otherwise, it does nothing.
+ */
+async function lookForAccessToken(req: Request, res: Response, next: NextFunction) {
+	const requestToken: string | undefined = req.headers?.authorization?.split(" ")[1];
+	if(!requestToken){
+		return next();
+	}
+
+	let user: UserDocument;
+  
+	try {
+		user = await _decodeToken(requestToken);
+	} catch (error) {
+		return next();
 	}
 	
 	(req as AuthenticatedRequest).user = user;
@@ -132,5 +168,6 @@ export {
 	register,
 	login,
 	verifyAccessToken,
+	lookForAccessToken,
 	refreshAccessToken
 };
