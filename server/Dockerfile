@@ -3,9 +3,6 @@
 # Define Node.js version
 ARG NODE_VERSION=18.18.0
 
-# Define Pnpm version
-ARG PNPM_VERSION=8.9.2
-
 # Use node image as the base image
 FROM node:${NODE_VERSION}-alpine as base
 
@@ -17,6 +14,9 @@ COPY src ./src
 COPY package.json .
 COPY tsconfig.json .
 COPY pnpm-lock.yaml .
+
+# Define Pnpm version
+ARG PNPM_VERSION=8.9.2
 
 # Install pnpm
 RUN npm install -g pnpm@${PNPM_VERSION}
