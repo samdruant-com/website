@@ -1,5 +1,5 @@
 import multer from "multer";
-import { postWork, indexWorks, getWork, patchWork } from "../middleware/work";
+import { postWork, indexWorks, getWork, patchWork, deleteWork } from "../middleware/work";
 import { acceptAuthentication } from "../middleware/auth";
 import type { Route } from "./helpers/types";
 
@@ -44,6 +44,12 @@ const routes: Route[] = [
 		path: BASE_PATH + '/:id',
 		method: "patch",
 		handler: [upload.any(), patchWork],
+		protected: true
+	},
+	{
+		path: BASE_PATH + '/:id',
+		method: "delete",
+		handler: [deleteWork],
 		protected: true
 	}
 ];

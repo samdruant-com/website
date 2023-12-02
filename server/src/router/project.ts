@@ -1,4 +1,4 @@
-import { postProject, indexProjects, getProject, patchProject } from "../middleware/project";
+import { postProject, indexProjects, getProject, patchProject, deleteProject } from "../middleware/project";
 import { acceptAuthentication } from "../middleware/auth";
 import type { Route } from "./helpers/types";
 
@@ -25,6 +25,12 @@ const routes: Route[] = [
 		path: BASE_PATH + '/:id',
 		method: "patch",
 		handler: [patchProject],
+		protected: true
+	},
+	{
+		path: BASE_PATH + '/:id',
+		method: "delete",
+		handler: [deleteProject],
 		protected: true
 	}
 ];
