@@ -23,7 +23,8 @@ jspm_packages/
 .npm
 
 # Dotenv environment variables file
-.env
+.env*
+!.env.example
 
 # Testing
 ./coverage
