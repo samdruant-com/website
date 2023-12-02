@@ -39,16 +39,24 @@ export const useWorkStore = defineStore('work', () => {
     return form;
   }
 
-  const postWork = async (work: Work): Promise<Work> => {
-    
+  const prepareForm = (work: Partial<Work>): FormData => {
     let form = new FormData();
-    form.append('name', work.name)
-    form.append('size', work.size)
-    form.append('date', work.date)
-    form.append('material', work.material)
+    
+    if(work.name) form.append('name', work.name)
+    if(work.size) form.append('size', work.size)
+    if(work.date) form.append('date', work.date)
+    if(work.material) form.append('material', work.material)
+    if(work.visible !== undefined) form.append('visible', work.visible.toString())
 
     // process images
-    form = _prepareImages(form, work.images);
+    if(work.images) form = _prepareImages(form, work.images);
+
+    return form;
+  }
+
+  const postWork = async (work: Partial<Work>): Promise<Work> => {
+    
+    let form = prepareForm(work);
 
     const data = await request('/works', {
       body: form,
@@ -70,15 +78,8 @@ export const useWorkStore = defineStore('work', () => {
     return data as unknown as Work;
   }
 
-  const updateWork = async (id: string, work: Work): Promise<Work> => {
-    let form = new FormData();
-    form.append('name', work.name)
-    form.append('size', work.size)
-    form.append('date', work.date)
-    form.append('material', work.material)
-
-    // process images
-    form = _prepareImages(form, work.images);
+  const updateWork = async (id: string, work: Partial<Work>): Promise<Work> => {
+    let form = prepareForm(work);
 
     const data = await request(`/works/${id}`, {
       body: form,

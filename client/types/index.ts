@@ -21,6 +21,7 @@ export interface Work extends Document {
   size: string;
   material: string;
   images: Image[];
+  visible: boolean;
 }
 
 export interface Project extends Document {
@@ -28,6 +29,7 @@ export interface Project extends Document {
   name: string;
   date: string;
   works: Work[];
+  visible: boolean;
 }
 
 /** A special type of project with `works` as a list of strings for the purpose of posting or patching projects. */

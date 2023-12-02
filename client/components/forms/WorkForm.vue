@@ -18,6 +18,7 @@ const form = reactive<Partial<Work>>({
   size: props.work?.size || "",
   material: props.work?.material || "",
   images: props.work?.images || [],
+  visible: props.work?.visible || false,
 });
 
 const files = ref<File[]>([]);
@@ -38,7 +39,7 @@ const post = async (): Promise<void> => {
   });
 
   try {
-    const work = await workStore.postWork({ ...(form as Work), images });
+    const work = await workStore.postWork({ ...form, images });
     emit("created", work);
   } catch (error) {
     notify("Work Error", (error as Error).message, "error");
@@ -81,6 +82,10 @@ const update = async (): Promise<void> => {
     <InputText v-model="form.size" label="size" />
     <InputText v-model="form.material" label="material" />
     <InputDateTime v-model="form.date" label="date" hide-time />
+    <v-checkbox v-model="form.visible" label="visible" hint="unchecked works are only visible by website admin" />
+
+    <v-divider class="border-opacity-25 mb-2" />
+
     <InputFile v-model="files" label="Images" multiple />
 
     <BaseCard v-for="(file, index) in files" :key="index">
@@ -95,7 +100,7 @@ const update = async (): Promise<void> => {
       <p>Place: {{ image.place }}</p>
     </BaseCard>
 
-    <v-divider class="border-opacity-25" />
+    <v-divider class="border-opacity-25 mb-2" />
 
     <BaseBtn v-if="!props.work" color="primary" block @click="post()">Upload</BaseBtn>
     <BaseBtn v-if="props.work" color="primary" block @click="update()">Update</BaseBtn>
