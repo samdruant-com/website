@@ -13,57 +13,12 @@ interface RawImage extends Omit<IImage, 'src'> {
 }
 
 /**
- * Extract new and old images from the request.
- * 
- * New images are stored such that each image, based on its index, has three
- * properties:
- * - image-0-file - the image file
- * - image-0-photographer - the photographer of the image
- * - image-0-place - the place where the image was taken
- * 
- * Existing images are stored such that each image, based on its index, has three
- * properties:
- * - image-0-src - the image src
- * - image-0-photographer - the photographer of the image
- * - image-0-place - the place where the image was taken
- */
-function _extractWorkImages(req: Request): RawImage[] {
-	const newImages = (req.files as Express.Multer.File[]).map((file) => {
-		const [, index] = file.fieldname.split('-');
-		const photographer = req.body[`image-${index}-photographer`];
-		const place = req.body[`image-${index}-place`];
-
-		return {
-			src: file.path,
-			file,
-			photographer,
-			place
-		} as RawImage;
-	});
-
-	const oldImages = Object.keys(req.body).filter((key) => key.includes('src')).map((key) => {
-		const [, index] = key.split('-');
-		const src = req.body[key];
-		const photographer = req.body[`image-${index}-photographer`];
-		const place = req.body[`image-${index}-place`];
-
-		return {
-			src,
-			photographer,
-			place
-		} as RawImage;
-	});
-
-	return [...newImages, ...oldImages];
-}
-
-/**
  * Returns a list of images with the `src` property set to the url of the image.
  * If the image is new, the `file` property is used to upload the image to the
  * bucket and the `src` property is set to the url of the uploaded image. If the
  * image is old, the `src` property is used as is.
  */
-async function _processImages(rawImages: RawImage[]): Promise<IImage[]> {
+async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
 	if(!BUCKET_S3_URI || BUCKET_S3_URI === ''){
 		throw new Error('S3 bucket uri not set');
 	}
@@ -105,8 +60,47 @@ async function _processImages(rawImages: RawImage[]): Promise<IImage[]> {
  * Returns a list of images with the `src` property set to the url of the image.
  */
 async function _processRequestImages(req: Request): Promise<IImage[]> {
-	const rawImages: RawImage[] = _extractWorkImages(req);
-	return await _processImages(rawImages);
+	/**
+   * Extract new and old images from the request.
+   * 
+   * New images are stored such that each image, based on its index, has three
+   * properties:
+   * - image-0-file - the image file
+   * - image-0-photographer - the photographer of the image
+   * - image-0-place - the place where the image was taken
+   * 
+   * Existing images are stored such that each image, based on its index, has three
+   * properties:
+   * - image-0-src - the image src
+   * - image-0-photographer - the photographer of the image
+   * - image-0-place - the place where the image was taken
+   */
+	const newImages = (req.files as Express.Multer.File[]).map((file) => {
+		const [, index] = file.fieldname.split('-');
+		
+		return {
+			src: file.path,
+			file,
+			photographer: req.body[`image-${index}-photographer`],
+			place: req.body[`image-${index}-place`]
+		} as RawImage;
+	});
+
+	const oldImages = Object.keys(req.body)
+		.filter((key) => key.includes('src'))
+		.map((key) => {
+			const [, index] = key.split('-');
+
+			return {
+				src: req.body[key],
+				photographer: req.body[`image-${index}-photographer`],
+				place: req.body[`image-${index}-place`]
+			} as RawImage;
+		});
+
+	const rawImages: RawImage[] = [...newImages, ...oldImages];
+
+	return await _uploadImages(rawImages);
 }
 
 async function postWork(req: AuthenticatedRequest, res: Response) {

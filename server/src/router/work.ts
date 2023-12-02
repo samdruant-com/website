@@ -27,8 +27,8 @@ const routes: Route[] = [
 	{
 		path: BASE_PATH,
 		method: "post",
-		handler: [upload.any(), postWork],
-		protected: true
+		protected: true,
+		handler: [upload.any(), postWork]
 	},
 	{
 		path: BASE_PATH + '/:id',
@@ -43,8 +43,8 @@ const routes: Route[] = [
 	{
 		path: BASE_PATH + '/:id',
 		method: "patch",
-		handler: [upload.any(), patchWork],
-		protected: true
+		protected: true,
+		handler: [upload.any(), patchWork]
 	},
 	{
 		path: BASE_PATH + '/:id',

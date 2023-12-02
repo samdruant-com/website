@@ -53,6 +53,7 @@ export const useWorkStore = defineStore('work', () => {
     const data = await request('/works', {
       body: form,
       method: 'POST',
+      contentType: null,
       authorization: authStore.accessToken
     });
 
@@ -82,6 +83,7 @@ export const useWorkStore = defineStore('work', () => {
     const data = await request(`/works/${id}`, {
       body: form,
       method: 'PATCH',
+      contentType: null,
       authorization: authStore.accessToken
     });
 

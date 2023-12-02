@@ -1,12 +1,7 @@
 interface FetchConfig extends RequestInit {
   method?: 'POST' | 'GET' | 'PATCH' | 'DELETE';
-  contentType?: string;
+  contentType?: string | null; // if null, browser will automatically set content type
   authorization?: string;
-
-  /**
-   * Remove content type header so that the browser can set it automatically
-   */
-  removeContentType?: boolean;
 }
 
 export interface FetchError {
@@ -50,8 +45,14 @@ export function useRequest () {
 		try {
 			const config: RequestInit = {
 				method: options?.method || DEFAULT_METHOD,
-				headers: { 'Content-Type': options?.contentType || DEFAULT_CONTENT_TYPE }
+				headers: { 'Content-Type': DEFAULT_CONTENT_TYPE }
 			};
+
+      if(options?.contentType){
+        config.headers!['Content-Type' as keyof HeadersInit] = options.contentType;
+      } else if (options?.contentType === null){
+        delete config.headers!['Content-Type' as keyof HeadersInit];
+      }
 
 			if (options?.body) {
 				config.body = options.body;
@@ -59,10 +60,6 @@ export function useRequest () {
 
 			if (options?.authorization) {
         config.headers!['Authorization' as keyof HeadersInit] = `Bearer ${options.authorization}`;
-			}
-
-			if (options?.removeContentType) {
-				delete config.headers!['Content-Type' as keyof HeadersInit];
 			}
 
 			const path = _buildUrl(url);
