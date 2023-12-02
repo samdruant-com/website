@@ -12,26 +12,23 @@ const { notify } = useNotification();
 const project = ref<Project>();
 
 onMounted(async () => {
-	const id = route.params.project;
+  const id = route.params.project;
 
-	try {
-		if (!id) {
-			throw new Error("Missing project id");
-		}
+  try {
+    if (!id) {
+      throw new Error("Missing project id");
+    }
 
-		project.value = await projectStore.getProject(id as string);
-	} catch (error) {
-		notify("Project Error", (error as Error).message, "error");
-	}
+    project.value = await projectStore.getProject(id as string);
+  } catch (error) {
+    notify("Project Error", (error as Error).message, "error");
+  }
 });
 </script>
 
 <template>
-	<base-page>
-		<project-form
-			v-if="project"
-			:project="project"
-			@updated="router.push(`/projects/${project.slug}`)"
-		/>
-	</base-page>
+  <base-page>
+    <project-form v-if="project" :project="project"
+      @updated="(updatedProject: Project) => router.push(`/projects/${updatedProject.slug}`)" />
+  </base-page>
 </template>

@@ -11,27 +11,23 @@ const { notify } = useNotification();
 const work = ref<Work>();
 
 onMounted(async () => {
-	const id = route.params.work;
+  const id = route.params.work;
 
-	try {
-		if (!id) {
-			throw new Error("Missing work id");
-		}
+  try {
+    if (!id) {
+      throw new Error("Missing work id");
+    }
 
-		work.value = await workStore.getWork(id as string);
-	} catch (error) {
-		notify("Edit Error", (error as Error).message, "error");
-	}
+    work.value = await workStore.getWork(id as string);
+  } catch (error) {
+    notify("Edit Error", (error as Error).message, "error");
+  }
 });
 </script>
 
 <template>
-	<BasePage>
-		<WorkForm
-			v-if="work"
-			:work="work"
-			edit-mode
-			@updated="router.push(`/works/${work.slug}`)"
-		/>
-	</BasePage>
+  <BasePage>
+    <WorkForm v-if="work" :work="work" edit-mode
+      @updated="(updatedWork: Work) => router.push(`/works/${updatedWork.slug}`)" />
+  </BasePage>
 </template>
