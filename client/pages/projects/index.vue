@@ -22,7 +22,10 @@ onMounted(async () => {
 
 <template>
   <base-page title="Projects">
-    <v-row justify="center" justify-sm="space-between" align="start">
+    <base-btn v-if="authStore.isAuthenticated" to="/projects/create">
+      Create project
+    </base-btn>
+    <v-row justify="center" justify-sm="space-between">
       <v-col v-for="project in projects" :key="project._id" cols="12" md="5">
         <project-card :project="project" :admin="authStore.isAuthenticated" />
       </v-col>
