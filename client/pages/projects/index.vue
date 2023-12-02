@@ -3,20 +3,15 @@ import { useAuthStore } from "~/stores/auth-store";
 import { useProjectStore } from "~/stores/project-store";
 import type { Project } from "~/types";
 
-useSeoMeta({
-  title: "Projects - Sam Druant",
-  description:
-    "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer.",
-  ogImage: "/images/contact.jpg", // TODO: change this to a project image
-  ogImageAlt: "Sam tufting in her studio",
-});
-
 const authStore = useAuthStore();
 const projectStore = useProjectStore();
 const projects = ref<Project[]>([]);
 
 onMounted(async () => {
   projects.value = await projectStore.indexProjects();
+
+  const thumbnail = projects.value[0]?.works[0]?.images[0]?.src || undefined;
+  useSeoSetup({ title: "Projects", image: thumbnail });
 });
 </script>
 

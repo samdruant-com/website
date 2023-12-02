@@ -3,7 +3,6 @@ import { useProjectStore } from "~/stores/project-store";
 import type { Project } from "~/types";
 
 const route = useRoute();
-const router = useRouter();
 const projectStore = useProjectStore();
 const { notify } = useNotification();
 
@@ -18,6 +17,9 @@ onMounted(async () => {
     }
 
     project.value = await projectStore.getProject(id as string);
+
+    const thumbnail = project.value.works[0]?.images[0]?.src || undefined;
+    useSeoSetup({ title: project.value.name, image: thumbnail });
   } catch (error) {
     notify("Project Error", (error as Error).message, "error");
   }

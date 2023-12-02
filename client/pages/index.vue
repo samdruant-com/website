@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+useSeoSetup();
+
+</script>
 
 <template>
   <div id="start-page">

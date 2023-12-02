@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth-store";
 import { useWorkStore } from "~/stores/work-store";
-import type { Work, Image } from "~/types";
+import type { Work } from "~/types";
+
+useSeoSetup({ title: "Works" });
 
 const authStore = useAuthStore();
 const workStore = useWorkStore();
 
 const works = ref<Work[]>([]);
-
-const getThumbnail = (work: Work): Image | null => {
-  if (work.images.length === 0) {
-    return null;
-  }
-
-  return work.images[0];
-};
 
 onMounted(async () => {
   works.value = await workStore.indexWorks();

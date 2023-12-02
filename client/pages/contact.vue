@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
 
-useSeoMeta({
-  title: "Contact - Sam Druant",
-  description:
-    "Sam combines her background in illustration with various textile techniques, such as tufting, weaving, knitting and embroidery. In the figurative way of working, she uses a contrast in text, image and material to evoke an ambivalent feeling on the part of the viewer.",
-  ogImage: "/images/contact.jpg",
-  ogImageAlt: "Sam tufting in her studio",
-});
+useSeoSetup({ title: "Contact" });
 
 const { smAndDown } = useDisplay();
 </script>
