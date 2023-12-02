@@ -32,8 +32,8 @@ onMounted(async () => {
 <template>
   <base-page :title="work ? work.name : 'Work'">
     <v-row v-if="work" justify="center">
-      <v-col v-for="image in work.images" cols="11" md="8">
-        <work-card :work="work" :admin="authStore.isAuthenticated" />
+      <v-col v-for="image in work.images" :key="image._id" cols="11" md="10">
+        <image-card :image="image" expand />
       </v-col>
     </v-row>
   </base-page>

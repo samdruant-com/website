@@ -11,7 +11,7 @@ const { smAndDown } = useDisplay();
     <div id="contact">
       <v-row justify="center" justify-md="space-around" align="center" class="mr-2 mr-md-5">
         <v-col cols="12" md="auto">
-          <base-image src="/images/contact.jpg" size="contain" :width="smAndDown ? 300 : 400" />
+          <base-image src="/images/contact.jpg" height="700px" width="500px" />
         </v-col>
         <v-col cols="12" md="auto">
           <p>
