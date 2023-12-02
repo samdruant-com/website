@@ -6,19 +6,29 @@ useSeoSetup();
 
 <template>
   <div id="start-page">
-    <h1 class="text-center white--text">
-      <NuxtLink class="s-brand hide-link" to="/projects"> Sam Druant </NuxtLink>
-    </h1>
+    <nuxt-link class="landing-text s-brand hide-link" to="/projects">
+      <h1 class="text-center text-white">
+        Sam Druant
+      </h1>
+    </nuxt-link>
   </div>
 </template>
 
 <style scoped>
 #start-page {
+  position: relative;
   height: 100vh;
-  background-size: cover;
-  background-color: #cccccc;
-  background-repeat: no-repeat;
   background-image: url("/images/landing.webp");
-  padding: 30vh 5vw;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.landing-text {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
