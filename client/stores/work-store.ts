@@ -1,9 +1,11 @@
-import { defineStore } from 'pinia'
-import type { Work, Image } from '~/types'
+import { defineStore } from 'pinia';
+import { useAuthStore } from '~/stores/auth-store';
+import type { Work, Image } from '~/types';
 
 export const useWorkStore = defineStore('work', () => {
 
   const { request } = useRequest();
+  const authStore = useAuthStore();
 
   /**
    * Package new images (file property) and include existing images (src property)
@@ -50,19 +52,20 @@ export const useWorkStore = defineStore('work', () => {
 
     const data = await request('/works', {
       body: form,
-      method: 'POST'
+      method: 'POST',
+      authorization: authStore.accessToken
     });
 
     return data as unknown as Work;
   }
 
   const indexWorks = async (): Promise<Work[]> => {
-    const data = await request('/works');
+    const data = await request('/works', { authorization: authStore.accessToken });
     return data as unknown as Work[];
   }
 
   const getWork = async (id: string): Promise<Work> => {
-    const data = await request(`/works/${id}`);
+    const data = await request(`/works/${id}`, { authorization: authStore.accessToken });
     return data as unknown as Work;
   }
 
@@ -78,7 +81,8 @@ export const useWorkStore = defineStore('work', () => {
 
     const data = await request(`/works/${id}`, {
       body: form,
-      method: 'PUT'
+      method: 'PATCH',
+      authorization: authStore.accessToken
     });
 
     return data as unknown as Work;
