@@ -55,7 +55,7 @@ async function indexWorks(config?: { showHidden?: boolean}): Promise<WorkDocumen
 }
 
 async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocument | null> {
-	const work = await getWork(id);
+	const work = await getWork(id, { showHidden: true });
 
 	if(!work){
 		throw new Error(`Work with id ${id} not found`);
@@ -67,7 +67,7 @@ async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocume
 }
 
 async function deleteWork(id: string): Promise<WorkDocument | null> {
-	const work = await getWork(id);
+	const work = await getWork(id, { showHidden: true });
 
 	if(!work){
 		throw new Error(`Work with id ${id} not found`);

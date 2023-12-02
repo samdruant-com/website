@@ -52,7 +52,7 @@ async function indexProjects(config?: { showHidden?: boolean}): Promise<ProjectD
 }
 
 async function updateProject(id: string, patch: Partial<IProject>): Promise<ProjectDocument | null> {
-	const project = await getProject(id);
+	const project = await getProject(id, { showHidden: true });
 
 	if(!project){
 		throw new Error(`Project with id ${id} not found`);
@@ -64,7 +64,7 @@ async function updateProject(id: string, patch: Partial<IProject>): Promise<Proj
 }
 
 async function deleteProject(id: string): Promise<ProjectDocument | null> {
-	const project = await getProject(id);
+	const project = await getProject(id, { showHidden: true });
 
 	if(!project){
 		throw new Error(`Project with id ${id} not found`);
