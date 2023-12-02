@@ -6,7 +6,7 @@ import type { AxiosInstance } from 'axios';
 /**
  * Generic Bucket Interface for uploading and removing files
  */
-interface GenericBucket {
+export interface GenericBucket {
   /**
    * Upload a file to the bucket and return the url
    * 
@@ -64,68 +64,6 @@ class BasicBucket implements GenericBucket {
 		return response.data;
 	}
 }
-
-///**
-// * AWS S3 Bucket
-// */
-//class S3Bucket implements GenericBucket {
-//	endpoint: string;
-//	bucketName: string;
-//	accessToken: string;
-//	secretToken: string;
-//	s3Client: awsSdk.S3;
-
-//	constructor(config: { endpoint: string; bucketName: string; accessToken: string; secretToken: string; }) {
-//		this.endpoint = config.endpoint;
-//		this.bucketName = config.bucketName;
-//		this.accessToken = config.accessToken;
-//		this.secretToken = config.secretToken;
-
-//		this.s3Client = new awsSdk.S3({
-//			endpoint: this.endpoint,
-//			accessKeyId: this.accessToken,
-//			secretAccessKey: this.secretToken,
-//		});
-//	}
-
-//	/**
-//   * Uploads a file to the bucket and returns the url.
-//   * 
-//   * By default, the file:
-//   * - is public
-//   * - has the same name as the original file
-//   */
-//	async uploadFile(file: Express.Multer.File, config?: { name?: string; acl?: string }): Promise<string> {
-//		// save file to s3
-//		const result = await this.s3Client.upload({ 
-//			Bucket: this.bucketName, 
-//			Key: config?.name || file.originalname, 
-//			Body: file.buffer, 
-//			ACL: config?.acl || "public-read"
-//		}).promise();
-
-//		// if url does not have a protocol, add it
-//		return !result.Location.includes("http")
-//			? `https://${result.Location}`
-//			: result.Location;
-//	}
-
-//	/**
-//   * Removes a file from the bucket and returns true if successful.
-//   */
-//	async removeFile(url: string): Promise<boolean> {
-//		try {
-//			const result = await this.s3Client.deleteObject({
-//				Bucket: this.bucketName,
-//				Key: url,
-//			}).promise();
-
-//			return result.DeleteMarker as boolean;
-//		} catch (error) {
-//			return false;
-//		}
-//	}
-//}
 
 /**
  * GCP Data Storage

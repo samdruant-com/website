@@ -1,10 +1,11 @@
+import { NODE_ENV, BUCKET_S3_URI, BUCKET_NAME, BUCKET_GCP_ID, BUCKET_GCP_KEY_PATH } from "../config/env";
 import * as WorkData from "../data/work";
-import { BasicBucket } from "../utils/storage";
-import { BUCKET_S3_URI } from "../config/env";
+import { BasicBucket, GoogleBucket } from "../utils/storage";
 import { createErrorResponse } from "./helpers/error";
 import type { IImage } from "../types";
 import type { AuthenticatedRequest } from "./helpers/types";
 import type { Request, Response } from "express";
+import type { GenericBucket } from "../utils/storage";
 
 // is like IImage but with a `file` property instead of `src`
 interface RawImage extends Omit<IImage, 'src'> {
@@ -19,11 +20,30 @@ interface RawImage extends Omit<IImage, 'src'> {
  * image is old, the `src` property is used as is.
  */
 async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
-	if(!BUCKET_S3_URI || BUCKET_S3_URI === ''){
-		throw new Error('S3 bucket uri not set');
+	let bucket: GenericBucket;
+  
+	if(NODE_ENV === 'development') {
+		if(!BUCKET_S3_URI) {
+			throw new Error('Bucket URI missing. Set BUCKET_URI environment variable');
+		}
+
+		bucket = new BasicBucket({ endpoint: BUCKET_S3_URI });
+	} else {
+		if(!BUCKET_GCP_KEY_PATH) {
+			throw new Error('Bucket key path missing. Set BUCKET_KEY_PATH environment variable');
+		}
+
+		if(!BUCKET_NAME) {
+			throw new Error('Bucket name missing. Set BUCKET_NAME environment variable');
+		}
+
+		if(!BUCKET_GCP_ID) {
+			throw new Error('Bucket ID missing. Set BUCKET_ID environment variable');
+		}
+
+		bucket = new GoogleBucket({ keyPath: BUCKET_GCP_KEY_PATH, bucketName: BUCKET_NAME, projectName: BUCKET_GCP_ID });
 	}
   
-	const bucket = new BasicBucket({ endpoint: BUCKET_S3_URI });
 	const images: IImage[] = [];
 
 	try {

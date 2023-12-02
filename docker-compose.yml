@@ -4,7 +4,7 @@ services:
     build: ./server
     env_file:
       - ./server/.env
-    ports: # server and database ports
+    ports:
       - "3001:3001"
   client:
     image: samdruant-client
