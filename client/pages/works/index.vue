@@ -21,8 +21,8 @@ onMounted(async () => {
       Create work
     </base-btn>
 
-    <v-row justify="center" justify-sm="space-between">
-      <v-col v-for="work in works" cols="12" md="5">
+    <v-row>
+      <v-col v-for="work in works" cols="12" md="4">
         <work-card :work="work" :admin="authStore.isAuthenticated" />
       </v-col>
     </v-row>
