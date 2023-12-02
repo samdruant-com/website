@@ -7,7 +7,7 @@ useSeoSetup();
 <template>
   <div id="start-page">
     <nuxt-link class="landing-text s-brand hide-link" to="/projects">
-      <h1 class="text-center text-white">
+      <h1 class="text-center text-background">
         Sam Druant
       </h1>
     </nuxt-link>

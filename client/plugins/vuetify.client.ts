@@ -3,53 +3,30 @@ import { createVuetify, type ThemeDefinition } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import 'vuetify/styles'
 
 const lightTheme: ThemeDefinition = {
   "dark": false,
   "colors": {
-    "background": "#DBCBBD",
-    "surface": "#C87941",
-    "primary": "#50A6FF",
-    "secondary": "#BBC3FF",
-    "error": "#F44336",
+    "background": "#FFD6D6",
+    "surface": "#FFFFFF",
+    "primary": "#A4AFFD",
+    "secondary": "#92D09A",
+    "error": "#FF6155",
     "info": "#2196F3",
-    "success": "#4CAF50",
-    "warning": "#FFC107",
-    "on-background": "#212121",
-    "on-surface": "#FFFFFF"
-  }
-}
-
-const darkTheme: ThemeDefinition = {
-  "dark": true,
-  "colors": {
-    "background": "#723B1C",
-    "surface": "#C87941",
-    "primary": "#BB86FC",
-    "secondary": "#03DAC5",
-    "error": "#CE3D57",
-    "info": "#2196F3",
-    "success": "#4CAF50",
-    "warning": "#FB8C00",
-    "on-background": "#fff",
-    "on-surface": "#fff"
+    "success": "#7DFF82",
+    "warning": "#F3E43E"
   }
 }
 
 function setupVuetify() {
   return createVuetify({
-    components: {
-      ...components,
-      VSkeletonLoader
-    },
+    components: components,
     directives,
     theme: {
-      defaultTheme: 'dark',
+      defaultTheme: 'light',
       themes: {
-        light: lightTheme,
-        dark: darkTheme
+        light: lightTheme
       }
     },
     icons: {

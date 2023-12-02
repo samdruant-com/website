@@ -2,6 +2,10 @@ html, body {
 	text-transform: uppercase;
 }
 
+a {
+  color: rgb(144, 86, 95);
+}
+
 .s-brand {
 	text-transform: uppercase;
 }

@@ -17,7 +17,7 @@ onMounted(async () => {
 
 <template>
   <base-page title="Works">
-    <base-btn v-if="authStore.isAuthenticated" to="/works/create">
+    <base-btn v-if="authStore.isAuthenticated" color="primary" to="/works/create">
       Create work
     </base-btn>
 

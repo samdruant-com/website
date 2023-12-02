@@ -6,7 +6,7 @@ const auth = useAuthStore();
 
 <template>
   <div>
-    <base-btn id="admin-menu" color="error">
+    <base-btn id="admin-menu" color="primary">
       {{ auth.user ? auth.user.username : "Admin" }}
     </base-btn>
 
@@ -15,7 +15,7 @@ const auth = useAuthStore();
         <v-list-item to="/profile">
           <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="auth.logout()">
+        <v-list-item class="text-error" @click="auth.logout()">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>

@@ -20,6 +20,8 @@ const options = computed<ActionItem[]>(() => {
         label: "Edit",
         size: "small",
         block: true,
+        outlined: true,
+        color: 'warning',
         to: `/projects/${props.project.slug}/edit`,
       }
     ]
