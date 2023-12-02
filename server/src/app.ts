@@ -7,6 +7,11 @@ import { ALLOWED_ORIGINS } from "./config/env";
 const app = express();
 
 /**
+ * Configure morgan to log requests
+ */
+app.use(morgan("dev"));
+
+/**
  * Configure cors middleware to curate requests based on origin
  */
 app.use(cors({
@@ -29,16 +34,16 @@ app.use(cors({
 		else {
 			const allowedOrigins = ALLOWED_ORIGINS.split(",");
 			const isAllowed = allowedOrigins.includes(origin as string);
+			
+			if(!isAllowed) {
+				console.error(`Origin ${origin} is not allowed by CORS`);
+			}
+      
 			return callback(null, isAllowed);
 		}
 	},
 	allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-/**
- * Configure morgan to log requests
- */
-app.use(morgan("dev"));
 
 /**
  * Configure router middleware
