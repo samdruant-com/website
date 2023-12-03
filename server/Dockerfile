@@ -7,9 +7,10 @@ ARG NODE_VERSION=18.18.0
 FROM node:${NODE_VERSION}-alpine as base
 
 # Set working directory
-WORKDIR /backend
+WORKDIR /server
 
 # Copy necessary files
+COPY keys ./keys
 COPY src ./src
 COPY package.json .
 COPY tsconfig.json .
