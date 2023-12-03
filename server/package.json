@@ -13,8 +13,8 @@
     "test": "mocha",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "docker:build": "docker build -t template-backend:latest .",
-    "docker:run": "docker run -p 3000:3000 --env-file .env  template-backend:latest"
+    "docker:build": "docker build -t samdruant-server:latest .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env  samdruant-server:latest"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.5.0",
