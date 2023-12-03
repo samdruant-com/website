@@ -20,6 +20,7 @@ const BUCKET_GCP_ID: string = process.env.BUCKET_GCP_ID as string;
 const BUCKET_GCP_KEY_PATH: string = process.env.BUCKET_GCP_KEY_PATH as string;
 const ALLOWED_ORIGINS: string = process.env.ALLOWED_ORIGINS as string;
 const JWT_SECRET: string = process.env.JWT_SECRET as string;
+const ADMIN_SECRET: string = process.env.ADMIN_SECRET as string;
 
 export {
 	NODE_ENV,
@@ -32,5 +33,6 @@ export {
 	BUCKET_GCP_ID,
 	BUCKET_GCP_KEY_PATH,
 	JWT_SECRET,
-	ALLOWED_ORIGINS
+	ALLOWED_ORIGINS,
+	ADMIN_SECRET
 };

@@ -67,10 +67,10 @@ export const useAuthStore = defineStore('auth', () => {
    * Register user. This function saves auth tokens and returns user if
    * if everything goes as planned.
    */
-	async function register (username: string, password: string): Promise<User> {
+	async function register (username: string, password: string, secret: string): Promise<User> {
 		const response = await request('/auth/register', {
 			method: 'POST',
-			body: JSON.stringify({ username, password })
+			body: JSON.stringify({ username, password, secret })
 		});
 
 		if (!response.user) {

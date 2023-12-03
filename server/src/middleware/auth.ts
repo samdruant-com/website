@@ -1,6 +1,7 @@
 import * as UserData from "../data/user";
 import { setToken, getToken, comparePasswords } from "../utils/crypto";
 import { createErrorResponse } from "./helpers/error";
+import { ADMIN_SECRET } from "../config/env";
 import type { UserDocument } from "../data/user";
 import type { AuthenticatedRequest } from "./helpers/types";
 import type { Request, Response, NextFunction } from "express";
@@ -43,7 +44,11 @@ async function _decodeToken(token: string): Promise<UserDocument> {
  * Returns a user and a pair of access and refresh tokens if created successfully.
  */
 async function register(req: Request, res: Response) {
-	const { username, password } = req.body;
+	const { username, password, secret } = req.body;
+
+	if(secret !== ADMIN_SECRET){
+		return createErrorResponse(res, 'Invalid admin secret.', 401);
+	}
   
 	try {
 		const user = await UserData.createUser(username, password);

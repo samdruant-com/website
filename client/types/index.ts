@@ -39,4 +39,5 @@ export interface SpecialProject extends Omit<Project, 'works'> {
 
 export interface SpecialUser extends Omit<User, '_id'> {
   passwordConfirmation?: string;
+  secret?: string;
 }
