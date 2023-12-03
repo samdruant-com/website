@@ -2,12 +2,14 @@
 import { useNavigationStore } from "~/stores/navigation-store";
 import { useSidebarStore } from "~/stores/sidebar-store";
 import { useAuthStore } from "~/stores/auth-store";
+import { usePortfolioStore } from "~/stores/portfolio-store";
 import { useDisplay } from "vuetify";
 
 const { smAndDown } = useDisplay();
 const auth = useAuthStore();
 const drawer = useSidebarStore();
 const navigation = useNavigationStore();
+const portfolioStore = usePortfolioStore();
 
 const options = computed(() => {
   return smAndDown.value ? [] : navigation.options;
@@ -19,7 +21,7 @@ const options = computed(() => {
     <v-app-bar-nav-icon v-if="smAndDown" @click="drawer.toggle" />
 
     <router-link class="ml-2 s-brand hide-link plain" to="/">
-      <h2>Sam Druant</h2>
+      <h2>{{ portfolioStore.portfolio.name }}</h2>
     </router-link>
 
     <v-spacer />

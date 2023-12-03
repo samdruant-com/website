@@ -1,8 +1,13 @@
-import type { ActionItem } from '~/components/base/BaseCard.vue';
 import { defineStore } from 'pinia';
+import { useAuthStore } from './auth-store';
+import type { ActionItem } from '~/components/base/BaseCard.vue';
 
 export const useNavigationStore = defineStore('navigation', () => {
-  const options: ActionItem[] = [
+  const authStore = useAuthStore();
+
+  const options = computed<ActionItem[]>(() => {
+  
+  const list: ActionItem[] = [
     { 
       label: 'Projects',
       to: '/projects'
@@ -16,6 +21,17 @@ export const useNavigationStore = defineStore('navigation', () => {
       to: '/contact'
     },
   ]
+
+  if(authStore.isAuthenticated){
+    list.push({
+      label: 'Portfolio',
+      color: 'primary',
+      to: '/profile#portfolio'
+    })
+  }
+
+  return list;
+  });
 
   return {
     options

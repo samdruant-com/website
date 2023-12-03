@@ -7,6 +7,12 @@ export interface User extends Document {
   password: string;
 }
 
+export interface Portfolio extends Document {
+  name: string;
+  email: string;
+  socials: {name: string, url: string}[];
+}
+
 export interface Image extends Document {
   file?: File; // temporary property for new images
   src: string;

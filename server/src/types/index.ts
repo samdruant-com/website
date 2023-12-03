@@ -3,10 +3,15 @@ interface BaseError {
   status: number;
 }
 
+interface IPortfolio {
+  name: string;
+  email: string;
+  socials: {name: string, url: string}[];
+}
+
 interface IUser {
   username: string;
   password: string;
-  avatar?: string;
 }
 
 interface IImage {
@@ -33,4 +38,4 @@ interface IProject {
   visible: boolean;
 }
 
-export { BaseError, IUser, IProject, IWork, IImage };
+export { BaseError, IUser, IPortfolio, IProject, IWork, IImage };

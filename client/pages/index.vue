@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { usePortfolioStore } from '~/stores/portfolio-store';
 
 useSeoSetup();
+
+const portfolioStore = usePortfolioStore();
 
 </script>
 
@@ -8,7 +11,7 @@ useSeoSetup();
   <div id="start-page">
     <nuxt-link class="landing-text s-brand hide-link" to="/projects">
       <h1 class="text-center text-background">
-        Sam Druant
+        {{ portfolioStore.portfolio.name }}
       </h1>
     </nuxt-link>
   </div>

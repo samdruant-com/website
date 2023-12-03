@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useDisplay } from "vuetify";
+import { usePortfolioStore } from '~/stores/portfolio-store';
 
 useSeoSetup({ title: "Contact" });
 
-const { smAndDown } = useDisplay();
+const portfolioStore = usePortfolioStore();
+
 </script>
 
 <template>
@@ -15,11 +16,10 @@ const { smAndDown } = useDisplay();
         </v-col>
         <v-col cols="12" md="auto">
           <p>
-            <a class="hide-link" href="mailto:sam.druant@gmail.com"><b>email</b> me</a>
+            <a class="hide-link" :href="`mailto:${portfolioStore.portfolio.email}`"><b>email</b> me</a>
           </p>
-          <p>
-            <a class="hide-link" target="_blank" rel="noreferrer" href="https://www.instagram.com/samdruant"><b>visit</b>
-              my instagram</a>
+          <p v-for="social in portfolioStore.portfolio.socials" :key="social.name">
+            <a class="hide-link" target="_blank" rel="noreferrer" :href="social.url"><b>visit</b> my {{ social.name }}</a>
           </p>
         </v-col>
       </v-row>

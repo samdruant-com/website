@@ -3,6 +3,7 @@ import { routes as authRoutes } from "./auth";
 import { routes as userRoutes } from "./user";
 import { routes as workRoutes } from "./work";
 import { routes as projectRoutes } from "./project";
+import { routes as portfolioRoutes } from "./portfolio";
 import { requireAuthentication } from "../middleware/auth";
 import { parseFile } from "./helpers/parser";
 import type { Route } from "./helpers/types";
@@ -10,7 +11,7 @@ import type { Route } from "./helpers/types";
 const BASE_PATH = "/api";
 
 const router = Router();
-const routes: Route[] = [...authRoutes, ...userRoutes, ...workRoutes, ...projectRoutes];
+const routes: Route[] = [...authRoutes, ...userRoutes, ...workRoutes, ...projectRoutes, ...portfolioRoutes];
 
 routes.forEach((route) => {
 	const preMiddleware = [];
