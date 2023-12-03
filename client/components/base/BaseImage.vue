@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import LazyImage from "~/public/images/landing.webp";
-
 const props = defineProps({
   src: {
     type: String,
@@ -26,6 +24,6 @@ const props = defineProps({
 </script>
 
 <template>
-  <v-img :src="props.src" :lazy-src="LazyImage" :height="props.height" :width="props.width" :alt="props.alt"
+  <v-img :src="props.src" lazy-src="/images/landing.webp" :height="props.height" :width="props.width" :alt="props.alt"
     :cover="props.cover" />
 </template>

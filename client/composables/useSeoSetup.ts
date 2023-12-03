@@ -1,8 +1,6 @@
-import Image from '~/public/images/contact.jpg'
-
 const useSeoSetup = (config?: { title?: string; description?: string, image?: string}) => {
 
-  const seoImage = config?.image || Image;
+  const seoImage = config?.image || '/images/contact.jpg';
   const seoTitle = config?.title || 'Portoflio';
   const seoDescription = config?.description || 'Sam Druant is an artist from Antwerp, Belgium currently doing an MFA fine arts at Hdk-Valand Gothenburg, Sweden';
   
