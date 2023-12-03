@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 
 if (process.env.NODE_ENV === "testing") {
-	// get .env.test file
 	dotenv.config({ path: ".env.test" });
 } else if (process.env.NODE_ENV === "development") {
-	dotenv.config();
+	dotenv.config({ path: ".env.dev" });
 } else {
 	dotenv.config();
 }
