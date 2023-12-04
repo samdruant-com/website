@@ -26,7 +26,7 @@ const options = computed(() => {
 
     <v-spacer />
 
-    <base-btn v-for="option in navigation.options" :key="option.label" class="mr-2 s-brand hide-link" plain
+    <base-btn v-for="option in options" :key="option.label" class="mr-2 s-brand hide-link" plain
       :color="option.color" :to="option.to" @click="option.action">
       {{ option.label }}
     </base-btn>
