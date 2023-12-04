@@ -25,6 +25,9 @@ const adminName = computed(() => {
     </template>
 
     <v-list variant="flat" elevation="0">
+      <v-list-item to="/portfolio">
+        <v-list-item-title>Portfolio</v-list-item-title>
+      </v-list-item>
       <v-list-item to="/profile">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
