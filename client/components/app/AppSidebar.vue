@@ -15,7 +15,7 @@ function getOptionColor(option: ActionItem): string {
 
 <template>
 	<v-dialog v-model="drawer.visible" fullscreen>
-		<v-sheet>
+		<v-sheet color="primary">
 			<v-toolbar color="transparent">
 				<base-btn large @click="drawer.visible = false">
 					<v-icon size="x-large">mdi-close</v-icon>
@@ -27,29 +27,28 @@ function getOptionColor(option: ActionItem): string {
 					v-for="option in navigation.options"
 					:key="option.label"
 					cols="8"
+					:class="`sidebar-item ${getOptionColor(option)}`"
 				>
-					<div :class="`sidebar-item ${getOptionColor(option)}`">
-						<v-icon
-							v-if="option.icon"
-							style="margin-right: 1rem"
-							:icon="option.icon"
-						/>
-						<base-btn
-							text
-							:to="option.to"
-							:color="option.color"
-							@click="
-								option.action;
-								drawer.visible = false;
-							"
-						>
-							<h2 class="sidebar-items">{{ option.label }}</h2>
-						</base-btn>
-					</div>
+					<v-icon
+						v-if="option.icon"
+						style="margin-right: 1rem"
+						:icon="option.icon"
+					/>
+					<base-btn
+						text
+						:to="option.to"
+						:color="option.color"
+						@click="
+							option.action;
+							drawer.visible = false;
+						"
+					>
+						<h2 class="sidebar-items">{{ option.label }}</h2>
+					</base-btn>
 				</v-col>
 
-				<v-col v-if="auth.isAuthenticated" cols="8">
-					<app-admin-menu v-if="auth.isAuthenticated" class="sidebar-item" />
+				<v-col v-if="auth.isAuthenticated" cols="8" class="sidebar-item">
+					<app-admin-menu v-if="auth.isAuthenticated" />
 				</v-col>
 			</v-row>
 		</v-sheet>

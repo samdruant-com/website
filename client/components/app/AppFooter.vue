@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify';
 import { usePortfolioStore } from '~/stores/portfolio-store';
 
+const { smAndDown } = useDisplay();
 const portfolioStore = usePortfolioStore();
 </script>
 
 <template>
-  <v-footer app color="transparent">
+  <v-footer :app="!smAndDown" color="transparent">
     <v-row justify="end" align="center">
       <v-col v-for="social in portfolioStore.portfolio.socials" :key="social.name" cols="auto">
         <a class="plain" target="_blank" rel="noreferrer" :href="social.url">

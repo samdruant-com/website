@@ -14,6 +14,7 @@ const props = defineProps({
     class="pa-1">
     <v-col
       v-if="props.title"
+      id="page-title"
       class="text-center my-1">
       <h1>{{ props.title }}</h1>
     </v-col>
@@ -25,3 +26,11 @@ const props = defineProps({
     </v-col>
   </v-row>
 </template>
+
+<style scoped>
+/* set a thick underline for h1 child element in #page-title */
+#page-title > h1 {
+  border-bottom: 3px solid;
+}
+
+</style>

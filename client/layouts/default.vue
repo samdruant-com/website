@@ -7,13 +7,13 @@ const inStartPage = computed<boolean>(
 </script>
 
 <template>
-  <v-app>
+  <v-app id="app-layout">
     <!-- navigation -->
     <app-nav v-if="!inStartPage" />
     <app-sidebar />
 
     <!-- main content -->
-    <v-main>
+    <v-main id="app-content">
       <v-row justify="center">
         <v-col :cols="inStartPage ? 12 : 11" :md="inStartPage ? 12 : 10">
           <slot></slot>
@@ -23,8 +23,15 @@ const inStartPage = computed<boolean>(
 
     <!-- footer -->
     <app-footer />
-
-    <!-- notification -->
-    <Toaster />
   </v-app>
 </template>
+
+<style scoped>
+#app-layout {
+  max-width: 100vw;
+}
+
+#app-content {
+  min-height: 100vh;
+}
+</style>

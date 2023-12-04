@@ -4,8 +4,8 @@ const router = useRouter();
 </script>
 
 <template>
-	<BasePage>
-		<v-sheet>
+	<base-page>
+		<base-card>
 			<v-row justify="center">
 				<v-col class="pa-1" cols="auto">
 					<h2>Register</h2>
@@ -13,16 +13,16 @@ const router = useRouter();
 
 				<v-divider class="border-opacity-0" />
 
-				<v-col class="pa-1" cols="10" md="7">
+				<v-col class="ma-1" cols="12" md="7">
 					<AuthForm mode="register" @register="router.push('/')"/>
 				</v-col>
 
         <v-divider class="border-opacity-0" />
 
-        <v-col class="pa-1" cols="auto">
+        <v-col class="ma-1" cols="12" md="auto">
 					Already got an account? Login <NuxtLink to="/auth/login">here</NuxtLink>.
 				</v-col>
 			</v-row>
-		</v-sheet>
-	</BasePage>
+		</base-card>
+	</base-page>
 </template>

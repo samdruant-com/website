@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth-store";
 import { useWorkStore } from "~/stores/work-store";
+import { useDisplay } from "vuetify";
 import type { Work } from "~/types";
 
 const route = useRoute();
-const authStore = useAuthStore();
 const workStore = useWorkStore();
 const { notify } = useNotification();
+const { smAndDown } = useDisplay();
 
 const work = ref<Work>();
 
@@ -32,8 +32,8 @@ onMounted(async () => {
 <template>
   <base-page :title="work ? work.name : 'Work'">
     <v-row v-if="work" justify="center">
-      <v-col v-for="image in work.images" :key="image._id" cols="11" md="10">
-        <image-card :image="image" expand />
+      <v-col v-for="image in work.images" :key="image._id" cols="12" md="10">
+        <image-card :image="image" :expand="!smAndDown" />
       </v-col>
     </v-row>
   </base-page>

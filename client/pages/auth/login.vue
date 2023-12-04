@@ -13,13 +13,13 @@ const router = useRouter();
 
         <v-divider class="border-opacity-0" />
 
-        <v-col class="pa-1" cols="10" md="7">
+        <v-col class="ma-1" cols="12" md="7">
           <AuthForm mode="login" @login="router.push('/')" />
         </v-col>
 
         <v-divider class="border-opacity-0" />
 
-        <v-col class="pa-1" cols="auto">
+        <v-col class="ma-1" cols="12" md="auto">
           Don't have an account? Register <NuxtLink to="/auth/register">here</NuxtLink>.
         </v-col>
       </v-row>

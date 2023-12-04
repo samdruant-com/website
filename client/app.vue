@@ -6,5 +6,8 @@ useSeoSetup();
 <template>
   <NuxtLayout>
     <NuxtPage />
+
+    <!-- notification -->
+    <Toaster />
   </NuxtLayout>
 </template>

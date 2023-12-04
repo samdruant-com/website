@@ -24,9 +24,8 @@ export const useNavigationStore = defineStore('navigation', () => {
 
   if(authStore.isAuthenticated){
     list.push({
-      label: 'Portfolio',
-      color: 'primary',
-      to: '/profile#portfolio'
+      label: '*Portfolio',
+      to: '/profile'
     })
   }
 
