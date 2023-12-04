@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth-store";
+import { useAuthStore } from "~/stores/auth.store";
 
 const props = defineProps({
   sidebar: {
@@ -37,3 +37,4 @@ const adminName = computed(() => {
     </v-list>
   </v-menu>
 </template>
+~/stores/auth.store

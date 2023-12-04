@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/project-store";
+import { useProjectStore } from "~/stores/project.store";
 import type { Project } from "~/types";
 
 const route = useRoute();
@@ -35,3 +35,4 @@ onMounted(async () => {
     </v-row>
   </base-page>
 </template>
+~/stores/project.store

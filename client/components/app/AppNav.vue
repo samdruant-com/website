@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useNavigationStore } from "~/stores/navigation-store";
-import { useSidebarStore } from "~/stores/sidebar-store";
-import { useAuthStore } from "~/stores/auth-store";
-import { usePortfolioStore } from "~/stores/portfolio-store";
+import { useNavigationStore } from "~/stores/navigation.store";
+import { useSidebarStore } from "~/stores/sidebar.store";
+import { useAuthStore } from "~/stores/auth.store";
+import { usePortfolioStore } from "~/stores/portfolio.store";
 import { useDisplay } from "vuetify";
 
 const { smAndDown } = useDisplay();
@@ -56,3 +56,4 @@ const logoStyle = computed<CSSStyleDeclaration>(() => {
     <app-admin-menu v-if="auth.isAuthenticated && !smAndDown" class="mr-2" />
   </v-app-bar>
 </template>
+~/stores/auth.store~/stores/navigation.store~/stores/portfolio.store~/stores/sidebar.store

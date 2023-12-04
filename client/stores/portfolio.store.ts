@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from '~/stores/auth-store';
+import { useAuthStore } from '~/stores/auth.store';
 import type { Portfolio } from '~/types'
 
 export const usePortfolioStore = defineStore('portfolio', () => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePortfolioStore } from '~/stores/portfolio-store';
+import { usePortfolioStore } from '~/stores/portfolio.store';
 import type { Portfolio } from '~/types';
 import type { ActionItem } from '~/components/base/BaseCard.vue';
 
@@ -114,3 +114,4 @@ function removeSocial(name: string): void {
     </v-row>
   </base-card>
 </template>
+~/stores/portfolio.store

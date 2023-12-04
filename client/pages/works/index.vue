@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth-store";
-import { useWorkStore } from "~/stores/work-store";
+import { useAuthStore } from "~/stores/auth.store";
+import { useWorkStore } from "~/stores/work.store";
 import type { Work } from "~/types";
 
 useSeoSetup({ title: "Works" });
@@ -28,3 +28,4 @@ onMounted(async () => {
     </v-row>
   </base-page>
 </template>
+~/stores/auth.store~/stores/work.store

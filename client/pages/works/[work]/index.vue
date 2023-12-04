@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWorkStore } from "~/stores/work-store";
+import { useWorkStore } from "~/stores/work.store";
 import { useDisplay } from "vuetify";
 import type { Work } from "~/types";
 
@@ -38,3 +38,4 @@ onMounted(async () => {
     </v-row>
   </base-page>
 </template>
+~/stores/work.store

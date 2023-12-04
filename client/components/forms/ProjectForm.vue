@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/project-store";
-import { useWorkStore } from "~/stores/work-store";
+import { useProjectStore } from "~/stores/project.store";
+import { useWorkStore } from "~/stores/work.store";
 import type { SpecialProject, Project, Work } from "~/types";
 
 const projectStore = useProjectStore();
@@ -92,3 +92,4 @@ onMounted(async () => {
     <BaseBtn v-if="props.project" color="error" block>Delete</BaseBtn>
   </BaseCard>
 </template>
+~/stores/project.store~/stores/work.store

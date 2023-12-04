@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePortfolioStore } from '~/stores/portfolio-store';
+import { usePortfolioStore } from '~/stores/portfolio.store';
 
 useSeoSetup({ title: "Contact" });
 
@@ -40,3 +40,4 @@ const portfolioStore = usePortfolioStore();
   }
 }
 </style>
+~/stores/portfolio.store

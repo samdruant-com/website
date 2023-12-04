@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePortfolioStore } from '~/stores/portfolio-store';
+import { usePortfolioStore } from '~/stores/portfolio.store';
 
 definePageMeta({ middleware: ['auth'] });
 
@@ -12,4 +12,4 @@ const portfolioStore = usePortfolioStore();
     <portfolio-form v-if="portfolioStore.portfolio" :portfolio="portfolioStore.portfolio"
       @updated="router.push('/contact')" />
   </base-page>
-</template>
+</template>~/stores/portfolio.store

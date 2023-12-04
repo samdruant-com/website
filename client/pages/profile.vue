@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/auth-store';
+import { useAuthStore } from '~/stores/auth.store';
 
 definePageMeta({ middleware: ['auth'] });
 
@@ -12,4 +12,4 @@ const authStore = useAuthStore();
   <base-page title="Profile">
     <user-form v-if="authStore.user" :user="authStore.user" @updated="router.push('/')" />
   </base-page>
-</template>
+</template>~/stores/auth.store

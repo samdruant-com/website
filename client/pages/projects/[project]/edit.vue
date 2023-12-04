@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/project-store";
+import { useProjectStore } from "~/stores/project.store";
 import type { Project } from "~/types";
 
 definePageMeta({ middleware: ['auth'] });
@@ -32,3 +32,4 @@ onMounted(async () => {
       @updated="(updatedProject: Project) => router.push(`/projects/${updatedProject.slug}`)" />
   </base-page>
 </template>
+~/stores/project.store

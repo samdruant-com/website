@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth-store";
+import { useAuthStore } from "~/stores/auth.store";
 import type { User, SpecialUser } from "~/types";
 
 type AuthMode = "login" | "register";
@@ -69,3 +69,4 @@ async function authenticate() {
     </v-row>
   </base-card>
 </template>
+~/stores/auth.store

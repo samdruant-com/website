@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/auth-store';
+import { useAuthStore } from '~/stores/auth.store';
 import type { User, SpecialUser } from '~/types';
 import type { ActionItem } from '~/components/base/BaseCard.vue';
 
@@ -60,3 +60,4 @@ const options = computed<ActionItem[]>(() => {
     <InputText v-model="form.passwordConfirmation" type="password" label="Confirm Password" />
   </base-card>
 </template>
+~/stores/auth.store

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from '~/stores/auth-store';
+import { useAuthStore } from '~/stores/auth.store';
 import type { Project, SpecialProject } from '~/types'
 
 export const useProjectStore = defineStore('project', () => {

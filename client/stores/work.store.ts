@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useAuthStore } from '~/stores/auth-store';
+import { useAuthStore } from '~/stores/auth.store';
 import type { Work, Image } from '~/types';
 
 export const useWorkStore = defineStore('work', () => {

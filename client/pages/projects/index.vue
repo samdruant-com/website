@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth-store";
-import { useProjectStore } from "~/stores/project-store";
+import { useAuthStore } from "~/stores/auth.store";
+import { useProjectStore } from "~/stores/project.store";
 import type { Project } from "~/types";
 
 const authStore = useAuthStore();
@@ -28,3 +28,4 @@ onMounted(async () => {
     </v-row>
   </base-page>
 </template>
+~/stores/auth.store~/stores/project.store

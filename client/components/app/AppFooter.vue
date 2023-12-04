@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
-import { usePortfolioStore } from '~/stores/portfolio-store';
+import { usePortfolioStore } from '~/stores/portfolio.store';
 
 const { smAndDown } = useDisplay();
 const portfolioStore = usePortfolioStore();
@@ -23,3 +23,4 @@ const portfolioStore = usePortfolioStore();
     </v-row>
   </v-footer>
 </template>
+~/stores/portfolio.store
