@@ -1,13 +1,17 @@
+import { usePortfolioStore } from "~/stores/portfolio.store";
+
 const useSeoSetup = (config?: { title?: string; description?: string, image?: string}) => {
 
-  const seoImage = config?.image || '/images/contact.jpg';
-  const seoTitle = config?.title || 'Portoflio';
-  const seoDescription = config?.description || 'Sam Druant is an artist from Antwerp, Belgium currently doing an MFA fine arts at Hdk-Valand Gothenburg, Sweden';
+  const portfolioStore = usePortfolioStore();
+
+  const defaultImage = 'http://sam.oliverrr.net/images/landing.webp';
+
+  const seoImage = config?.image || defaultImage;
+  const seoTitle = config?.title ? `${config?.title } - ${portfolioStore.portfolio.name || 'Portfolio'}` : portfolioStore.portfolio.name || 'Portfolio';
+  const seoDescription = config?.description || 'Artist from Antwerp, Belgium currently doing an MFA fine arts at Hdk-Valand Gothenburg, Sweden';
   
   useHead({
     title: seoTitle,
-    titleTemplate: (title?: string | undefined) =>
-      `${title} | ${seoDescription}`,
     meta: [
       {
         name: 'author',
