@@ -1,12 +1,13 @@
 <template>
-	<div id="start-page">
-		<h1 class="text-center white--text">
-			<nuxt-link
-				class="s-brand hide-link"
-				to="/projects">
-				Sam Druant
-			</nuxt-link>
+	<div
+		id="start-page"
+		class="text-center">
+		<h1 class="white--text">
+			Sam Druant
 		</h1>
+		<h2 class="mt-3 white--text">
+			Under Construction
+		</h2>
 	</div>
 </template>
 

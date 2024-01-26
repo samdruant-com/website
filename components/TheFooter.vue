@@ -3,26 +3,44 @@
 		app
 		color="transparent">
 		<v-row
-			justify="end"
+			class="mt-2 mt-md-1 pt-2 pt-md-1"
+			justify="center"
+			justify-md="end"
 			align="center">
-			<v-col cols="auto">
-				<a
-					target="_blank"
-					rel="noreferrer"
-					href="https://www.instagram.com/samdruant">
-					<base-image
-						src="/images/icons/instagram.webp"
-						:height="15"
-						size="contain" />
-				</a>
-			</v-col>
-			<v-col cols="auto">
+			<v-col
+				class="text-center"
+				cols="6"
+				md="auto">
 				<a
 					class="hide-link"
 					target="_blank"
 					rel="noreferrer"
-					href="https://olivermanzi.com">
-					🤠
+					href="https://www.instagram.com/samdruant">
+					Instagram
+				</a>
+			</v-col>
+			<v-col
+				class="text-center"
+				cols="6"
+				md="auto">
+				<nuxt-link
+					class="hide-link"
+					to="/contact">
+					Contact
+				</nuxt-link>
+			</v-col>
+			<v-spacer />
+			<v-col
+				class="text-center"
+				cols="12"
+				md="auto">
+				Built by
+				<a
+					class="hide-link"
+					target="_blank"
+					rel="noreferrer"
+					href="https://www.oliverrr.net">
+					<b>oliverrr 🤠</b>
 				</a>
 			</v-col>
 		</v-row>
@@ -30,9 +48,7 @@
 </template>
 
 <script>
-import BaseImage from "./base/BaseImage.vue";
 export default {
-	name: "Footer",
-	components: { BaseImage }
+	name: "Footer"
 };
 </script>
