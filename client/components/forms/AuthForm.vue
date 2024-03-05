@@ -60,13 +60,8 @@ async function authenticate() {
       label="Password Confirmation" />
     <InputText v-if="props.mode === 'register'" v-model="form.secret" type="password" label="Admin Secret" />
 
-    <v-row justify="center">
-      <v-col md="auto">
-        <BaseBtn color="primary" large :disabled="!validForm" @click="authenticate()">
-          {{ props.mode === 'login' ? 'Login' : 'Register' }}
-        </BaseBtn>
-      </v-col>
-    </v-row>
+    <base-btn class="mt-2 mx-auto" color="primary" large :disabled="!validForm" @click="authenticate()">
+      {{ props.mode === 'login' ? 'Login' : 'Register' }}
+    </base-btn>
   </base-card>
 </template>
-~/stores/auth.store

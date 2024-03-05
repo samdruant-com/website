@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth.store";
+import type { DropdownItem } from "~/components/base/BaseDropdown.vue";
 
 const props = defineProps({
   sidebar: {
@@ -8,33 +9,23 @@ const props = defineProps({
   }
 })
 
+const router = useRouter();
 const auth = useAuthStore();
 
 const adminName = computed(() => {
   return auth.user ? auth.user.username : "Admin";
 })
+
+const options = computed<DropdownItem[]>(() => [
+  { label: "Portfolio", action: () => router.push("/portfolio") },
+  { label: "Profile", action: () => router.push("/profile") },
+  { label: "Logout", action: () => auth.logout() }
+])
 </script>
 
 <template>
-  <v-menu open-on-hover>
-    <template v-slot:activator="{ props }">
-      <base-btn id="admin-menu" color="secondary" :large="props.sidebar" v-bind="props">
-        <h2 v-if="props.sidebar">{{ adminName }}</h2>
-        <span v-else>{{ adminName }}</span>
-      </base-btn>
-    </template>
-
-    <v-list variant="flat" elevation="0">
-      <v-list-item to="/portfolio">
-        <v-list-item-title>Portfolio</v-list-item-title>
-      </v-list-item>
-      <v-list-item to="/profile">
-        <v-list-item-title>Profile</v-list-item-title>
-      </v-list-item>
-      <v-list-item class="text-error" @click="auth.logout()">
-        <v-list-item-title>Logout</v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-menu>
+  <base-dropdown color="primary" :items="options">
+    <span v-if="props.sidebar">{{ adminName }}</span>
+    <span v-else>{{ adminName }}</span>
+  </base-dropdown>
 </template>
-~/stores/auth.store

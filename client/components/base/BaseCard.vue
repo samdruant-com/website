@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import BaseBtn from "~/components/base/BaseBtn.vue";
-import type { ComputedRef, PropType } from "vue";
-import { computed } from "vue";
-
 /**
  * Actions to be displayed in the card footer.
  */
@@ -13,9 +9,7 @@ export interface ActionItem {
   icon?: string;
   disabled?: boolean;
   outlined?: boolean;
-  block?: boolean;
   hint?: string;
-  size?: "small" | "medium" | "large";
   to?: string;
   action?: () => void;
 }
@@ -23,94 +17,57 @@ export interface ActionItem {
 const props = defineProps({
   title: {
     type: String,
-    default: undefined,
+    default: undefined
   },
   subtitle: {
     type: String,
-    default: undefined,
+    default: undefined
   },
   color: {
     type: String,
-    default: "transparent",
+    default: undefined
   },
-  flat: {
-    type: Boolean,
-    default: undefined,
-  },
-  plain: {
-    type: Boolean,
-    default: undefined,
-  },
-  tonal: {
-    type: Boolean,
-    default: undefined,
-  },
-  outlined: {
-    type: Boolean,
-    default: undefined,
+  colorIntensity: {
+    type: Number,
+    default: 400
   },
   rounded: {
     type: String,
-    default: undefined,
+    default: undefined
   },
   loading: {
     type: Boolean,
-    default: false,
+    default: false
   },
   actions: {
     type: Array as PropType<ActionItem[]>,
-    default: () => [],
-  },
-  actionCentered: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-type CardStyle = "flat" | "outlined" | "text" | "elevated" | "tonal" | "plain";
-const getCardStyle: ComputedRef<NonNullable<CardStyle> | undefined> = computed(
-  () => {
-    if (props.outlined === true) {
-      return "outlined";
-    } else if (props.plain === true) {
-      return "plain";
-    } else if (props.tonal === true) {
-      return "tonal";
-    } else {
-      return "flat";
-    }
+    default: () => []
   }
-);
-
-const getActions: ComputedRef<ActionItem[]> = computed(() => {
-  return props.actions.map((item) => {
-    return {
-      ...item,
-      action: () => {
-        if (item.action) {
-          item.action();
-        }
-      },
-    };
-  });
 });
+
+const getClass = computed(() => {
+  const classes = [];
+
+  // add color class
+  classes.push(`bg-${props.color || 'secondary'}-${props.colorIntensity}`);
+
+  // add rounded class
+  classes.push(`rounded-${props.rounded || 'lg'}`);
+
+  return classes.join(' ');
+});
+
 </script>
 
 <template>
-  <v-card :title="props.title" :subtitle="props.subtitle" :color="props.color" :rounded="props.rounded"
-    :variant="getCardStyle" class="pa-1 pa-md-2">
-    <slot></slot>
+  <div :class="getClass">
+    <slot />
 
-    <template #actions v-if="getActions.length > 0">
-      <v-row :justify="props.actionCentered ? 'center' : undefined">
-        <v-col cols="auto" md="12" v-for="item in getActions" :key="item.label">
-          <base-btn :color="item.color" :hint="item.hint" :outlined="item.outlined" :loading="props.loading"
-            :disabled="item.disabled" :large="item.size === 'large'" :small="item.size === 'small'" :block="item.block"
-            :to="item.to" @click="item.action">
-            {{ item.label }}
-          </base-btn>
-        </v-col>
-      </v-row>
-    </template>
-  </v-card>
+    <div v-if="props.actions.length" class="flex justify-end p-2">
+      <base-btn v-for="action in props.actions" :key="action.label" :color="action.color" :disabled="action.disabled"
+        :outlined="action.outlined" :hint="action.hint" :to="action.to" @click="action.action">
+        {{ action.label }}
+      </base-btn>
+    </div>
+  </div>
 </template>

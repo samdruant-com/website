@@ -60,4 +60,3 @@ const options = computed<ActionItem[]>(() => {
     <InputText v-model="form.passwordConfirmation" type="password" label="Confirm Password" />
   </base-card>
 </template>
-~/stores/auth.store

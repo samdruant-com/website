@@ -93,13 +93,8 @@ watch(
 </script>
 
 <template>
-  <v-row justify="center" no-gutters>
-    <v-col v-if="!props.hideTime" :cols="props.hideDate ? 12 : 6">
-      <InputText v-model="form.time" type="time" :label="props.labelTime" />
-    </v-col>
-
-    <v-col v-if="!props.hideDate" :cols="props.hideTime ? 12 : 6">
-      <InputText v-model="form.date" type="date" :label="props.labelDate" />
-    </v-col>
-  </v-row>
+  <div>
+    <InputText v-if="!props.hideTime" v-model="form.time" type="time" :label="props.labelTime" />
+    <InputText v-if="!props.hideDate" v-model="form.date" type="date" :label="props.labelDate" />
+  </div>
 </template>

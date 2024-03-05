@@ -21,11 +21,10 @@ onMounted(async () => {
       Create project
     </base-btn>
 
-    <v-row>
-      <v-col v-for="project in projects" :key="project._id" cols="12" md="4">
+    <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div v-for="project in projects" :key="project._id">
         <project-card :project="project" :admin="authStore.isAuthenticated" />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </base-page>
 </template>
-~/stores/auth.store~/stores/project.store

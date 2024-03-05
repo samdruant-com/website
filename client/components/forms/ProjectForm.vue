@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useProjectStore } from "~/stores/project.store";
 import { useWorkStore } from "~/stores/work.store";
-import type { SpecialProject, Project, Work } from "~/types";
+import type { SpecialProject, Project, Work, Image } from "~/types";
 
 const projectStore = useProjectStore();
 const workStore = useWorkStore();
@@ -22,6 +22,10 @@ const form = reactive<Partial<SpecialProject>>({
 });
 
 const availableWorks = ref<Work[]>([]);
+
+const validForm = computed<boolean>(() => {
+  return form.name !== "" && form.date !== "" && form.works?.length !== 0;
+});
 
 const post = async (): Promise<void> => {
   const project = await projectStore.postProject(form);
@@ -56,8 +60,8 @@ const unselectWorkId = (id: string): void => {
   form.works = form.works?.filter((selectedId) => selectedId !== id);
 };
 
-const getWorkThumbnail = (work: Work): string => {
-  return work.images[0].src;
+const getWorkThumbnail = (work: Work): Image => {
+  return work.images[0];
 };
 
 onMounted(async () => {
@@ -67,29 +71,33 @@ onMounted(async () => {
 
 <template>
   <BaseCard>
-    <InputText v-model="form.name" label="name" />
+    <InputText v-model="form.name" label="Name" />
     <InputDateTime v-model="form.date" label="date" hide-time />
-    <v-checkbox v-model="form.visible" label="visible" hint="unchecked project are only visible by website admin" />
 
-    <v-divider class="border-opacity-25 mb-2" />
-    <v-row>
-      <v-col v-for="work in availableWorks" :key="work._id" cols="12" md="4">
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">Visible</span>
+        <input v-model="form.visible" type="checkbox" class="toggle" checked />
+      </label>
+      <span class="text-sm text-slate-600">unchecked project are only visible by website admin</span>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-4 my-2">
+      <div v-for="work in availableWorks" :key="work._id" cols="12" md="4">
         <base-card outlined>
-          <base-image :src="getWorkThumbnail(work)" width="100%" height="auto" />
+          <image-card :image="getWorkThumbnail(work)" hide-details />
           <p class="my-1">{{ work.name }}</p>
 
-          <base-btn v-if="isSelectedWorkId(work._id)" color="warning" small
-            @click="unselectWorkId(work._id)">Unselect</base-btn>
-          <base-btn v-else color="success" small @click="selectWorkId(work._id)">Select</base-btn>
+          <base-btn v-if="isSelectedWorkId(work._id)" class="bg-amber-200" small @click="unselectWorkId(work._id)">Unselect</base-btn>
+          <base-btn v-else class="bg-green-200" small @click="selectWorkId(work._id)">Select</base-btn>
         </base-card>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
 
-    <v-divider class="border-opacity-25 mb-2" />
-
-    <BaseBtn v-if="!props.project" color="primary" block @click="post()">Upload</BaseBtn>
-    <BaseBtn v-if="props.project" color="primary" block @click="patch()">Update</BaseBtn>
-    <BaseBtn v-if="props.project" color="error" block>Delete</BaseBtn>
+    <div class="flex flex-row gap-2">
+      <base-btn v-if="!props.project" :disabled="!validForm" @click="post()">Upload</base-btn>
+      <base-btn v-if="props.project" :disabled="!validForm" @click="patch()">Update</base-btn>
+      <base-btn v-if="props.project" class="bg-red-400">Delete</base-btn>
+    </div>
   </BaseCard>
 </template>
-~/stores/project.store~/stores/work.store

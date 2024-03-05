@@ -23,6 +23,10 @@ const form = reactive<Partial<Work>>({
 
 const files = ref<File[]>([]);
 
+const validForm = computed<boolean>(() => {
+  return form.name !== "" && form.date !== "" && form.images?.length !== 0;
+});
+
 const getFilePath = (file: File): string => {
   return URL.createObjectURL(file);
 };
@@ -77,33 +81,41 @@ const update = async (): Promise<void> => {
 </script>
 
 <template>
-  <BaseCard>
-    <InputText v-model="form.name" label="name" />
-    <InputText v-model="form.size" label="size" />
-    <InputText v-model="form.material" label="material" />
-    <InputDateTime v-model="form.date" label="date" hide-time />
-    <v-checkbox v-model="form.visible" label="visible" hint="unchecked works are only visible by website admin" />
+  <base-card>
+    <input-text v-model="form.name" label="name" />
+    <input-text v-model="form.size" label="size" />
+    <input-text v-model="form.material" label="material" />
+    <input-date-time v-model="form.date" label="date" hide-time />
 
-    <v-divider class="border-opacity-25 mb-2" />
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">Visible</span>
+        <input v-model="form.visible" type="checkbox" class="toggle" checked />
+      </label>
+      <span class="text-sm text-slate-600">unchecked works are only visible by website admin</span>
+    </div>
 
     <InputFile v-model="files" label="Images" multiple />
 
-    <BaseCard v-for="(file, index) in files" :key="index">
-      <BaseImage :src="getFilePath(file)" width="100px" height="100px" crop />
-      <p>Name: {{ file.name }}</p>
-      <p>Type: {{ file.type }}</p>
-      <p>Size: {{ file.size }}</p>
-    </BaseCard>
-    <BaseCard v-for="image in form.images" :key="image._id">
-      <BaseImage :src="image.src" width="100px" height="100px" crop />
-      <p>Photographer: {{ image.photographer }}</p>
-      <p>Place: {{ image.place }}</p>
-    </BaseCard>
+    <div class="grid grid-cols-3 gap4">
+      <base-card v-for="(file, index) in files" :key="index">
+        <img :src="getFilePath(file)" width="100px" height="100px" />
+        <p>Name: {{ file.name }}</p>
+        <p>Type: {{ file.type }}</p>
+        <p>Size: {{ file.size }}</p>
+      </base-card>
 
-    <v-divider class="border-opacity-25 mb-2" />
+      <base-card v-for="image in form.images" :key="image._id">
+        <img :src="image.src" width="100px" height="100px" />
+        <p>Photographer: {{ image.photographer }}</p>
+        <p>Place: {{ image.place }}</p>
+      </base-card>
+    </div>
 
-    <BaseBtn v-if="!props.work" color="primary" block @click="post()">Upload</BaseBtn>
-    <BaseBtn v-if="props.work" color="primary" block @click="update()">Update</BaseBtn>
-    <BaseBtn v-if="props.work" color="error" block>Delete</BaseBtn>
-  </BaseCard>
+    <div class="flex flex-row gap-2">
+      <base-btn v-if="!props.work" :disabled="!validForm" @click="post()">Upload</base-btn>
+      <base-btn v-if="props.work" :disabled="!validForm" @click="update()">Update</base-btn>
+      <base-btn v-if="props.work" class="bg-red-400">Delete</base-btn>
+    </div>
+  </base-card>
 </template>

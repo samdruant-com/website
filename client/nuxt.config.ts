@@ -14,9 +14,7 @@ export default defineNuxtConfig({
   /**
    * Use styling globally in app
    */
-  css: [
-		'~/assets/styles/fonts.css'
-	],
+  css: ['~/assets/css/main.css'],
 
 	/**
    * Use components in this array globaly without having to import
@@ -34,8 +32,7 @@ export default defineNuxtConfig({
    * Adds modules to app
    */
 	modules: [
-		'@invictus.codes/nuxt-vuetify',
-    '@nuxtjs/i18n',
+		'@nuxtjs/i18n',
 		'@pinia/nuxt'
 	],
 
@@ -46,6 +43,13 @@ export default defineNuxtConfig({
    */
 	runtimeConfig: {
     public: { baseUrl: '' }
+  },
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
 
   vite: { 

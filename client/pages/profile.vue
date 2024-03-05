@@ -12,4 +12,4 @@ const authStore = useAuthStore();
   <base-page title="Profile">
     <user-form v-if="authStore.user" :user="authStore.user" @updated="router.push('/')" />
   </base-page>
-</template>~/stores/auth.store
+</template>

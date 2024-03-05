@@ -9,22 +9,15 @@ const props = defineProps({
 </script>
 
 <template>
-  <v-row
-    justify="center"
-    class="pa-1">
-    <v-col
-      v-if="props.title"
-      id="page-title"
-      class="text-center my-1">
-      <h1>{{ props.title }}</h1>
-    </v-col>
+  <div class="flex flex-col p-2">
+    <div v-if="props.title" id="page-title">
+      <h1 class="text-2xl font-semibold">{{ props.title }}</h1>
+    </div>
 
-    <v-divider class="border-opacity-0"></v-divider>
-
-    <v-col>
+    <div class="mt-2">
       <slot />
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -32,5 +25,4 @@ const props = defineProps({
 #page-title > h1 {
   border-bottom: 3px solid;
 }
-
 </style>

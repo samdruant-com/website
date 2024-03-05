@@ -1,61 +1,62 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { reactive, watch } from "vue";
 
 const props = defineProps({
-	value: {
+	modelValue: {
 		type: String,
-		default: ''
+		default: "",
 	},
 	label: {
 		type: String,
-		default: undefined
+		default: undefined,
 	},
 	placeHolder: {
 		type: String,
-		default: undefined
+		default: undefined,
 	},
 	type: {
 		type: String,
-		default: 'text',
+		default: "text",
 		validator: (value: string) => {
-			return ['text', 'password'].includes(value);
-		}
+			return ["text", "password"].includes(value);
+		},
 	},
 	outlined: {
 		type: Boolean,
-		default: true
+		default: true,
 	},
 	isValid: {
 		type: Boolean || null,
-		default: null
+		default: null,
 	},
 	color: {
 		type: String,
-		default: undefined
-	}
+		default: undefined,
+	},
 });
 
-const emits = defineEmits(['input']);
+const emits = defineEmits(["update:modelValue"]);
 
 const data = reactive({
-	input: null as unknown as string,
+	input: props.modelValue,
 	showDateMenu: false,
-	showPassword: false
+	showPassword: false,
 });
 
-function setData (value: string) {
+function setData(value: string) {
 	data.input = value;
 }
 
 watch(
 	() => data.input,
 	(newInput) => {
-		emits('input', newInput);
-	}
+		emits("update:modelValue", newInput);
+	},
+  { deep: true }
 );
 
 watch(
-	() => props.value,
+	() => props.modelValue,
 	(newValue) => {
 		setData(newValue);
 	}
@@ -63,35 +64,36 @@ watch(
 </script>
 
 <template>
-  <v-text-field
-    v-if="type === 'password'"
-    v-model="data.input"
-    :label="label"
-    :color="color"
-    :placeholder="placeHolder"
-    :type="data.showPassword ? 'text' : 'password'"
-    :outlined="outlined"
-    :success="isValid === true"
-    :error="isValid === false">
-    <template #append-inner>
-      <base-btn
-        small
-        color="grey"
-        :hide-from-tab="true"
-        @click="data.showPassword = !data.showPassword">
-        {{ data.showPassword ? 'hide' : 'show' }}
-      </base-btn>
-    </template>
-  </v-text-field>
+	<label class="w-full max-w-xs">
+		<div v-if="props.label" class="label">
+			<span class="label-text">{{ props.label }}</span>
+		</div>
 
-  <v-text-field
-    v-else
-    v-model="data.input"
-    :label="label"
-    :color="color"
-    :placeholder="placeHolder"
-    :type="type"
-    :outlined="outlined"
-    :success="isValid === true"
-    :error="isValid === false" />
+		<label
+			v-if="type === 'password'"
+			class="input input-bordered flex items-center gap-2 w-full"
+		>
+			<input
+        v-model="data.input"
+				:type="data.showPassword ? 'text' : 'password'"
+				:placeholder="placeHolder"
+				class="input w-full"
+			/>
+
+			<base-btn
+				class="bg-slate-400"
+				@click="data.showPassword = !data.showPassword"
+			>
+				{{ data.showPassword ? "hide" : "show" }}
+			</base-btn>
+		</label>
+
+		<input
+			v-else
+      v-model="data.input"
+			:type="type"
+			:placeholder="placeHolder"
+			class="input input-bordered w-full"
+		/>
+	</label>
 </template>

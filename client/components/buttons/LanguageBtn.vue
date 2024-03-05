@@ -1,33 +1,23 @@
 <script setup lang="ts">
-const { availableLocales } = useI18n()
+import type { DropdownItem } from '~/components/base/BaseDropdown.vue';
 
-interface Language {
-  title: string;
-  value: string;
-}
+const i18n = useI18n()
 
-const supportedLanguages = computed<Language[]>(() => {
-  return availableLocales.map((locale) => {
+const supportedLanguages = computed<DropdownItem[]>(() => {
+  return i18n.availableLocales.map((locale) => {
     return {
-      title: locale.toUpperCase(),
-      value: locale
+      label: locale,
+      action: () => {
+        i18n.locale.value = locale;
+      }
     }
   })
 });
 
-
 </script>
 
 <template>
-  <base-btn>
+  <base-dropdown :items="supportedLanguages">
     {{ $t('global.language') }}
-
-    <v-menu activator="parent">
-      <v-list>
-        <v-list-item v-for="language in supportedLanguages" :key="language.value" @click="$i18n.locale = language.value">
-          <v-list-item-title>{{ language.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </base-btn>
+  </base-dropdown>
 </template>

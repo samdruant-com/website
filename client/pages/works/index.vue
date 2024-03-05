@@ -21,11 +21,10 @@ onMounted(async () => {
       Create work
     </base-btn>
 
-    <v-row>
-      <v-col v-for="work in works" cols="12" md="4">
+    <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div v-for="work in works" :key="work._id">
         <work-card :work="work" :admin="authStore.isAuthenticated" />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </base-page>
 </template>
-~/stores/auth.store~/stores/work.store

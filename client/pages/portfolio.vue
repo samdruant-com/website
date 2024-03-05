@@ -12,4 +12,4 @@ const portfolioStore = usePortfolioStore();
     <portfolio-form v-if="portfolioStore.portfolio" :portfolio="portfolioStore.portfolio"
       @updated="router.push('/contact')" />
   </base-page>
-</template>~/stores/portfolio.store
+</template>

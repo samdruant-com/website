@@ -88,30 +88,23 @@ function removeSocial(name: string): void {
     <InputText v-model="form.name" label="Name" />
     <InputText v-model="form.email" label="Email" />
 
-    <v-divider class="border-opacity-50 my-4" />
-    <v-row v-for="social in form.socials" :key="social.name" justify="center" no-gutters>
-      <v-col cols="12" md="4" class="mt-2 mx-1">
-        <InputText v-model="social.name" />
-      </v-col>
-      <v-col cols="12" md="4" class="mt-2 mx-1">
-        <InputText v-model="social.url" label="Social Media URL" />
-      </v-col>
-      <v-col cols="auto" class="mt-2 mx-1">
-        <base-btn color="warning" @click="removeSocial(social.name)">Remove Social</base-btn>
-      </v-col>
-    </v-row>
-    
-    <v-row justify="center" no-gutters>
-      <v-col cols="12" md="5" class="mt-2 mx-1">
+    <div class="mt-2 grid grid-cols-1 md:grid-cols-4">
+      <span class="col-span-4 font-semibold">Social Media</span>
+
+      <div class="my-2 col-span-4 flex flex-cols md:flex-row">
         <InputText v-model="socialForm.name" label="Social Media Name" />
-      </v-col>
-      <v-col cols="12" md="5" class="mt-2 mx-1">
         <InputText v-model="socialForm.url" label="Social Media URL" />
-      </v-col>
-      <v-col cols="auto" class="mt-2 mx-1">
-        <base-btn color="info" @click="addSocial">Add Social</base-btn>
-      </v-col>
-    </v-row>
+
+        <!-- next line -->
+        <base-btn class="bg-primary text-xs mt-2 mx-1 md:col-span-4 max-h-10" @click="addSocial">Add Social</base-btn>
+      </div>
+
+      <div v-for="social in form.socials" :key="social.name" class="flex flex-col bg-slate-100 p-2 mr-2 mt-2">
+        <InputText v-model="social.name" label="Social Media Name" />
+        <InputText v-model="social.url" label="Social Media URL" />
+        
+        <base-btn class="bg-yellow-200 text-xs mt-2 mx-1 md:col-span-4" @click="removeSocial(social.name)">Remove Social</base-btn>
+      </div>
+    </div>
   </base-card>
 </template>
-~/stores/portfolio.store

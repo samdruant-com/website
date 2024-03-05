@@ -4,34 +4,30 @@ const route = useRoute();
 const inStartPage = computed<boolean>(
   () => route.path === "/"
 );
+
+const getClass = computed<string>(() => {
+  let base = "w-full";
+
+  if (!inStartPage.value) {
+    base += " md:w-vw-70 md:mx-auto p-3";
+  }
+
+  return base;
+});
 </script>
 
 <template>
-  <v-app id="app-layout">
+  <div id="min-h-svh flex flex-col">
     <!-- navigation -->
-    <app-nav v-if="!inStartPage" />
-    <app-sidebar />
+    <app-nav v-if="!inStartPage" class="text-slate-900 pt-2 px-2" />
+    <app-sidebar class="text-slate-900 z-50" />
 
     <!-- main content -->
-    <v-main id="app-content">
-      <v-row justify="center">
-        <v-col :cols="inStartPage ? 12 : 11" :md="inStartPage ? 12 : 10">
-          <slot></slot>
-        </v-col>
-      </v-row>
-    </v-main>
+    <main :class="`grow h-vh-90 text-slate-900 ${getClass}`">
+      <slot />
+    </main>
 
     <!-- footer -->
     <app-footer />
-  </v-app>
+  </div>
 </template>
-
-<style scoped>
-#app-layout {
-  max-width: 100vw;
-}
-
-#app-content {
-  min-height: 100vh;
-}
-</style>

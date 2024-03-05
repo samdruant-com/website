@@ -5,24 +5,14 @@ const router = useRouter();
 
 <template>
   <base-page>
-    <base-card>
-      <v-row justify="center">
-        <v-col class="pa-1" cols="auto">
-          <h2>Login</h2>
-        </v-col>
 
-        <v-divider class="border-opacity-0" />
+    <div class="flex flex-row justify-center">
+      <base-card class="w-1/2 flex flex-col">
+        <p class="mx-auto text-2xl">Login</p>
+        <AuthForm mode="login" @login="router.push('/')" />
 
-        <v-col class="ma-1" cols="12" md="7">
-          <AuthForm mode="login" @login="router.push('/')" />
-        </v-col>
-
-        <v-divider class="border-opacity-0" />
-
-        <v-col class="ma-1" cols="12" md="auto">
-          Don't have an account? Register <NuxtLink to="/auth/register">here</NuxtLink>.
-        </v-col>
-      </v-row>
-    </base-card>
+        <p class="mt-2">Don't have an account? Register <NuxtLink to="/auth/register">here</NuxtLink>.</p>
+      </base-card>
+    </div>
   </base-page>
 </template>

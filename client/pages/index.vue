@@ -35,4 +35,3 @@ const portfolioStore = usePortfolioStore();
   transform: translate(-50%, -50%);
 }
 </style>
-~/stores/portfolio.store

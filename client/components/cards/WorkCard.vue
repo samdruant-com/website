@@ -37,19 +37,18 @@ const getWorkThumbnail = (work: Work): Image => {
     <nuxt-link :to="`/works/${props.work.slug}`">
       <image-card :image="getWorkThumbnail(props.work)" />
     </nuxt-link>
-    <h3 class="px-2">{{ props.work.name }}</h3>
-    <v-row v-if="props.admin" no-gutters>
-      <v-col cols="3" class="mx-1" v-for="option in options" :key="option.label">
-        <base-btn block small :color="option.color" :to="option.to" @click="option.action">
-          {{ option.label }}
-        </base-btn>
-      </v-col>
-      <v-col cols="3" class="mx-1">
-        <v-chip v-if="props.work.visible === false" size="small">
-          <v-icon left>mdi-eye-off</v-icon>
-          <span>Hidden</span>
-        </v-chip>
-      </v-col>
-    </v-row>
+
+    <p class="font-bold">{{ props.work.name }}</p>
+    
+    <div v-if="props.admin" class="grid grid-cols-3 mt-2">
+      <base-btn v-for="option in options" :key="option.label" class="mx-1" :to="option.to" @click="option.action">
+        {{ option.label }}
+      </base-btn>
+
+      <div v-if="props.work.visible === false" class="mx-1 p-1 bg-amber-100 text-center rounded-lg">
+        <span class="i-mdi-eye-off" />
+        <p class="text-sm">Hidden</p>
+      </div>
+    </div>
   </base-card>
 </template>

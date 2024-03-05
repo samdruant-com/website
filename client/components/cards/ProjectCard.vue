@@ -38,19 +38,18 @@ const getProjectThumbnail = (project: Project): Image => {
     <nuxt-link :to="`/projects/${props.project.slug}`">
       <image-card :image="getProjectThumbnail(props.project)" />
     </nuxt-link>
-    <h3 class="px-2">{{ props.project.name }}</h3>
-    <v-row v-if="props.admin" no-gutters>
-      <v-col cols="3" class="mx-1" v-for="option in options" :key="option.label">
-        <base-btn block small :color="option.color" :to="option.to" @click="option.action">
-          {{ option.label }}
-        </base-btn>
-      </v-col>
-      <v-col cols="3" class="mx-1">
-        <v-chip v-if="props.project.visible === false" size="small">
-          <v-icon left>mdi-eye-off</v-icon>
-          <span>Hidden</span>
-        </v-chip>
-      </v-col>
-    </v-row>
+    
+    <p class="font-bold">{{ props.project.name }}</p>
+    
+    <div v-if="props.admin" class="grid grid-cols-3 mt-2">
+      <base-btn class="mx-1" v-for="option in options" :key="option.label" :color="option.color" :to="option.to" @click="option.action">
+        {{ option.label }}
+      </base-btn>
+      
+      <div v-if="props.project.visible === false" class="mx-1 p-1 bg-amber-100 text-center rounded-lg">
+        <span class="i-mdi-eye-off" />
+        <p class="text-sm">Hidden</p>
+      </div>
+    </div>
   </base-card>
 </template>
