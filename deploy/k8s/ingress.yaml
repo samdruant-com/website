@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sam
+  labels:
+    app: sam
+    component: ingress
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: samdruant.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sam-client
+                port:
+                  number: 80
+  #tls:
+  #  - hosts:
+  #      - samdruant.com
+  #    secretName: sam-tls
