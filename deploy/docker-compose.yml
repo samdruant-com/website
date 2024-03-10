@@ -1,17 +1,17 @@
 services:
   server:
     image: samdruant-server
-    build: ./server
+    build: ../server
     env_file:
-      - ./server/.env
+      - ../server/.env
     ports:
-      - "3001:3001"
+      - "4000:4000"
   client:
     image: samdruant-client
-    build: ./client
+    build: ../client
     ports:
       - "80:3000"
     env_file:
-      - ./client/.env
+      - ../client/.env
     depends_on:
       - server
