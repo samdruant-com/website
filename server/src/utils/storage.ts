@@ -1,6 +1,7 @@
 import axios from "axios";
 import formData from "form-data";
-import { Storage, Bucket } from "@google-cloud/storage";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import type { PutObjectCommandInput } from "@aws-sdk/client-s3";
 import type { AxiosInstance } from 'axios';
 
 /**
@@ -65,40 +66,39 @@ class BasicBucket implements GenericBucket {
 	}
 }
 
-/**
- * GCP Data Storage
- */
-class GoogleBucket implements GenericBucket {
-	projectName: string;
+class AwsBucket implements GenericBucket {
+	s3Client: S3Client;
 	bucketName: string;
-	
-	gcStorage: Storage;
-	gcBucket: Bucket;
+	bucketRegion: string|undefined;
 
-	constructor(config: { projectName: string;  bucketName: string; keyPath: string; }) {
-		this.projectName = config.projectName;
+	constructor(config: { accessKeyId: string; secretAccessKey: string; bucketName: string; bucketEndpoint: string; bucketRegion?: string;}) {
+		this.s3Client = new S3Client({ 
+			region: config.bucketRegion,
+			endpoint: config.bucketEndpoint,
+			credentials: { 
+				accessKeyId: config.accessKeyId,
+				secretAccessKey: config.secretAccessKey
+			},
+			forcePathStyle: true // required with localstack
+		});
+
 		this.bucketName = config.bucketName;
-		this.gcStorage = new Storage({ keyFilename: config.keyPath, projectId: config.projectName });
-		this.gcBucket = this.gcStorage.bucket(this.bucketName);
+		this.bucketRegion = config.bucketRegion;
 	}
 
-	/**
-   * Uploads a file to the bucket and returns the url.
-   * 
-   * By default, the file:
-   * - is public
-   * - has the same name as the original file
-   */
 	async uploadFile (file: Express.Multer.File, config?: { name?: string }): Promise<string> {
-		// save file to bucket with config.name or file.originalname as name
-		await this.gcBucket.file(config?.name || file.originalname)
-			.save(file.buffer, {
-				public: true,
-				metadata: { contentType: file.mimetype, },
-			});
+		const params: PutObjectCommandInput = {
+			Bucket: this.bucketName,
+			Key: config?.name || file.originalname,
+			Body: file.buffer,
+			ContentType: file.mimetype,
+			ACL: "public-read",
+		};
 
-		// return url
-		return `https://storage.googleapis.com/${this.bucketName}/${config?.name || file.originalname}`;
+		await this.s3Client.send(new PutObjectCommand(params));
+
+		//return `http://${this.bucketName}.s3.${this.bucketRegion}.localhost:4566/${params.Key}`;
+		return `https://${this.bucketName}.${this.bucketRegion}.cdn.digitaloceanspaces.com/${this.bucketName}/${params.Key}`; // <- digital ocean spaces
 	}
 
 	/**
@@ -106,7 +106,14 @@ class GoogleBucket implements GenericBucket {
    */
 	async removeFile(url: string): Promise<boolean> {
 		try {
-			await this.gcBucket.file(url).delete();
+			const filename = url.split("/").pop();
+
+			// remove file from bucket
+			await this.s3Client.send(new PutObjectCommand({
+				Bucket: this.bucketName,
+				Key: filename,
+			}));
+
 			return true;
 		} catch (error) {
 			return false;
@@ -114,4 +121,4 @@ class GoogleBucket implements GenericBucket {
 	}
 }
 
-export { BasicBucket, GoogleBucket };
+export { BasicBucket, AwsBucket };
