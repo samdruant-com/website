@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "test") {
 }
 
 const NODE_ENV = process.env.NODE_ENV || "production";
-const PORT = process.env.PORT || "4000";
+const PORT = process.env.PORT || "5000";
 const DB_URI: string = process.env.DB_URI as string;
 const BUCKET_NAME: string = process.env.BUCKET_NAME as string;
 const BUCKET_S3_URI: string = process.env.BUCKET_S3_URI as string;

@@ -9,17 +9,11 @@ FROM node:${NODE_VERSION}-alpine as base
 # Set working directory
 WORKDIR /server
 
-# Copy necessary files
-COPY keys ./keys
-COPY src ./src
 COPY package.json .
-COPY tsconfig.json .
 COPY pnpm-lock.yaml .
 
-# Define Pnpm version
-ARG PNPM_VERSION=8.9.2
-
 # Install pnpm
+ARG PNPM_VERSION=8.9.2
 RUN npm install -g pnpm@${PNPM_VERSION}
 
 # Install dependencies for bcrypt, Python, and C++ (use python3 if you are targeting Python 3)
@@ -35,20 +29,11 @@ RUN rm -rf /var/cache/apk/*
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # Build the Node.js app
+COPY . .
 RUN pnpm build
 
-# Set environment variables
-ENV ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
-ENV DB_URI=${DB_URI}
-ENV BUCKET_NAME=${BUCKET_NAME}
-ENV BUCKET_GCP_ID=${BUCKET_GCP_ID}
-ENV BUCKET_GCP_KEY_PATH=${BUCKET_GCP_KEY_PATH}
-ENV BUCKET_S3_URI=${BUCKET_S3_URI}
-ENV JWT_SECRET=${JWT_SECRET}
-ENV PORT=${PORT:-5000}
-
 # Expose port
-EXPOSE ${PORT}
+EXPOSE 5000
 
 # Run the app
 CMD pnpm start
