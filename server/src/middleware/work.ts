@@ -1,6 +1,13 @@
-import { NODE_ENV, BUCKET_S3_URI, BUCKET_NAME, BUCKET_GCP_ID, BUCKET_GCP_KEY_PATH } from "../config/env";
+import { 
+	NODE_ENV, 
+	BUCKET_S3_URI, 
+	BUCKET_NAME,
+	BUCKET_S3_KEY,
+	BUCKET_S3_SECRET,
+	BUCKET_S3_REGION
+} from "../config/env";
 import * as WorkData from "../data/work";
-import { BasicBucket, GoogleBucket } from "../utils/storage";
+import { BasicBucket, AwsBucket } from "../utils/storage";
 import { createErrorResponse } from "./helpers/error";
 import type { IImage } from "../types";
 import type { AuthenticatedRequest } from "./helpers/types";
@@ -29,19 +36,25 @@ async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
 
 		bucket = new BasicBucket({ endpoint: BUCKET_S3_URI });
 	} else {
-		if(!BUCKET_GCP_KEY_PATH) {
-			throw new Error('Bucket key path missing. Set BUCKET_KEY_PATH environment variable');
-		}
-
 		if(!BUCKET_NAME) {
 			throw new Error('Bucket name missing. Set BUCKET_NAME environment variable');
 		}
 
-		if(!BUCKET_GCP_ID) {
-			throw new Error('Bucket ID missing. Set BUCKET_ID environment variable');
+		if(!BUCKET_S3_KEY) {
+			throw new Error('Bucket key missing. Set BUCKET_KEY environment variable');
 		}
 
-		bucket = new GoogleBucket({ keyPath: BUCKET_GCP_KEY_PATH, bucketName: BUCKET_NAME, projectName: BUCKET_GCP_ID });
+		if(!BUCKET_S3_SECRET) {
+			throw new Error('Bucket secret missing. Set BUCKET_SECRET environment variable');
+		}
+
+		bucket = new AwsBucket({ 
+			bucketEndpoint: BUCKET_S3_URI, 
+			accessKeyId: BUCKET_S3_KEY, 
+			secretAccessKey: BUCKET_S3_SECRET, 
+			bucketName: BUCKET_NAME, 
+			bucketRegion: BUCKET_S3_REGION
+		});
 	}
   
 	const images: IImage[] = [];

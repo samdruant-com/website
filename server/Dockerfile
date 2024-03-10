@@ -37,9 +37,6 @@ RUN pnpm install --frozen-lockfile --shamefully-hoist
 # Build the Node.js app
 RUN pnpm build
 
-# Expose port
-EXPOSE 3001
-
 # Set environment variables
 ENV ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
 ENV DB_URI=${DB_URI}
@@ -48,7 +45,10 @@ ENV BUCKET_GCP_ID=${BUCKET_GCP_ID}
 ENV BUCKET_GCP_KEY_PATH=${BUCKET_GCP_KEY_PATH}
 ENV BUCKET_S3_URI=${BUCKET_S3_URI}
 ENV JWT_SECRET=${JWT_SECRET}
-ENV PORT=${PORT}
+ENV PORT=${PORT:-5000}
+
+# Expose port
+EXPOSE ${PORT}
 
 # Run the app
 CMD pnpm start
