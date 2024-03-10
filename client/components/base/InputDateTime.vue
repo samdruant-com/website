@@ -84,7 +84,6 @@ watch(
   () => {
     if (validForm.value) {
       const unix: number = convertToUnix(form);
-      console.log('unix', unix);
       emit('update:model-value', unix);
     }
   },

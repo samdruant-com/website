@@ -24,7 +24,11 @@ const form = reactive<Partial<Work>>({
 const newImages = ref<Image[]>([]);
 
 const validForm = computed<boolean>(() => {
-  return form.name !== "" && form.date !== "" && form.images?.length !== 0;
+  return (
+    form.name !== "" &&
+    form.date !== "" &&
+    (form.images?.length !== 0 || newImages.value.length !== 0)
+  );
 });
 
 const getFilePath = (file: File): string => {
@@ -32,10 +36,6 @@ const getFilePath = (file: File): string => {
 };
 
 const handleNewFiles = (files: File[]): void => {
-  console.log({
-    message: 'handleNewFiles',
-    files
-  })
   // convert files to images
   const processedFiles: Image[] = files.map((file) => ({_id: "", src: getFilePath(file), caption: "", file}));
 
