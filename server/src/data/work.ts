@@ -12,8 +12,7 @@ const WorkModel = Mongoose.model("work", new Mongoose.Schema<IWork>(
 		material: { type: String },
 		images: [{
 			src: { type: String, required: true },
-			place: { type: String },
-			photographer: { type: String }
+			caption: { type: String, default: "" },
 		}],
 		slug: { type: String, unique: true },
 		visible: { type: Boolean, default: false }

@@ -14,25 +14,21 @@ export const useWorkStore = defineStore('work', () => {
    * New images are stored such that each image, based on its index, has three
    * properties:
    * - image-0-file - the image file
-   * - image-0-photographer - the photographer of the image
-   * - image-0-place - the place where the image was taken
+   * - image-0-caption - the caption of the image
    * 
    * Existing images are stored such that each image, based on its index, has three
    * properties:
    * - image-0-src - the image src
-   * - image-0-photographer - the photographer of the image
-   * - image-0-place - the place where the image was taken
+   * - image-0-caption - the caption of the image
    */
   const _prepareImages = (form: FormData, images: Image[]): FormData => {
     images.forEach((image: Image, index: number) => {
       if(image.file){
         form.append(`image-${index}-file`, image.file)
-        form.append(`image-${index}-photographer`, image.photographer)
-        form.append(`image-${index}-place`, image.place)
+        form.append(`image-${index}-caption`, image.caption)
       } else {
         form.append(`image-${index}-src`, image.src)
-        form.append(`image-${index}-photographer`, image.photographer)
-        form.append(`image-${index}-place`, image.place)
+        form.append(`image-${index}-caption`, image.caption)
       }
     });
 

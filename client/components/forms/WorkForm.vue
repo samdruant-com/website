@@ -17,11 +17,11 @@ const form = reactive<Partial<Work>>({
   date: props.work?.date || "",
   size: props.work?.size || "",
   material: props.work?.material || "",
-  images: props.work?.images || [],
+  images: [...props.work?.images || []],
   visible: props.work?.visible || false,
 });
 
-const files = ref<File[]>([]);
+const newImages = ref<Image[]>([]);
 
 const validForm = computed<boolean>(() => {
   return form.name !== "" && form.date !== "" && form.images?.length !== 0;
@@ -31,19 +31,36 @@ const getFilePath = (file: File): string => {
   return URL.createObjectURL(file);
 };
 
-const post = async (): Promise<void> => {
-  const images: Image[] = files.value.map((file, index) => {
-    return {
-      _id: "",
-      src: "",
-      place: `image-place-${index}`,
-      photographer: `image-photograph-${index}`,
-      file,
-    };
-  });
+const handleNewFiles = (files: File[]): void => {
+  console.log({
+    message: 'handleNewFiles',
+    files
+  })
+  // convert files to images
+  const processedFiles: Image[] = files.map((file) => ({_id: "", src: getFilePath(file), caption: "", file}));
 
+  // add file images to newImages array
+  newImages.value.push(...processedFiles);
+};
+
+const handleChangedCaption = (config: {caption: string, id: string, new:boolean}): void => {
+  let image: Image | undefined;
+  
+  if(config.new){
+    image = newImages.value.find((image) => image.file!.name === config.id);
+  }else{
+    image = form.images?.find((image) => image._id === config.id);
+  }
+  
+  if(image){
+    image.caption = config.caption;
+  }
+};
+
+const post = async (): Promise<void> => {
+  
   try {
-    const work = await workStore.postWork({ ...form, images });
+    const work = await workStore.postWork({ ...form, images: newImages.value});
     emit("created", work);
   } catch (error) {
     notify("Work Error", (error as Error).message, "error");
@@ -56,22 +73,9 @@ const update = async (): Promise<void> => {
       throw new Error("Missing work id");
     }
 
-    const images: Image[] = [
-      ...files.value.map((file, index) => {
-        return {
-          _id: "",
-          src: "",
-          place: `image-place-${index}`,
-          photographer: `image-photograph-${index}`,
-          file,
-        };
-      }),
-      ...(form.images as Image[]),
-    ];
-
     const work = await workStore.updateWork(props.work!._id, {
       ...(form as Work),
-      images,
+      images: [...form.images || [], ...newImages.value]
     });
     emit("updated", work);
   } catch (error) {
@@ -95,21 +99,11 @@ const update = async (): Promise<void> => {
       <span class="text-sm text-slate-600">unchecked works are only visible by website admin</span>
     </div>
 
-    <InputFile v-model="files" label="Images" multiple />
-
-    <div class="grid grid-cols-3 gap4">
-      <base-card v-for="(file, index) in files" :key="index">
-        <img :src="getFilePath(file)" width="100px" height="100px" />
-        <p>Name: {{ file.name }}</p>
-        <p>Type: {{ file.type }}</p>
-        <p>Size: {{ file.size }}</p>
-      </base-card>
-
-      <base-card v-for="image in form.images" :key="image._id">
-        <img :src="image.src" width="100px" height="100px" />
-        <p>Photographer: {{ image.photographer }}</p>
-        <p>Place: {{ image.place }}</p>
-      </base-card>
+    
+    <div class="grid grid-cols-3 gap-4 my-4 p-2 bg-slate-100">
+      <input-file label="Images" multiple class="col-span-3" @update:model-value="handleNewFiles" />
+      <image-card v-for="(image, index) in newImages" :key="index" :image="{...image, src: getFilePath(image.file!)}" admin-mode  @caption="(caption) => handleChangedCaption({caption, id: image.file!.name, new: true})"/>
+      <image-card v-for="image in form.images" :key="image._id" :image="image" admin-mode  @caption="(caption) => handleChangedCaption({caption, id: image._id, new: false})"/>
     </div>
 
     <div class="flex flex-row gap-2">

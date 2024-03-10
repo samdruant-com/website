@@ -16,8 +16,7 @@ interface IUser {
 
 interface IImage {
   src: string;
-  place: string;
-  photographer: string;
+  caption: string;
 }
 
 interface IWork {

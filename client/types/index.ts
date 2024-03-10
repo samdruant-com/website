@@ -16,8 +16,7 @@ export interface Portfolio extends Document {
 export interface Image extends Document {
   file?: File; // temporary property for new images
   src: string;
-  place: string;
-  photographer: string;
+  caption: string;
 }
 
 export interface Work extends Document {

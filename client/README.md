@@ -22,8 +22,7 @@
 
 - src: String
 - name: String
-- place: String
-- photographer: String
+- caption: String
 
 ## 📄 **start page**
 

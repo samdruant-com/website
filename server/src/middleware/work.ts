@@ -55,8 +55,7 @@ async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
 
 			images.push({
 				src,
-				photographer: image.photographer,
-				place: image.place
+				caption: image.caption
 			} as IImage);
 		}
 	} catch (error) {
@@ -86,14 +85,13 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
    * New images are stored such that each image, based on its index, has three
    * properties:
    * - image-0-file - the image file
-   * - image-0-photographer - the photographer of the image
+   * - image-0-caption - the caption of the image
    * - image-0-place - the place where the image was taken
    * 
    * Existing images are stored such that each image, based on its index, has three
    * properties:
    * - image-0-src - the image src
-   * - image-0-photographer - the photographer of the image
-   * - image-0-place - the place where the image was taken
+   * - image-0-caption - the caption of the image
    */
 	const newImages = (req.files as Express.Multer.File[]).map((file) => {
 		const [, index] = file.fieldname.split('-');
@@ -101,8 +99,7 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
 		return {
 			src: file.path,
 			file,
-			photographer: req.body[`image-${index}-photographer`],
-			place: req.body[`image-${index}-place`]
+			caption: req.body[`image-${index}-caption`]
 		} as RawImage;
 	});
 
@@ -113,8 +110,7 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
 
 			return {
 				src: req.body[key],
-				photographer: req.body[`image-${index}-photographer`],
-				place: req.body[`image-${index}-place`]
+				caption: req.body[`image-${index}-caption`]
 			} as RawImage;
 		});
 
