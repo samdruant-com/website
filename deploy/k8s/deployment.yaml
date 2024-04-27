@@ -5,7 +5,6 @@ metadata:
   labels:
     app: sam
     component: server
-
 spec:
   replicas: 1
   selector:
@@ -20,57 +19,56 @@ spec:
     spec:
       containers:
         - name: server
-          image: thisoliver/example-kubernates-app:server # <- tag is important
-          #image: example-kubernates-app:server # <- local image
-          #imagePullPolicy: Never # <- forces k8 controller to use local image
+          image: sam-server:latest # <- local image
+          imagePullPolicy: Never # <- forces k8 controller to use local image
           env:
+            - name: BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: bucket_name
+
+            - name: BUCKET_S3_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: bucket_region
+
+            - name: BUCKET_S3_URI
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: bucket_uri
+
+            - name: BUCKET_S3_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: bucket_key
+
+            - name: BUCKET_S3_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: bucket_secret
+
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: sam-secrets # <- value from metadata.name in secrets.yaml
+                  name: sam
                   key: jwt-secret
 
             - name: ADMIN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: sam-secrets
+                  name: sam
                   key: admin-secret
 
             - name: DB_URI
               valueFrom:
                 secretKeyRef:
-                  name: sam-secrets
+                  name: sam
                   key: db-uri
-
-            - name: BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: sam-secrets
-                  key: bucket-name
-
-            - name: BUCKET_S3_URI
-              valueFrom:
-                secretKeyRef:
-                  name: sam-secrets
-                  key: bucket-uri
-
-            - name: BUCKET_S3_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: sam-secrets
-                  key: bucket-region
-
-            - name: BUCKET_S3_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: sam-secrets
-                  key: bucket-key
-
-            - name: BUCKET_S3_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: sam-secrets
-                  key: bucket-secret
 
           ports:
             - containerPort: 4000
@@ -88,7 +86,6 @@ metadata:
   labels:
     app: sam
     component: client
-
 spec:
   replicas: 1
   selector:
@@ -103,9 +100,8 @@ spec:
     spec:
       containers:
         - name: client
-          image: thisoliver/example-kubernates-app:client # <- tag is important
-          #image: example-kubernates-app:client # <- local image
-          #imagePullPolicy: Never # <- forces k8 controller to use local image
+          image: sam-client:latest # <- local image
+          imagePullPolicy: Never # <- forces k8 controller to use local image
           env:
             - name: NUXT_PUBLIC_API_BASE
               value: http://sam-server:5050

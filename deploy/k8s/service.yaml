@@ -16,7 +16,6 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: client-port # <- client container port in deployment.yaml
-
 ---
 apiVersion: v1
 kind: Service

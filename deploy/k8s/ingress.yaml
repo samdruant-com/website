@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: samdruant.com
+    - host: www.samdruant.com
       http:
         paths:
           - path: /
@@ -19,7 +19,18 @@ spec:
                 name: sam-client
                 port:
                   number: 80
-  #tls:
-  #  - hosts:
-  #      - samdruant.com
-  #    secretName: sam-tls
+    - host: api.samdruant.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sam-server
+                port:
+                  number: 5000
+  tls:
+    - hosts:
+        - www.samdruant.com
+        - api.samdruant.com
+      secretName: sam-tls
