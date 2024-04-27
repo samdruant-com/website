@@ -5,6 +5,10 @@ metadata:
   labels:
     app: sam
     component: ingress
+  annotations:
+    cert-manager.io/issuer: cloudflare-issuer
+    cert-manager.io/issuer-kind: OriginIssuer
+    cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
 
 spec:
   ingressClassName: nginx
