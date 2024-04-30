@@ -19,8 +19,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: sam-server:latest # <- local image
-          imagePullPolicy: Never # <- forces k8 controller to use local image
+          image: sam:server
           env:
             - name: BUCKET_NAME
               valueFrom:
@@ -100,8 +99,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: sam-client:latest # <- local image
-          imagePullPolicy: Never # <- forces k8 controller to use local image
+          image: sam:client
           env:
             - name: NUXT_PUBLIC_API_BASE
               value: http://sam-server:5050
