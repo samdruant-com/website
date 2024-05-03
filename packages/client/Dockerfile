@@ -14,8 +14,6 @@ RUN pnpm install --shamefully-hoist --frozen-lockfile
 COPY . .
 RUN pnpm build
 
-ENV NUXT_PUBLIC_BASE_URL=${NUXT_PUBLIC_BASE_URL}
-
 EXPOSE 3000
 
 CMD [ "node", ".output/server/index.mjs" ]

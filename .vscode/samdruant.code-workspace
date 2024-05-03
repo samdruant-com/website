@@ -1,10 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "../client"
+			"path": "../deploy"
 		},
 		{
-			"path": "../server"
+			"path": "../packages/client"
+		},
+		{
+			"path": "../packages/server"
 		}
 	],
 	"settings": {

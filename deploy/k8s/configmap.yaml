@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sam
-  labels:
-    app: sam
-    component: server
-data:
-  client_api_url: https://api.samdruant.com

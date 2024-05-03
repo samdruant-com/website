@@ -19,63 +19,63 @@ spec:
     spec:
       containers:
         - name: server
-          image: sam:server
+          image: thisoliver/sam:server
           env:
             - name: BUCKET_NAME
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: bucket_name
+                  key: BUCKET_NAME
 
             - name: BUCKET_S3_REGION
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: bucket_region
+                  key: BUCKET_S3_REGION
 
             - name: BUCKET_S3_URI
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: bucket_uri
+                  key: BUCKET_S3_URI
 
             - name: BUCKET_S3_KEY
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: bucket_key
+                  key: BUCKET_S3_KEY
 
             - name: BUCKET_S3_SECRET
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: bucket_secret
-
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: jwt-secret
-
-            - name: ADMIN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: admin-secret
+                  key: BUCKET_S3_SECRET
 
             - name: DB_URI
               valueFrom:
                 secretKeyRef:
                   name: sam
-                  key: db-uri
+                  key: DB_URI
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: JWT_SECRET
+
+            - name: ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: ADMIN_SECRET
 
           ports:
-            - containerPort: 4000
+            - containerPort: 5000
               name: server-port
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "512Mi"
+              cpu: "1"
 
 ---
 apiVersion: apps/v1
@@ -99,10 +99,13 @@ spec:
     spec:
       containers:
         - name: client
-          image: sam:client
+          image: thisoliver/sam:client
           env:
-            - name: NUXT_PUBLIC_API_BASE
-              value: http://sam-server:5050
+            - name: NUXT_PUBLIC_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sam
+                  key: server
           ports:
             - containerPort: 3000
               name: client-port
