@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useRequest } from '~/composables/useRequest';
 import { useStorage } from '~/composables/useStorage';
 import type { User } from '~/types';
 
@@ -18,7 +17,6 @@ export const useAuthStore = defineStore('auth', () => {
 	const STORAGE_KEY_ACCESS = 'app-token-access';
 	const STORAGE_KEY_REFRESH = 'app-token-refresh';
 
-	const { request } = useRequest();
 	const { get, set, remove } = useStorage();
 
 	const user = ref<User>();
@@ -68,17 +66,19 @@ export const useAuthStore = defineStore('auth', () => {
    * if everything goes as planned.
    */
 	async function register (username: string, password: string, secret: string): Promise<User> {
-		const response = await request('/auth/register', {
+		const { data, error } = await useFetch('/api/auth/register', {
 			method: 'POST',
 			body: JSON.stringify({ username, password, secret })
 		});
 
-		if (!response.user) {
-			throw new Error('Invalid username or password.');
-		}
+    if (error.value) {
+      throw new Error(error.value?.message);
+    }
 
-		_setUser(response.user);
-		_setTokens(response.accessToken, response.refreshToken);
+    const res = (data.value as { user: User, accessToken: string, refreshToken: string });
+
+    _setUser(res.user);
+		_setTokens(res.accessToken, res.refreshToken);
 
 		return user.value as User;
 	}
@@ -88,17 +88,19 @@ export const useAuthStore = defineStore('auth', () => {
    * are valid.
    */
 	async function login (username: string, password: string): Promise<User> {
-		const response = await request('/auth/login', {
+		const { data, error } = await useFetch('/api/auth/login', {
 			method: 'POST',
 			body: JSON.stringify({ username, password })
 		});
 
-		if (!response.user) {
-			throw new Error('Invalid username or password.');
-		}
+    if (error.value) {
+      throw new Error(error.value?.statusMessage);
+    }
 
-		_setUser(response.user);
-		_setTokens(response.accessToken, response.refreshToken);
+    const res = (data.value as { user: User, accessToken: string, refreshToken: string });
+
+		_setUser(res.user);
+		_setTokens(res.accessToken, res.refreshToken);
 
 		return user.value as User;
 	}
@@ -111,29 +113,35 @@ export const useAuthStore = defineStore('auth', () => {
 			throw new Error('Missing refresh token.');
 		}
 
-		const response = await request('/auth/refresh', {
+    const { data, error } = await useFetch('/api/auth/refresh', {
 			method: 'POST',
 			body: JSON.stringify({ refreshToken: refreshToken.value, accessToken: accessToken.value })
 		});
 
-		_setTokens(response.accessToken, response.refreshToken);
+    if (error.value) {
+      throw new Error(error.value?.statusMessage);
+    }
+
+    const res = (data.value as { accessToken: string, refreshToken: string });
+
+		_setTokens(res.accessToken, res.refreshToken);
 	}
 
   /**
    * Updates user.
    */
 	async function updateUser (id: string, patchedUser: Partial<User>): Promise<User> {
-		const updatedUser = await request(`/users/${id}`, {
-			method: 'PATCH',
-			body: JSON.stringify(patchedUser),
-			authorization: accessToken.value
+
+    const { data, error } = await useFetch(`/api/users/${id}`, {
+			method: 'PUT',
+			body: JSON.stringify({ refreshToken: refreshToken.value, accessToken: accessToken.value })
 		});
 
-		if (!updatedUser) {
-			throw new Error('Invalid user.');
-		}
+    if (error.value) {
+      throw new Error(error.value?.statusMessage);
+    }
 
-		_setUser(updatedUser);
+    _setUser(data.value as User);
 
 		return user.value as User;
 	}

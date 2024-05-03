@@ -4,7 +4,6 @@ import type { Work, Image } from '~/types';
 
 export const useWorkStore = defineStore('work', () => {
 
-  const { request } = useRequest();
   const authStore = useAuthStore();
 
   /**
@@ -54,37 +53,67 @@ export const useWorkStore = defineStore('work', () => {
     
     let form = prepareForm(work);
 
-    const data = await request('/works', {
-      body: form,
-      method: 'POST',
-      contentType: null,
-      authorization: authStore.accessToken
-    });
+    const { data, error } = await useFetch('/api/works', {
+			method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authStore.accessToken}`
+      },
+			body: form
+		});
 
-    return data as unknown as Work;
+    if (error.value) {
+      throw new Error(error.value?.message);
+    }
+
+    return data.value as Work;
   }
 
   const indexWorks = async (): Promise<Work[]> => {
-    const data = await request('/works', { authorization: authStore.accessToken });
-    return data as unknown as Work[];
+    const { data, error } = await useFetch('/api/works', {
+			method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authStore.accessToken}`
+      }
+		});
+
+    if (error.value) {
+      throw new Error(error.value?.message);
+    }
+
+    return data.value as Work[];
   }
 
   const getWork = async (id: string): Promise<Work> => {
-    const data = await request(`/works/${id}`, { authorization: authStore.accessToken });
-    return data as unknown as Work;
+    const { data, error } = await useFetch(`/api/works/${id}`, {
+			method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authStore.accessToken}`
+      }
+		});
+
+    if (error.value) {
+      throw new Error(error.value?.message);
+    }
+
+    return data.value as Work;
   }
 
   const updateWork = async (id: string, work: Partial<Work>): Promise<Work> => {
     let form = prepareForm(work);
 
-    const data = await request(`/works/${id}`, {
-      body: form,
-      method: 'PATCH',
-      contentType: null,
-      authorization: authStore.accessToken
-    });
+    const { data, error } = await useFetch(`/api/works/${id}`, {
+			method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${authStore.accessToken}`
+      },
+      body: form
+		});
 
-    return data as unknown as Work;
+    if (error.value) {
+      throw new Error(error.value?.message);
+    }
+
+    return data.value as Work;
   }
 
   return { postWork, indexWorks, getWork, updateWork }

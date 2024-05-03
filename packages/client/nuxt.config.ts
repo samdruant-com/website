@@ -42,7 +42,8 @@ export default defineNuxtConfig({
    * in the server side.
    */
 	runtimeConfig: {
-    public: { baseUrl: '' }
+    public: { baseUrl: '' },
+    baseUrl: ''
   },
 
   postcss: {
