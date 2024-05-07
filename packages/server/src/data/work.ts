@@ -40,7 +40,7 @@ async function createWork(work: IWork): Promise<WorkDocument> {
 }
 
 async function getWork(id: string, config?: { showHidden?: boolean}): Promise<WorkDocument | null> {
-	const baseQuery = Mongoose.isValidObjectId(id) ? { _id: id } : { slug: id };
+	const baseQuery = Mongoose.isObjectIdOrHexString(id) ? { _id: id } : { slug: id };
 	const query = config?.showHidden ? baseQuery : { ...baseQuery, visible: true };
 
 	return await WorkModel.findOne(query)

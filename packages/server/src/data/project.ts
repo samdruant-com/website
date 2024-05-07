@@ -35,7 +35,7 @@ async function createProject(project: IProject): Promise<ProjectDocument> {
 }
 
 async function getProject(id: string, config?: { showHidden?: boolean}): Promise<ProjectDocument | null> {
-	const baseQuery = Mongoose.isValidObjectId(id) ? { _id: id } : { slug: id };
+	const baseQuery = Mongoose.isObjectIdOrHexString(id) ? { _id: id } : { slug: id };
 	const query = config?.showHidden ? baseQuery : { ...baseQuery, visible: true };
 
 	return await ProjectModel.findOne(query)
