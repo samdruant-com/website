@@ -1,8 +1,5 @@
-import axios from "axios";
-import formData from "form-data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import type { PutObjectCommandInput } from "@aws-sdk/client-s3";
-import type { AxiosInstance } from 'axios';
 
 /**
  * Generic Bucket Interface for uploading and removing files
@@ -25,50 +22,10 @@ export interface GenericBucket {
   removeFile(url: string): Promise<boolean>;
 }
 
-/**
- * Custom Bucket Logic
- */
-class BasicBucket implements GenericBucket {
-	endpoint: string;
-	axiosClient: AxiosInstance;
-
-	constructor(config: { endpoint: string; }) {
-		this.endpoint = config.endpoint;
-
-		this.axiosClient = axios.create({
-			baseURL: this.endpoint,
-			maxContentLength: Infinity,
-			maxBodyLength: Infinity,
-		});
-	}
-
-	async uploadFile(file: Express.Multer.File, config?: { name?: string; }): Promise<string> {
-		const form = new formData();
-		form.append("files", file.buffer, config?.name || file.originalname);
-
-		const response = await this.axiosClient.post("/assets", form, { headers: form.getHeaders() });
-
-		if(response.status !== 201) {
-			throw response;
-		}
-
-		const images = response.data;
-		return images[0].url;
-	}
-
-	async removeFile(url: string): Promise<boolean> {
-		// get file name from url
-		const filename = url.split("/").pop();
-		// delete file from server
-		const response = await this.axiosClient.delete(`/assets/${filename}`);
-		// return true if deleted
-		return response.data;
-	}
-}
-
 class AwsBucket implements GenericBucket {
 	s3Client: S3Client;
 	bucketName: string;
+	bucketEndpoint: string;
 	bucketRegion: string|undefined;
 
 	constructor(config: { accessKeyId: string; secretAccessKey: string; bucketName: string; bucketEndpoint: string; bucketRegion?: string;}) {
@@ -83,6 +40,7 @@ class AwsBucket implements GenericBucket {
 		});
 
 		this.bucketName = config.bucketName;
+		this.bucketEndpoint = config.bucketEndpoint;
 		this.bucketRegion = config.bucketRegion;
 	}
 
@@ -97,8 +55,7 @@ class AwsBucket implements GenericBucket {
 
 		await this.s3Client.send(new PutObjectCommand(params));
 
-		//return `http://${this.bucketName}.s3.${this.bucketRegion}.localhost:4566/${params.Key}`;
-		return `https://${this.bucketName}.${this.bucketRegion}.cdn.digitaloceanspaces.com/${this.bucketName}/${params.Key}`; // <- digital ocean spaces
+		return `${this.bucketEndpoint}/${this.bucketName}/${params.Key}`;
 	}
 
 	/**
@@ -121,4 +78,4 @@ class AwsBucket implements GenericBucket {
 	}
 }
 
-export { BasicBucket, AwsBucket };
+export { AwsBucket };

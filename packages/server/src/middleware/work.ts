@@ -1,5 +1,4 @@
 import { 
-	NODE_ENV, 
 	BUCKET_S3_URI, 
 	BUCKET_NAME,
 	BUCKET_S3_KEY,
@@ -7,7 +6,7 @@ import {
 	BUCKET_S3_REGION
 } from "../config/env";
 import * as WorkData from "../data/work";
-import { BasicBucket, AwsBucket } from "../utils/storage";
+import { AwsBucket } from "../utils/storage";
 import { createErrorResponse } from "./helpers/error";
 import type { IImage } from "../types";
 import type { AuthenticatedRequest } from "./helpers/types";
@@ -27,35 +26,33 @@ interface RawImage extends Omit<IImage, 'src'> {
  * image is old, the `src` property is used as is.
  */
 async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
-	let bucket: GenericBucket;
-  
-	if(NODE_ENV === 'development') {
-		if(!BUCKET_S3_URI) {
-			throw new Error('Bucket URI missing. Set BUCKET_URI environment variable');
-		}
-
-		bucket = new BasicBucket({ endpoint: BUCKET_S3_URI });
-	} else {
-		if(!BUCKET_NAME) {
-			throw new Error('Bucket name missing. Set BUCKET_NAME environment variable');
-		}
-
-		if(!BUCKET_S3_KEY) {
-			throw new Error('Bucket key missing. Set BUCKET_KEY environment variable');
-		}
-
-		if(!BUCKET_S3_SECRET) {
-			throw new Error('Bucket secret missing. Set BUCKET_SECRET environment variable');
-		}
-
-		bucket = new AwsBucket({ 
-			bucketEndpoint: BUCKET_S3_URI, 
-			accessKeyId: BUCKET_S3_KEY, 
-			secretAccessKey: BUCKET_S3_SECRET, 
-			bucketName: BUCKET_NAME, 
-			bucketRegion: BUCKET_S3_REGION
-		});
+	if(!BUCKET_NAME) {
+		throw new Error('Bucket name missing. Set BUCKET_NAME environment variable');
 	}
+
+	if(!BUCKET_S3_KEY) {
+		throw new Error('Bucket key missing. Set BUCKET_KEY environment variable');
+	}
+
+	if(!BUCKET_S3_SECRET) {
+		throw new Error('Bucket secret missing. Set BUCKET_SECRET environment variable');
+	}
+
+	if (!BUCKET_S3_URI) {
+		throw new Error('Bucket URI missing. Set BUCKET_S3_URI environment variable');
+	}
+
+	if (!BUCKET_S3_REGION) {
+		throw new Error('Bucket region missing. Set BUCKET_S3_REGION environment variable');
+	}
+
+	const bucket: GenericBucket = new AwsBucket({ 
+		bucketEndpoint: BUCKET_S3_URI, 
+		accessKeyId: BUCKET_S3_KEY, 
+		secretAccessKey: BUCKET_S3_SECRET, 
+		bucketName: BUCKET_NAME, 
+		bucketRegion: BUCKET_S3_REGION
+	});
   
 	const images: IImage[] = [];
 
