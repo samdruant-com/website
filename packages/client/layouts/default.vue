@@ -6,28 +6,22 @@ const inStartPage = computed<boolean>(
 );
 
 const getClass = computed<string>(() => {
-  let base = "w-full";
 
-  if (!inStartPage.value) {
-    base += " md:w-vw-70 md:mx-auto p-3";
-  }
-
-  return base;
+  return inStartPage.value
+    ? ''
+    : 'md:w-vw-70 md:mx-auto px-3 py-5';
 });
 </script>
 
 <template>
-  <div id="min-h-svh flex flex-col">
-    <!-- navigation -->
-    <app-nav v-if="!inStartPage" class="text-slate-900 pt-2 px-2" />
-    <app-sidebar class="text-slate-900 z-50" />
+  <div class="min-h-svh flex flex-col">
+    <app-nav v-if="!inStartPage" class="mt-1 pt-2 px-2" />
+    <app-sidebar class="z-50" />
 
-    <!-- main content -->
-    <main :class="`grow h-vh-90 text-slate-900 ${getClass}`">
+    <main :class="`${getClass} w-full flex-grow min-h-vh-90`">
       <slot />
     </main>
 
-    <!-- footer -->
-    <app-footer />
+    <app-footer class="mx-auto w-full md:w-vw-70" />
   </div>
 </template>
