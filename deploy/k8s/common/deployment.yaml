@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sam-server
+  labels:
+    app: sam
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sam
+      component: server
+  template:
+    metadata:
+      labels:
+        app: sam
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: thisoliver/sam:server
+          env:
+            - name: BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: BUCKET_NAME
+
+            - name: BUCKET_S3_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: BUCKET_S3_REGION
+
+            - name: BUCKET_S3_URI
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: BUCKET_S3_URI
+
+            - name: BUCKET_S3_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: BUCKET_S3_KEY
+
+            - name: BUCKET_S3_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: BUCKET_S3_SECRET
+
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: DB_URI
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: JWT_SECRET
+
+            - name: ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: ADMIN_SECRET
+
+          ports:
+            - containerPort: 5000
+              name: server-port
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "0.5"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sam-client
+  labels:
+    app: sam
+    component: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sam
+      component: client
+  template:
+    metadata:
+      labels:
+        app: sam
+        component: client
+    spec:
+      containers:
+        - name: client
+          image: thisoliver/sam:client
+          env:
+            - name: NUXT_PUBLIC_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sam
+                  key: server
+          ports:
+            - containerPort: 3000
+              name: client-port
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1"
