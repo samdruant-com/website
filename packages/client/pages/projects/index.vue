@@ -17,9 +17,11 @@ onMounted(async () => {
 
 <template>
   <base-page title="Projects">
-    <base-btn v-if="authStore.isAuthenticated" color="primary" to="/projects/create">
-      Create project
-    </base-btn>
+    <div v-if="authStore.isAuthenticated" class="mt-2 mb-4">
+      <base-btn color="primary" to="/projects/create">
+        Create project
+      </base-btn>
+    </div>
 
     <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div v-for="project in projects" :key="project._id">
