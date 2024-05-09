@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: sam
 data:
-  server: "http://sam-server:4000"
+  SERVER_ORIGIN: "http://sam-server:4000"

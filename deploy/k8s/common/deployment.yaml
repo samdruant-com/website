@@ -70,6 +70,12 @@ spec:
                   name: sam
                   key: ADMIN_SECRET
 
+            - name: ALLOWED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: sam
+                  key: CLIENT_ORIGIN
+
           ports:
             - containerPort: 5000
               name: server-port
@@ -107,7 +113,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: sam
-                  key: server
+                  key: SERVER_ORIGIN
           ports:
             - containerPort: 3000
               name: client-port

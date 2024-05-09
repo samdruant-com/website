@@ -4,4 +4,5 @@ metadata:
   name: sam
 
 data:
-  server: "https://api.samdruant.com/api"
+  SERVER_ORIGIN: "https://api.samdruant.com/api"
+  CLIENT_ORIGIN: "https://wwww.samdruant.com"
