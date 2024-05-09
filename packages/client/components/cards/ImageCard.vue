@@ -27,7 +27,14 @@ const form = reactive({
 });
 
 const getClass = computed<string>(() => {
-  let componentClass = "mb-2 w-full h-56 md:h-96 object-cover bg-gray-200";
+  let componentClass = "mb-2 object-cover bg-gray-200";
+
+  if (props.expand) {
+    // add more classes
+    componentClass += " w-full h-full";
+  } else {
+    componentClass += " w-full h-56 md:h-96";
+  }
 
   return componentClass;
 });

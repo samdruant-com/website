@@ -13,6 +13,8 @@ const props = defineProps({
   },
 });
 
+const { convertUnixToDateTime } = useDate();
+
 const options = computed<ActionItem[]>(() => {
   return props.admin
     ? [
@@ -20,34 +22,45 @@ const options = computed<ActionItem[]>(() => {
         label: "Edit",
         size: "small",
         block: true,
-        color: 'warning',
+        color: 'bg-amber-300',
         to: `/works/${props.work.slug}/edit`,
       },
     ]
     : [];
 });
 
-const getWorkThumbnail = (work: Work): Image => {
-  return work.images[0];
-};
+const getThumbnail = computed<Image>(() => {
+  return props.work.images[0];
+});
+
+const getYear = computed<string>(() => {
+  const timestamp = Number(props.work.date);
+  return convertUnixToDateTime(timestamp).date.split('-')[0];
+});
+
 </script>
 
 <template>
   <base-card>
     <nuxt-link :to="`/works/${props.work.slug}`">
-      <image-card :image="getWorkThumbnail(props.work)" />
+      <image-card :image="getThumbnail" :hide-details="true" />
     </nuxt-link>
 
-    <p class="font-bold">{{ props.work.name }}</p>
-    
-    <div v-if="props.admin" class="grid grid-cols-3 mt-2">
-      <base-btn v-for="option in options" :key="option.label" class="mx-1" :to="option.to" @click="option.action">
-        {{ option.label }}
-      </base-btn>
+    <div class="flex justify-between">
+      <p class="self-center">
+        <span class="font-bold">{{ props.work.name }}</span>, {{ getYear }}
+      </p>
 
-      <div v-if="props.work.visible === false" class="mx-1 p-1 bg-amber-100 text-center rounded-lg">
-        <span class="i-mdi-eye-off" />
-        <p class="text-sm">Hidden</p>
+      <div v-if="props.admin" class="mt-2 flex gap-2 justify-end">
+        <base-btn v-for="option in options" :key="option.label" :class="`ml-auto ${option.color ? option.color : ''}`"
+          :to="option.to" @click="option.action">
+          {{ option.label }}
+        </base-btn>
+
+        <div v-if="props.work.visible === false" class="p-1 bg-amber-100 text-center rounded-lg">
+          <span class="i-mdi-eye-off" />
+          <p class="text-sm">Hidden</p>
+        </div>
       </div>
     </div>
   </base-card>

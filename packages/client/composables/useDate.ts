@@ -23,9 +23,33 @@ export function useDate() {
     return Dayjs(date).unix();
   }
 
+  function convertDateTimeToUnix(dateTime: { date: string; time: string }): number {
+  const [hour, minute] = dateTime.time.split(':');
+  return hour && minute
+    ? Dayjs(dateTime.date).hour(Number(hour)).minute(Number(minute)).unix()
+    : Dayjs(dateTime.date).unix();
+}
+
+function convertUnixToDateTime(unix: number | string): {
+  date: string;
+  time: string;
+} {
+  if (typeof unix === 'string') {
+    unix = Number(unix);
+  }
+
+  const date = Dayjs.unix(unix);
+  return {
+    date: date.format('YYYY-MM-DD'),
+    time: date.format('HH:mm')
+  };
+}
+
 	return {
 		getDateFromTimestamp,
     getTimeFromTimestamp,
-    getTimestampFromDate
+    getTimestampFromDate,
+    convertUnixToDateTime,
+    convertDateTimeToUnix
 	};
 }

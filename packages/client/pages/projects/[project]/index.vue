@@ -2,11 +2,19 @@
 import { useProjectStore } from "~/stores/project.store";
 import type { Project } from "~/types";
 
-const route = useRoute();
 const projectStore = useProjectStore();
+const route = useRoute();
 const { notify } = useNotification();
+const { convertUnixToDateTime } = useDate();
 
 const project = ref<Project>();
+
+const getTitle = computed<string>(() => {
+  const name = project.value?.name || "N/a";
+  const year = convertUnixToDateTime(Number(project.value?.date)).date.split('-')[0] || "N/a";
+
+  return `${name}, ${year}`;
+});
 
 onMounted(async () => {
   const id = route.params.project;
@@ -27,12 +35,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <base-page :title="project?.name">
-    <v-row>
-      <v-col v-for="work in project?.works" :key="work._id" cols="12" md="6" lg="4">
+  <base-page :title="getTitle">
+    <div class="flex flex-col md:grid md:grid-cols-2 gap-4">
+      <div v-for="work in project?.works" :key="work._id">
         <work-card :work="work" />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </base-page>
 </template>
-~/stores/project.store

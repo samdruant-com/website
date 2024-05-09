@@ -2,11 +2,20 @@
 import { useWorkStore } from "~/stores/work.store";
 import type { Work } from "~/types";
 
-const route = useRoute();
 const workStore = useWorkStore();
+
+const route = useRoute();
 const { notify } = useNotification();
+const { convertUnixToDateTime } = useDate();
 
 const work = ref<Work>();
+
+const getTitle = computed<string>(() => {
+  const name = work.value?.name || "N/a";
+  const year = convertUnixToDateTime(Number(work.value?.date)).date.split('-')[0] || "N/a";
+
+  return `${name}, ${year}`;
+});
 
 onMounted(async () => {
   const id = route.params.work;
@@ -28,12 +37,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <base-page :title="work ? work.name : 'Work'">
-    <v-row v-if="work" justify="center">
-      <v-col v-for="image in work.images" :key="image._id" cols="12" md="10">
-        <image-card :image="image" />
-      </v-col>
-    </v-row>
+  <base-page :title="getTitle">
+    <div v-if="work" class="flex flex-col gap-4">
+      <div v-for="image in work.images" :key="image._id">
+        <image-card :image="image" :expand="true" />
+      </div>
+    </div>
   </base-page>
 </template>
-~/stores/work.store

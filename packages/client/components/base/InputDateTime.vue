@@ -34,9 +34,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:model-value']);
 
+const { convertDateTimeToUnix, convertUnixToDateTime } = useDate();
+
 const form = reactive({
-  date: props.modelValue ? convertToDateTime(props.modelValue).date : '',
-  time: props.modelValue ? convertToDateTime(props.modelValue).time : ''
+  date: props.modelValue ? convertUnixToDateTime(props.modelValue).date : '',
+  time: props.modelValue ? convertUnixToDateTime(props.modelValue).time : ''
 });
 
 const validDate = computed<boolean>(() => {
@@ -57,33 +59,11 @@ const validForm = computed<boolean>(() => {
   return validDate.value && validTime.value;
 });
 
-function convertToUnix(dateTime: { date: string; time: string }): number {
-  const [hour, minute] = dateTime.time.split(':');
-  return hour && minute
-    ? DayJs(dateTime.date).hour(Number(hour)).minute(Number(minute)).unix()
-    : DayJs(dateTime.date).unix();
-}
-
-function convertToDateTime(unix: number | string): {
-  date: string;
-  time: string;
-} {
-  if (typeof unix === 'string') {
-    unix = Number(unix);
-  }
-
-  const date = DayJs.unix(unix);
-  return {
-    date: date.format('YYYY-MM-DD'),
-    time: date.format('HH:mm')
-  };
-}
-
 watch(
   () => form,
   () => {
     if (validForm.value) {
-      const unix: number = convertToUnix(form);
+      const unix: number = convertDateTimeToUnix(form);
       emit('update:model-value', unix);
     }
   },
