@@ -9,6 +9,7 @@ metadata:
     cert-manager.io/issuer: cloudflare-issuer
     cert-manager.io/issuer-kind: OriginIssuer
     cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+    nginx.ingress.kubernetes.io/proxy-body-size: 5m # increases the maximum body size to 5MB from 1 MiB (for file uploads)
 
 spec:
   ingressClassName: nginx
