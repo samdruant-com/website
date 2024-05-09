@@ -27,7 +27,7 @@ const form = reactive({
 });
 
 const getClass = computed<string>(() => {
-  let componentClass = "mb-2 h-56 md:h-96 object-cover bg-gray-200";
+  let componentClass = "mb-2 w-full h-56 md:h-96 object-cover bg-gray-200";
 
   return componentClass;
 });
@@ -42,12 +42,8 @@ watch(
 
 <template>
   <div class="h-full w-full">
-    <img
-          :src="props.image.src"
-          :alt="props.image.caption"
-          :class="getClass"
-        >
-    
+    <img :src="props.image.src" :alt="props.image.caption" :class="getClass">
+
     <div v-if="props.adminMode" class="my-1">
       <input-text v-model="form.caption" place-holder="Caption" />
     </div>

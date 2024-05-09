@@ -53,14 +53,17 @@ async function authenticate() {
 </script>
 
 <template>
-  <base-card class="pa-1">
-    <InputText v-model="form.username" label="Username" />
-    <InputText v-model="form.password" type="password" label="Password" />
-    <InputText v-if="props.mode === 'register'" v-model="form.passwordConfirmation" type="password"
-      label="Password Confirmation" />
-    <InputText v-if="props.mode === 'register'" v-model="form.secret" type="password" label="Admin Secret" />
+  <base-card class="flex flex-col gap-2">
+    <InputText class="w-full" v-model="form.username" label="Username" />
+    <InputText class="w-full" v-model="form.password" type="password" label="Password" />
 
-    <base-btn class="mt-2 mx-auto" color="primary" large :disabled="!validForm" @click="authenticate()">
+    <InputText v-if="props.mode === 'register'" class="w-full" v-model="form.passwordConfirmation" type="password"
+      label="Password Confirmation" />
+
+    <InputText v-if="props.mode === 'register'" class="w-full" v-model="form.secret" type="password"
+      label="Admin Secret" />
+
+    <base-btn class="w-full mt-4" color="primary" large :disabled="!validForm" @click="authenticate()">
       {{ props.mode === 'login' ? 'Login' : 'Register' }}
     </base-btn>
   </base-card>

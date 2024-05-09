@@ -18,7 +18,7 @@ const form = reactive<Partial<SpecialProject>>({
   name: props.project?.name || "",
   date: props.project?.date || "",
   works: props.project?.works.map((work) => work._id) || [],
-  visible: props.project?.visible || false
+  visible: props.project?.visible || true
 });
 
 const availableWorks = ref<Work[]>([]);
@@ -77,7 +77,7 @@ onMounted(async () => {
     <div class="form-control">
       <label class="label cursor-pointer">
         <span class="label-text">Visible</span>
-        <input v-model="form.visible" type="checkbox" class="toggle" checked />
+        <input v-model="form.visible" type="checkbox" class="toggle toggle-success" checked />
       </label>
       <span class="text-sm text-slate-600">unchecked project are only visible by website admin</span>
     </div>
@@ -88,13 +88,14 @@ onMounted(async () => {
           <image-card :image="getWorkThumbnail(work)" hide-details />
           <p class="my-1">{{ work.name }}</p>
 
-          <base-btn v-if="isSelectedWorkId(work._id)" class="bg-amber-200" small @click="unselectWorkId(work._id)">Unselect</base-btn>
-          <base-btn v-else class="bg-green-200" small @click="selectWorkId(work._id)">Select</base-btn>
+          <base-btn v-if="isSelectedWorkId(work._id)" class="bg-amber-300" small
+            @click="unselectWorkId(work._id)">Unselect</base-btn>
+          <base-btn v-else class="bg-green-300" small @click="selectWorkId(work._id)">Select</base-btn>
         </base-card>
       </div>
     </div>
 
-    <div class="flex flex-row gap-2">
+    <div class="flex flex-row gap-2 pt-2" style="border-top: 3px solid;">
       <base-btn v-if="!props.project" :disabled="!validForm" @click="post()">Upload</base-btn>
       <base-btn v-if="props.project" :disabled="!validForm" @click="patch()">Update</base-btn>
       <base-btn v-if="props.project" class="bg-red-400">Delete</base-btn>
