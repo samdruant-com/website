@@ -20,6 +20,7 @@ spec:
       containers:
         - name: server
           image: thisoliver/sam:server
+          imagePullPolicy: Always
           env:
             - name: BUCKET_NAME
               valueFrom:
@@ -100,6 +101,7 @@ spec:
       containers:
         - name: client
           image: thisoliver/sam:client
+          imagePullPolicy: Always
           env:
             - name: NUXT_PUBLIC_BASE_URL
               valueFrom:
