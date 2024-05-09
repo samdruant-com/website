@@ -12,7 +12,7 @@ const portfolioStore = usePortfolioStore();
 </script>
 
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row md:mr-20">
     <base-btn class="basis-1/4 grow-0 text-3xl md:hidden" color="transparent" @click="drawer.toggle">
       <span class="i-mdi-menu" />
     </base-btn>
@@ -24,7 +24,7 @@ const portfolioStore = usePortfolioStore();
     </router-link>
 
     <nuxt-link v-for="option in navigation.options" :key="option.label"
-      class="mr-3 place-content-end hidden lg:block text-xl hover:underline" :to="option.to">
+      class="mr-4 place-content-end hidden lg:block text-xl hover:underline" :to="option.to">
       {{ option.label }}
     </nuxt-link>
 
