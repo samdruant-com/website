@@ -50,47 +50,7 @@ function getBucket(): GenericBucket {
 }
 
 /**
- * Returns a list of images with the `src` property set to the url of the image.
- * If the image is new, the `file` property is used to upload the image to the
- * bucket and the `src` property is set to the url of the uploaded image. If the
- * image is old, the `src` property is used as is.
- */
-async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
-	const bucket = getBucket();
-  
-	const images: IImage[] = [];
-
-	try {
-		for(let i = 0; i < rawImages.length; i++){
-			const image = rawImages[i];
-
-			// upload file if it exists, otherwise use the src
-			const src = image.file ? await bucket.uploadFile(image.file) : image.src as string;
-
-			images.push({
-				src,
-				caption: image.caption
-			} as IImage);
-		}
-	} catch (error) {
-		// delete any image that is in the `images` list AND has a file property in the `rawImages` list 
-		for(let i = 0; i < rawImages.length; i++){
-			const rawImage = rawImages[i];
-			const image = images.find((image) => image.src === rawImage.src);
-
-			if(image){
-				await bucket.removeFile(image.src);
-			}
-		}
-
-		throw error;
-	}
-
-	return images;
-}
-
-/**
- * Returns a list of images with the `src` property set to the url of the image.
+ * Extracts new and old images from the request and uploads the new images to the bucket.
  */
 async function _processRequestImages(req: Request): Promise<IImage[]> {
 	/**
@@ -107,13 +67,15 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
    * - image-0-src - the image src
    * - image-0-caption - the caption of the image
    */
+
 	const newImages = (req.files as Express.Multer.File[]).map((file) => {
 		const [, index] = file.fieldname.split('-');
 		
 		return {
 			src: file.path,
 			file,
-			caption: req.body[`image-${index}-caption`]
+			caption: req.body[`image-${index}-caption`],
+			order: Number(req.body[`image-${index}-order`])
 		} as RawImage;
 	});
 
@@ -124,13 +86,45 @@ async function _processRequestImages(req: Request): Promise<IImage[]> {
 
 			return {
 				src: req.body[key],
-				caption: req.body[`image-${index}-caption`]
+				caption: req.body[`image-${index}-caption`],
+				order: Number(req.body[`image-${index}-order`])
 			} as RawImage;
 		});
 
 	const rawImages: RawImage[] = [...newImages, ...oldImages];
+  
+	/**
+   * Uploads new images to the bucket and updates the `src` property of the image
+   * with the url to the uploaded image.
+   */
+	const bucket = getBucket();
+	const processedImages: IImage[] = [];
 
-	return await _uploadImages(rawImages);
+	try {
+		for(let i = 0; i < rawImages.length; i++){
+			const image = rawImages[i];
+			
+			const src = image.file 
+				? await bucket.uploadFile(image.file) 
+				: image.src as string;
+
+			processedImages.push({ ...image, src });
+		}
+	} catch (error) {
+		// delete any image that is in the `images` list AND has a file property in the `rawImages` list 
+		for(let i = 0; i < rawImages.length; i++){
+			const rawImage = rawImages[i];
+			const image = processedImages.find((image) => image.src === rawImage.src);
+
+			if(image){
+				await bucket.removeFile(image.src);
+			}
+		}
+
+		throw error;
+	}
+
+	return processedImages;
 }
 
 async function postWork(req: AuthenticatedRequest, res: Response) {

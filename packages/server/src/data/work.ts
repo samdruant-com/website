@@ -13,6 +13,7 @@ const WorkModel = Mongoose.model("work", new Mongoose.Schema<IWork>(
 		images: [{
 			src: { type: String, required: true },
 			caption: { type: String, default: "" },
+			order: { type: Number, default: 0 }
 		}],
 		slug: { type: String, unique: true },
 		visible: { type: Boolean, default: false }
@@ -36,6 +37,8 @@ const WorkModel = Mongoose.model("work", new Mongoose.Schema<IWork>(
 );
 
 async function createWork(work: IWork): Promise<WorkDocument> {
+	work.images = work.images.sort((a, b) => Number(a.order) - Number(b.order));
+  
 	return await WorkModel.create(new WorkModel(work));
 }
 
@@ -61,6 +64,8 @@ async function updateWork(id: string, patch: Partial<IWork>): Promise<WorkDocume
 	}
 
 	Object.assign(work, patch);
+
+	work.images = work.images.sort((a, b) => Number(a.order) - Number(b.order));
 
 	return await work.save();
 }

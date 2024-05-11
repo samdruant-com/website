@@ -24,11 +24,12 @@ export const useWorkStore = defineStore("work", () => {
 		images.forEach((image: Image, index: number) => {
 			if (image.file) {
 				form.append(`image-${index}-file`, image.file);
-				form.append(`image-${index}-caption`, image.caption);
 			} else {
-				form.append(`image-${index}-src`, image.src);
-				form.append(`image-${index}-caption`, image.caption);
+        form.append(`image-${index}-src`, image.src);
 			}
+
+      form.append(`image-${index}-caption`, image.caption);
+      form.append(`image-${index}-order`, String(image.order));
 		});
 
 		return form;

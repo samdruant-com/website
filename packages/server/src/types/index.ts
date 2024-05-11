@@ -17,6 +17,7 @@ interface IUser {
 interface IImage {
   src: string;
   caption: string;
+  order: number;
 }
 
 interface IWork {

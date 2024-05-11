@@ -17,6 +17,7 @@ export interface Image extends Document {
   file?: File; // temporary property for new images
   src: string;
   caption: string;
+  order: number;
 }
 
 export interface Work extends Document {

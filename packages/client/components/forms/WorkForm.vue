@@ -31,39 +31,34 @@ const validForm = computed<boolean>(() => {
 	);
 });
 
+const getImages = computed<Image[]>(() => {
+	const images = [...(form.images || []), ...newImages.value];
+
+	return images.sort((a, b) => a.order - b.order);
+});
+
+const isNewImage = (image: Image): boolean => {
+	return image.file !== undefined;
+};
+
 const getFilePath = (file: File): string => {
 	return URL.createObjectURL(file);
 };
 
 const handleNewFiles = (files: File[]): void => {
+	const imageCount = form.images?.length || 0;
+
 	// convert files to images
-	const processedFiles: Image[] = files.map((file) => ({
+	const processedFiles: Image[] = files.map((file, index) => ({
 		_id: "",
 		src: getFilePath(file),
 		caption: "",
 		file,
+		order: imageCount + index + 1,
 	}));
 
 	// add file images to newImages array
 	newImages.value.push(...processedFiles);
-};
-
-const handleChangedCaption = (config: {
-	caption: string;
-	id: string;
-	new: boolean;
-}): void => {
-	let image: Image | undefined;
-
-	if (config.new) {
-		image = newImages.value.find((image) => image.file!.name === config.id);
-	} else {
-		image = form.images?.find((image) => image._id === config.id);
-	}
-
-	if (image) {
-		image.caption = config.caption;
-	}
 };
 
 const removeImage = (image: Image, newImage: boolean): void => {
@@ -145,34 +140,21 @@ const deleteImage = async (): Promise<void> => {
 
 			<div class="w-full flex flex-col md:grid md:grid-cols-3 gap-2">
 				<div
-					v-for="(image, index) in newImages"
-					:key="index"
-					class="flex flex-col gap-2"
-				>
-					<image-card
-						:image="{ ...image, src: getFilePath(image.file!) }"
-						admin-mode
-						@caption="(caption) => handleChangedCaption({ caption, id: image.file!.name, new: true })"
-					/>
-					<base-btn class="bg-red-400" @click="removeImage(image, true)"
-						>Remove</base-btn
-					>
-				</div>
-
-				<div
-					v-for="image in form.images"
-					:key="image._id"
+					v-for="image in getImages"
+					:key="isNewImage(image) ? image.file!.name : image._id"
 					class="flex flex-col gap-2"
 				>
 					<image-card
 						:image="image"
 						admin-mode
-						@caption="
-							(caption) =>
-								handleChangedCaption({ caption, id: image._id, new: false })
-						"
+						@caption="(caption) => (image.caption = caption)"
 					/>
-					<base-btn class="bg-red-400" @click="removeImage(image, false)"
+
+					<input-text v-model="image.order" type="number" label="Order" />
+
+					<base-btn
+						class="bg-red-400"
+						@click="removeImage(image, isNewImage(image))"
 						>Remove</base-btn
 					>
 				</div>
