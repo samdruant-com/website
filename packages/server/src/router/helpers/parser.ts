@@ -9,19 +9,23 @@ import type { RequestHandler } from 'express';
  * @param config.maxFileSize - maximum file size in bytes (default 5mb)
  */
 function getMulter(config?: {allowedTypes?: string[], maxFileSize?: number }): multer.Multer {
+	const defaultFileSize = 5 * 1024 * 1024; // 5mb
+	const defaultTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+  
 	return multer({
 		// store file in memory as buffer
 		storage: multer.memoryStorage(),
 		
-		// limit file size (default 5mb)
-		limits: { fileSize: config?.maxFileSize || 5 * 1024 * 1024, },
+		// limit file size
+		limits: { fileSize: config?.maxFileSize || defaultFileSize },
 		
-		// filter file types (default png, jpeg, jpg, gif)
+		// filter file types
 		fileFilter: (req, file, cb) => {
-			const allowedTypes = config?.allowedTypes || ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+			const allowedTypes = config?.allowedTypes && config.allowedTypes.length > 0 ? config.allowedTypes : defaultTypes;
+
 			if (!allowedTypes.includes(file.mimetype)) {
 				const error = new Error('Wrong file type');
-				error.message = 'Wrong file type';
+				error.name = 'MulterError';
 				return cb(error);
 			}
 			cb(null, true);
