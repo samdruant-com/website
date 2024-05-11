@@ -7,7 +7,7 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["created", "updated"]);
+const emit = defineEmits(["created", "updated", "deleted"]);
 
 const workStore = useWorkStore();
 const { notify } = useNotification();
@@ -78,7 +78,7 @@ const removeImage = (image: Image, newImage: boolean): void => {
 	}
 };
 
-const post = async (): Promise<void> => {
+const postImage = async (): Promise<void> => {
 	try {
 		const work = await workStore.postWork({ ...form, images: newImages.value });
 		emit("created", work);
@@ -87,7 +87,7 @@ const post = async (): Promise<void> => {
 	}
 };
 
-const update = async (): Promise<void> => {
+const updateImage = async (): Promise<void> => {
 	try {
 		if (!props.work) {
 			throw new Error("Missing work id");
@@ -98,6 +98,15 @@ const update = async (): Promise<void> => {
 			images: [...(form.images || []), ...newImages.value],
 		});
 		emit("updated", work);
+	} catch (error) {
+		notify("Work Error", (error as Error).message, "error");
+	}
+};
+
+const deleteImage = async (): Promise<void> => {
+	try {
+		const work = await workStore.deleteWork(props.work!._id);
+		emit("deleted", work);
 	} catch (error) {
 		notify("Work Error", (error as Error).message, "error");
 	}
@@ -171,13 +180,15 @@ const update = async (): Promise<void> => {
 		</div>
 
 		<div class="flex flex-row gap-2 pt-2" style="border-top: 3px solid">
-			<base-btn v-if="!props.work" :disabled="!validForm" @click="post()"
+			<base-btn v-if="!props.work" :disabled="!validForm" @click="postImage()"
 				>Upload</base-btn
 			>
-			<base-btn v-if="props.work" :disabled="!validForm" @click="update()"
+			<base-btn v-if="props.work" :disabled="!validForm" @click="updateImage()"
 				>Update</base-btn
 			>
-			<base-btn v-if="props.work" class="bg-red-400">Delete</base-btn>
+			<base-btn v-if="props.work" class="bg-red-400" @click="deleteImage()"
+				>Delete</base-btn
+			>
 		</div>
 	</base-card>
 </template>
