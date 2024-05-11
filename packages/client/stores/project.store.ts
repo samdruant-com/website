@@ -31,5 +31,12 @@ export const useProjectStore = defineStore('project', () => {
     })
   }
 
-  return { postProject, indexProjects, getProject, patchProject }
+  async function deleteProject(id: string): Promise<Project> {
+    return await request(`/projects/${id}`, {
+      method: 'DELETE',
+      authorization: authStore.accessToken
+    })
+  }
+
+  return { postProject, indexProjects, getProject, patchProject, deleteProject }
 })
