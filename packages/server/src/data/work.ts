@@ -72,11 +72,7 @@ async function deleteWork(id: string): Promise<WorkDocument | null> {
 		throw new Error(`Work with id ${id} not found`);
 	}
   
-	const deletedWork = await WorkModel.findByIdAndDelete(id).exec();
-	
-	// TODO: delete images from cdn
-  
-	return deletedWork;
+	return await WorkModel.findByIdAndDelete(id).exec();
 }
 
 export { WorkDocument, createWork, getWork, indexWorks, updateWork, deleteWork };

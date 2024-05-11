@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import type { PutObjectCommandInput } from "@aws-sdk/client-s3";
 
 /**
@@ -19,7 +19,7 @@ export interface GenericBucket {
    * @param url the url of the file to be removed
    */
   // eslint-disable-next-line no-unused-vars
-  removeFile(url: string): Promise<boolean>;
+  removeFile(url: string): Promise<unknown>;
 }
 
 class AwsBucket implements GenericBucket {
@@ -61,20 +61,21 @@ class AwsBucket implements GenericBucket {
 	/**
    * Removes a file from the bucket and returns true if successful.
    */
-	async removeFile(url: string): Promise<boolean> {
-		try {
-			const filename = url.split("/").pop();
+	async removeFile(url: string): Promise<unknown> {
+		// url is in the form of `http://localhost:4566/bucket-name/filename`
+		const urlParts = url.split("/");
 
-			// remove file from bucket
-			await this.s3Client.send(new PutObjectCommand({
-				Bucket: this.bucketName,
-				Key: filename,
-			}));
-
-			return true;
-		} catch (error) {
-			return false;
+		if (urlParts.length < 4) {
+			throw new Error("Invalid object url - must be in the form `https://<url>/<bucket-name>/<filename>`");
 		}
+
+		const filename = urlParts.pop();
+    
+		// remove object from bucket
+		return await this.s3Client.send(new DeleteObjectCommand({
+			Bucket: this.bucketName,
+			Key: filename,
+		}));
 	}
 }
 

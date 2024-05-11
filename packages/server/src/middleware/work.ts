@@ -19,13 +19,7 @@ interface RawImage extends Omit<IImage, 'src'> {
   src?: string;
 }
 
-/**
- * Returns a list of images with the `src` property set to the url of the image.
- * If the image is new, the `file` property is used to upload the image to the
- * bucket and the `src` property is set to the url of the uploaded image. If the
- * image is old, the `src` property is used as is.
- */
-async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
+function getBucket(): GenericBucket {
 	if(!BUCKET_NAME) {
 		throw new Error('Bucket name missing. Set BUCKET_NAME environment variable');
 	}
@@ -46,13 +40,23 @@ async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
 		throw new Error('Bucket region missing. Set BUCKET_S3_REGION environment variable');
 	}
 
-	const bucket: GenericBucket = new AwsBucket({ 
+	return new AwsBucket({ 
 		bucketEndpoint: BUCKET_S3_URI, 
 		accessKeyId: BUCKET_S3_KEY, 
 		secretAccessKey: BUCKET_S3_SECRET, 
 		bucketName: BUCKET_NAME, 
 		bucketRegion: BUCKET_S3_REGION
 	});
+}
+
+/**
+ * Returns a list of images with the `src` property set to the url of the image.
+ * If the image is new, the `file` property is used to upload the image to the
+ * bucket and the `src` property is set to the url of the uploaded image. If the
+ * image is old, the `src` property is used as is.
+ */
+async function _uploadImages(rawImages: RawImage[]): Promise<IImage[]> {
+	const bucket = getBucket();
   
 	const images: IImage[] = [];
 
@@ -171,8 +175,25 @@ async function patchWork(req: AuthenticatedRequest, res: Response) {
 
 	try {
 		const images: IImage[] = await _processRequestImages(req);
-		const works = await WorkData.updateWork(id, { ...req.body, images });
-		return res.status(200).send(works);
+		const oldWork = await WorkData.getWork(id, { showHidden: true });
+		const newWork = await WorkData.updateWork(id, { ...req.body, images });
+
+		if (oldWork && newWork) {
+      
+			// get images to delete - images that are in the old work but not in the new work
+			const imagesToDelete = oldWork.images.filter((oldImage) => {
+				return !newWork.images.some((newImage) => newImage.src === oldImage.src);
+			});
+      
+			const bucket = getBucket();
+
+			for(let i = 0; i < imagesToDelete.length; i++){
+				const image = imagesToDelete[i];
+				await bucket.removeFile(image.src);
+			}
+		}
+
+		return res.status(200).send(newWork);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);
 	}
@@ -182,8 +203,20 @@ async function deleteWork(req: AuthenticatedRequest, res: Response) {
 	const id = req.params.id;
 
 	try {
-		const works = await WorkData.deleteWork(id);
-		return res.status(203).send(works);
+		const work = await WorkData.deleteWork(id);
+
+		if (!work) {
+			throw new Error(`Work with id ${id} not found`);
+		}
+
+		// delete images from bucket
+		const bucket = getBucket();
+		for(let i = 0; i < work.images.length; i++){
+			const image = work.images[i];
+			await bucket.removeFile(image.src);
+		}
+    
+		return res.status(203).send(work);
 	} catch (error) {
 		return createErrorResponse(res, (error as Error).message, 400);
 	}
