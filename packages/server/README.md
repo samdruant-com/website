@@ -25,5 +25,5 @@ To start the localstack service, run the following command:
 
 ```bash
 # create a bucket
-awslocal s3api create-bucket --bucket sample-bucket
+awslocal s3api create-bucket --bucket samdruant-photos
 ```
