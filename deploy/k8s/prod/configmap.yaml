@@ -5,4 +5,4 @@ metadata:
 
 data:
   SERVER_ORIGIN: "https://api.samdruant.com/api"
-  CLIENT_ORIGIN: "https://wwww.samdruant.com"
+  CLIENT_ORIGIN: "https://www.samdruant.com"
