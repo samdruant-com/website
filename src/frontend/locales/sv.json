@@ -1,0 +1,9 @@
+{
+  "example": {
+    "message": "Hej, {name}! \nVälkommen till exempelsidan för i18n i detta {projectName}-projekt. \nFörhoppningsvis kan du göra dina projekt tillgängliga för fler människor runt om i världen genom att använda den här funktionen. \nJag skulle vilja avsluta detta meddelande med att citera Nelson Mandela: \"Om du pratar med en man på ett språk han förstår, går det till hans huvud. Om du pratar med honom på hans eget språk, går det till hans hjärta.\"",
+    "title": "Stöd flera språk med i18n (internationalisering)"
+  },
+  "global": {
+    "language": "Språk"
+  }
+}
