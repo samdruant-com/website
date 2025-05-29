@@ -5,7 +5,6 @@ import { useWorkStore } from "~/stores/work.store";
 const workStore = useWorkStore();
 
 const route = useRoute();
-const { notify } = useNotification();
 const { convertUnixToDateTime } = useDate();
 
 const work = ref<Work>();
@@ -31,7 +30,7 @@ onMounted(async () => {
     useSeoSetup({ title: work.value.name, image: thumbnail });
   } catch (error) {
     console.error(error);
-    notify("Work Error", (error as Error).message, "error");
+    useSeoSetup({ title: "Work Not Found" });
   }
 });
 </script>

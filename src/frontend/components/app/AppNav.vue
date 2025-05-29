@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth.store";
 import { useNavigationStore } from "~/stores/navigation.store";
 import { usePortfolioStore } from "~/stores/portfolio.store";
 import { useSidebarStore } from "~/stores/sidebar.store";
 
-const auth = useAuthStore();
 const drawer = useSidebarStore();
 const navigation = useNavigationStore();
 const portfolioStore = usePortfolioStore();
@@ -30,7 +28,5 @@ const portfolioStore = usePortfolioStore();
     >
       {{ option.label }}
     </nuxt-link>
-
-    <app-admin-menu v-if="auth.isAuthenticated" class="mr-2 w-fit hidden lg:block" />
   </div>
 </template>

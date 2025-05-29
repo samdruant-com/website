@@ -4,7 +4,6 @@ import { useProjectStore } from "~/stores/project.store";
 
 const projectStore = useProjectStore();
 const route = useRoute();
-const { notify } = useNotification();
 const { convertUnixToDateTime } = useDate();
 
 const project = ref<Project>();
@@ -29,17 +28,16 @@ onMounted(async () => {
     const thumbnail = project.value.works[0]?.images[0]?.src || undefined;
     useSeoSetup({ title: project.value.name, image: thumbnail });
   } catch (error) {
-    notify("Project Error", (error as Error).message, "error");
+    console.error("Failed to load project:", error);
+    useSeoSetup({ title: "Project Not Found" });
   }
 });
 </script>
 
 <template>
-  <base-page :title="getTitle">
-    <div class="flex flex-col md:grid md:grid-cols-2 gap-4">
-      <div v-for="work in project?.works" :key="work._id">
-        <work-card :work="work" />
-      </div>
+  <base-page :title="getTitle" class="flex flex-col md:grid md:grid-cols-2 gap-4">
+    <div v-for="work in project?.works" :key="work._id">
+      <work-card :work="work" />
     </div>
   </base-page>
 </template>

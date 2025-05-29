@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { Project } from "~/types";
-import { useAuthStore } from "~/stores/auth.store";
 import { useProjectStore } from "~/stores/project.store";
 
-const authStore = useAuthStore();
 const projectStore = useProjectStore();
 const projects = ref<Project[]>([]);
 
@@ -23,17 +21,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <base-page title="Projects">
-    <div v-if="authStore.isAuthenticated" class="mt-2 mb-4">
-      <base-btn color="primary" to="/projects/create">
-        Create project
-      </base-btn>
-    </div>
-
-    <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div v-for="project in getSortedProjects" :key="project._id">
-        <project-card :project="project" :admin="authStore.isAuthenticated" />
-      </div>
+  <base-page title="Projects" class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div v-for="project in getSortedProjects" :key="project._id">
+      <project-card :project="project" :admin="authStore.isAuthenticated" />
     </div>
   </base-page>
 </template>

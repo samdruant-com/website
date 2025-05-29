@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth.store";
 import { useNavigationStore } from "~/stores/navigation.store";
 import { useSidebarStore } from "~/stores/sidebar.store";
 
 const sidebarStore = useSidebarStore();
 const navigationStore = useNavigationStore();
-const authStore = useAuthStore();
 const navigator = useNavigator();
 
 function runEvent(event: { url?: string, action?: () => void }) {
@@ -30,8 +28,6 @@ function runEvent(event: { url?: string, action?: () => void }) {
           {{ option.label }}
         </base-btn>
       </div>
-
-      <app-admin-menu v-if="authStore.isAuthenticated" :sidebar="true" class="text-4xl font-semibold" />
     </div>
   </base-sidebar>
 </template>
