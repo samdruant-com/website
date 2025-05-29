@@ -1,0 +1,11 @@
+#!/bin/sh
+npx commitlint --config .commitlintrc --from=HEAD~1 --to=HEAD
+
+# Note: remove the commented out code below to block pushes directly to the main branch
+# protected_branches="main|master"
+# current_branch=$(git symbolic-ref --short HEAD)
+# 
+# if [[ $current_branch =~ $protected_branches ]]; then
+#   echo "\033[31mYou can't push to $current_branch. Create a pull request instead.\033[0m"
+#   exit 1
+# fi
