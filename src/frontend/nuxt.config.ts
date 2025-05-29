@@ -18,8 +18,7 @@ export default defineNuxtConfig({
   components: [
     { path: "~/components/app" },
     { path: "~/components/base" },
-    { path: "~/components/cards" },
-    { path: "~/components/forms" }
+    { path: "~/components/cards" }
   ],
 
   /**
@@ -35,7 +34,11 @@ export default defineNuxtConfig({
    * in the server side.
    */
   runtimeConfig: {
-    public: { baseUrl: "" }
+    apiUrl: "",
+    apiToken: "",
+    public: {
+      mediaUrl: ""
+    }
   },
 
   postcss: {

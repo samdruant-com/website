@@ -1,49 +1,37 @@
 interface Document {
-  _id: string
+  id: string
+  createdAt: string
+  updatedAt: string
+  publishedAt?: string
 }
 
-export interface User extends Document {
-  username: string
-  password: string
+export interface Image extends Document {
+  name: string
+  alt: string
+  caption: string
+  url: string
 }
 
 export interface Portfolio extends Document {
   name: string
-  email: string
-  socials: { name: string, url: string }[]
-}
-
-export interface Image extends Document {
-  file?: File // temporary property for new images
-  src: string
-  caption: string
-  order: number
+  description: string
+  photo: Image
 }
 
 export interface Work extends Document {
   slug: string
-  name: string
+  title: string
   date: string
-  size: string
   material: string
-  images: Image[]
-  visible: boolean
+  size: string
+  description: string
+  photos: Image[]
 }
 
 export interface Project extends Document {
   slug: string
-  name: string
+  title: string
+  description: string
   date: string
   works: Work[]
-  visible: boolean
-}
-
-/** A special type of project with `works` as a list of strings for the purpose of posting or patching projects. */
-export interface SpecialProject extends Omit<Project, "works"> {
-  works: string[] // Redefining 'works' as an array of strings
-}
-
-export interface SpecialUser extends Omit<User, "_id"> {
-  passwordConfirmation?: string
-  secret?: string
 }
