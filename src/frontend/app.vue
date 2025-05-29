@@ -3,9 +3,9 @@ useSeoSetup();
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-    <!-- notification -->
-    <Toaster />
-  </NuxtLayout>
+  <div class="min-h-svh flex flex-col">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>

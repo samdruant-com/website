@@ -3,6 +3,8 @@ import { usePortfolioStore } from "~/stores/portfolio.store";
 
 useSeoSetup();
 
+definePageMeta({ layout: "landing" });
+
 const portfolioStore = usePortfolioStore();
 </script>
 
