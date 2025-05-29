@@ -15,15 +15,16 @@ const getSortedProjects = computed(() =>
 onMounted(async () => {
   projects.value = await projectStore.indexProjects();
 
-  const thumbnail = projects.value[0]?.works[0]?.images[0]?.src || undefined;
+  const thumbnail = projects.value[0]?.works[0]?.images[0]?.url || undefined;
   useSeoSetup({ title: "Projects", image: thumbnail });
 });
 </script>
 
 <template>
   <base-page title="Projects" class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div v-for="project in getSortedProjects" :key="project._id">
-      <project-card :project="project" :admin="authStore.isAuthenticated" />
+    <div v-for="project in getSortedProjects" :key="project.id">
+      {{ project.title }}
+      <project-card :project="project" />
     </div>
   </base-page>
 </template>

@@ -29,7 +29,7 @@ export default defineEventHandler(async (event): Promise<Work[]> => {
         name: photo.name,
         alt: photo.alt,
         caption: photo.caption,
-        url: photo.url
+        url: `${config.public.mediaUrl}${photo.url}`
       }))
     }));
   } catch (error) {

@@ -20,8 +20,8 @@ onMounted(async () => {
 
 <template>
   <base-page title="Works" class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div v-for="work in getSortedWorks" :key="work._id">
-      <work-card :work="work" :admin="authStore.isAuthenticated" />
+    <div v-for="work in getSortedWorks" :key="work.id">
+      <work-card :work="work" />
     </div>
   </base-page>
 </template>

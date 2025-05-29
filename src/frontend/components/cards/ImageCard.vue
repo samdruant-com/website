@@ -10,10 +10,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  adminMode: {
-    type: Boolean,
-    default: false
-  },
   expand: {
     type: Boolean,
     default: false
@@ -27,7 +23,7 @@ const form = reactive({
 });
 
 const getClass = computed<string>(() => {
-  let componentClass = "mb-2 object-cover bg-gray-200";
+  let componentClass = "mb-2 object-cover";
 
   if (props.expand) {
     // add more classes
@@ -49,12 +45,9 @@ watch(
 
 <template>
   <div class="h-full w-full">
-    <img :src="props.image.src" :alt="props.image.caption" :class="getClass">
+    <img :src="props.image.url" :alt="props.image.caption" :class="getClass">
 
-    <div v-if="props.adminMode" class="my-1">
-      <input-text v-model="form.caption" place-holder="Caption" />
-    </div>
-    <p v-else-if="!props.hideDetails" class="text-sm">
+    <p v-if="!props.hideDetails" class="text-sm">
       {{ props.image.caption || 'no caption' }}
     </p>
   </div>
