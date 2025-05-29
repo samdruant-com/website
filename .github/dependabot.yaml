@@ -1,0 +1,39 @@
+# Example configuration file that:
+#  - Has a private registry
+#  - Ignores lodash dependency
+#  - Disables version-updates
+#  - Defines a group by package name, for security updates for golang dependencies
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /src/cms
+      - /src/website
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: 'chore(security):'
+    # Disable version updates for npm dependencies
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: docker
+    directories:
+      - /src/cms
+      - /src/website
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: 'chore(security):'
+    # Disable version updates for docker dependencies
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: github-actions
+    directory: /.github/workflows
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: 'chore(security):'
+    # Disable version updates for GitHub Actions dependencies
+    open-pull-requests-limit: 0
