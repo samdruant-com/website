@@ -1,13 +1,8 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   build: {
     transpile: [
-      "vue-sonner",
-      "vue-i18n"
+      "vue-sonner"
     ]
   },
 
@@ -23,7 +18,6 @@ export default defineNuxtConfig({
   components: [
     { path: "~/components/app" },
     { path: "~/components/base" },
-    { path: "~/components/buttons" },
     { path: "~/components/cards" },
     { path: "~/components/forms" }
   ],
@@ -32,7 +26,6 @@ export default defineNuxtConfig({
    * Adds modules to app
    */
   modules: [
-    "@nuxtjs/i18n",
     "@pinia/nuxt"
   ],
 
@@ -50,16 +43,6 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {}
     }
-  },
-
-  vite: {
-    plugins: [
-      VueI18nVitePlugin({
-        include: [
-          resolve(dirname(fileURLToPath(import.meta.url)), "./locales/*.json")
-        ]
-      })
-    ]
   },
 
   compatibilityDate: "2024-11-30"
