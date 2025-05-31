@@ -12,10 +12,7 @@ COPY assets/ ./assets/
 COPY components/ ./components/
 COPY composables/ ./composables/
 COPY layouts/ ./layouts/
-COPY locales/ ./locales/
-COPY middleware/ ./middleware/
 COPY pages/ ./pages/
-COPY plugins/ ./plugins/
 COPY public/ ./public/
 COPY server/ ./server/
 COPY stores/ ./stores/
