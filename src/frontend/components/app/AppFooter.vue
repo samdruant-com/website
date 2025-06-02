@@ -7,7 +7,7 @@ const portfolioStore = usePortfolioStore();
 <template>
   <div class="flex flex-row gap-2 mt-2 mx-2 p-2">
     <a
-      v-for="social in portfolioStore.portfolio.socials"
+      v-for="social in portfolioStore.getSocials"
       :key="social.name"
       class="plain"
       target="_blank"

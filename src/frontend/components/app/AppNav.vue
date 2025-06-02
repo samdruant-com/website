@@ -16,7 +16,7 @@ const portfolioStore = usePortfolioStore();
 
     <router-link class="basis-1/2 md:basis-1/4 mr-auto" to="/">
       <p class="text-3xl font-semibold text-center mt-2">
-        {{ portfolioStore.portfolio.name }}
+        {{ portfolioStore.getPortfolio.name }}
       </p>
     </router-link>
 

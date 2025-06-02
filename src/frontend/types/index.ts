@@ -6,16 +6,17 @@ interface Document {
 }
 
 export interface Image extends Document {
-  name: string
-  alt: string
-  caption: string
+  name?: string
+  alt?: string
+  caption?: string
   url: string
 }
 
 export interface Portfolio extends Document {
   name: string
   description: string
-  photo: Image
+  photo?: Image
+  featuredPhoto?: Image
 }
 
 export interface Work extends Document {

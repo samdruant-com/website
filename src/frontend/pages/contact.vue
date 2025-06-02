@@ -8,8 +8,11 @@ const portfolioStore = usePortfolioStore();
 
 const getImage = computed<Image>(() => {
   return {
-    _id: "contact",
-    src: "/images/contact.webp",
+    id: "contact",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    publishedAt: new Date().toISOString(),
+    url: "/images/contact.webp",
     caption: "Contact"
   };
 });
@@ -26,9 +29,9 @@ const getImage = computed<Image>(() => {
       />
 
       <div class="p-2 flex flex-col">
-        <a class="hide-link" :href="`mailto:${portfolioStore.portfolio.email}`"><b>email</b> me</a>
+        <a class="hide-link" :href="`mailto:${portfolioStore.getEmail}`"><b>email</b> me</a>
         <a
-          v-for="social in portfolioStore.portfolio.socials"
+          v-for="social in portfolioStore.getSocials"
           :key="social.name"
           class="hide-link"
           target="_blank"

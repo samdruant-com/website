@@ -3,11 +3,9 @@ import { usePortfolioStore } from "~/stores/portfolio.store";
 function useSeoSetup(config?: { title?: string, description?: string, image?: string }) {
   const portfolioStore = usePortfolioStore();
 
-  const defaultImage = "http://sam.oliverrr.net/images/landing.webp";
-
-  const seoImage = config?.image || defaultImage;
-  const seoTitle = config?.title ? `${config?.title} - ${portfolioStore.portfolio.name || "Portfolio"}` : portfolioStore.portfolio.name || "Portfolio";
-  const seoDescription = config?.description || "Artist from Antwerp, Belgium currently doing an MFA fine arts at Hdk-Valand Gothenburg, Sweden";
+  const seoImage = config?.image || "/images/landing.webp";
+  const seoTitle = config?.title ? `${config?.title} - ${portfolioStore.getPortfolio.name || "Portfolio"}` : portfolioStore.getPortfolio.name || "Portfolio";
+  const seoDescription = config?.description || "Sam Druant (b. 1998, Antwerp, Belgium) is an artist with a textile-based practice and research-driven approach.";
 
   useHead({
     title: seoTitle,
@@ -22,6 +20,7 @@ function useSeoSetup(config?: { title?: string, description?: string, image?: st
       }
     ]
   });
+
   useSeoMeta({
     title: seoTitle,
     description: seoDescription,
