@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { usePortfolioStore } from "~/stores/portfolio.store";
 
+definePageMeta({ layout: "landing" });
 useSeoSetup();
 
-definePageMeta({ layout: "landing" });
-
 const portfolioStore = usePortfolioStore();
+
+const getBackgroundImage = computed<string>(() => {
+  return portfolioStore.getPortfolio.featuredPhoto?.url || "/images/landing.webp";
+});
 </script>
 
 <template>
-  <div id="start-page">
+  <div id="start-page" :style="{ backgroundImage: `url(${getBackgroundImage})` }">
     <nuxt-link class="landing-text s-brand hide-link" to="/projects">
       <h1 class="text-center text-background">
         {{ portfolioStore.getPortfolio.name }}
@@ -22,7 +25,6 @@ const portfolioStore = usePortfolioStore();
 #start-page {
   position: relative;
   height: 100vh;
-  background-image: url("/images/landing.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
