@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiArtistArtist extends Struct.SingleTypeSchema {
   collectionName: 'artists';
   info: {
+    description: '';
     displayName: 'artist';
     pluralName: 'artists';
     singularName: 'artist';
@@ -384,6 +385,7 @@ export interface ApiArtistArtist extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText;
+    featured_photo: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -391,7 +393,7 @@ export interface ApiArtistArtist extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
-    photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    profile_photo: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
