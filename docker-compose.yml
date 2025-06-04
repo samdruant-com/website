@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./src/backend/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=1337
+      - DATABASE_CLIENT=sqlite
+      # - APP_KEYS=***,***,***
+      # - API_TOKEN_SALT=***
+      # - ADMIN_JWT_SECRET=***
+      # - JWT_SECRET=***
+    expose:
+      - '1337'
+    volumes:
+      - ./src/backend/src:/app/src
+      - ./src/backend/public:/app/public
+      - ./src/backend/.database:/app/.database
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./src/frontend/.env
+    environment:
+      - NUXT_PUBLIC_MEDIA_URL=http://cms.localhost
+      - NUXT_API_URL=http://backend:1337/api
+      # - NUXT_API_TOKEN=***
+    depends_on:
+      - backend
+    expose:
+      - '3000'
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
