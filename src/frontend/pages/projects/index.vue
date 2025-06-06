@@ -21,10 +21,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <base-page title="Projects" class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div v-for="project in getSortedProjects" :key="project.id">
-      {{ project.title }}
-      <project-card :project="project" />
+  <base-page title="Projects">
+    <div v-if="getSortedProjects.length > 0" class="flex flex-col md:grid md:grid-cols-3 gap-4">
+      <project-card v-for="project in getSortedProjects" :key="project.id" :project="project" />
+    </div>
+
+    <div v-else class="text-center text-gray-500">
+      No projects found.
     </div>
   </base-page>
 </template>

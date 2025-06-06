@@ -8,15 +8,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col p-2">
-    <div v-if="props.title" id="page-title" style="border-bottom: 3px solid; ">
-      <h1 class="text-2xl font-semibold">
-        {{ props.title }}
-      </h1>
-    </div>
+  <div class="flex flex-col gap-2 p-2">
+    <h1 v-if="props.title" class="text-2xl font-semibold border-b-2 border-black">
+      {{ props.title }}
+    </h1>
 
-    <div class="mt-2">
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
