@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: sam
 data:
-  SERVER_ORIGIN: "http://sam-server:4000"
+  NUXT_PUBLIC_MEDIA_URL: "http://cms-dev.samdruant.com"

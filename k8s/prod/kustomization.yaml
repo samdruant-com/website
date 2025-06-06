@@ -5,3 +5,4 @@ metadata:
 
 resources:
   - configmap.yaml
+  - ingress.yaml
