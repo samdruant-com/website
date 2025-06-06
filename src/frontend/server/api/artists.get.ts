@@ -4,7 +4,7 @@ export default defineEventHandler(async (event): Promise<Portfolio[]> => {
   const config = useRuntimeConfig(event);
 
   try {
-    const res = await $fetch(`${config.apiUrl}/artist?populate=profile_photo&populate=featured_photo`, {
+    const res = await $fetch(`${config.apiUrl}/artist?populate=profile_photo&populate=featured_photo&populate=links`, {
       headers: {
         Authorization: `Bearer ${config.apiToken}`
       }
@@ -38,7 +38,13 @@ export default defineEventHandler(async (event): Promise<Portfolio[]> => {
         alt: artist.featured_photo.alt,
         caption: artist.featured_photo.caption,
         url: `${config.public.mediaUrl}${artist.featured_photo.url}`
-      }
+      },
+      links: Object.entries(artist.links)
+        .map(([key, link]) => ({
+          name: key,
+          url: link && key.toLowerCase() === "email" ? `mailto:${link}` : link as string
+        }))
+        .filter(link => link.url && typeof link.url === "string" && link.url.trim() !== "")
     }];
   } catch (error) {
     throw createError({

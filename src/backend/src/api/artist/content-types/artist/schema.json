@@ -32,6 +32,11 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "links": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.social-media"
     }
   }
 }

@@ -386,6 +386,7 @@ export interface ApiArtistArtist extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText;
     featured_photo: Schema.Attribute.Media<'images'>;
+    links: Schema.Attribute.Component<'shared.social-media', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

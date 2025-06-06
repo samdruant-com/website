@@ -17,6 +17,7 @@ export interface Portfolio extends Document {
   description: string
   photo?: Image
   featuredPhoto?: Image
+  links: { name: string, url: string }[]
 }
 
 export interface Work extends Document {
