@@ -7,16 +7,22 @@
       2,
       "always",
       [
-        "major",
-        "breaking",
-        "minor",
         "feat",
-        "ft",
-        "patch",
-        "chore",
         "fix",
+        "chore",
         "docs"
       ]
-    ]
+    ],
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "frontend",
+        "backend",
+        "pipeline"
+      ]
+    ],
+    "type-empty": [1, "never"],
+    "scope-empty": [1, "never"]
   }
 }

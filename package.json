@@ -17,6 +17,6 @@
     "lint-staged": "^16.1.0"
   },
   "lint-staged": {
-    "*": "npm run lint"
+    "*.{ts,mjs,yaml,yml,json}": "npm run lint"
   }
 }

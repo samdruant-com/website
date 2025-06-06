@@ -1,5 +1,5 @@
 {
-	"workbench.colorCustomizations": {
+  "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#878556",
     "activityBar.background": "#878556",
     "activityBar.foreground": "#15202b",
@@ -19,7 +19,5 @@
     "titleBar.inactiveBackground": "#68664299",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-	"peacock.color": "#686642",
-	"i18n-ally.localesPaths": ["client/locales"],
-	"i18n-ally.keystyle": "nested"
+  "peacock.color": "#686642"
 }
