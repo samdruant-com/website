@@ -39,14 +39,17 @@ export default defineEventHandler(async (event): Promise<Portfolio[]> => {
         caption: artist.featured_photo.caption,
         url: `${config.public.mediaUrl}${artist.featured_photo.url}`
       },
-      links: Object.entries(artist.links)
-        .map(([key, link]) => ({
-          name: key,
-          url: link && key.toLowerCase() === "email" ? `mailto:${link}` : link as string
-        }))
-        .filter(link => link.url && typeof link.url === "string" && link.url.trim() !== "")
+      links: artist.links
+        ? Object.entries(artist.links)
+          .map(([key, link]) => ({
+            name: key,
+            url: link && key.toLowerCase() === "email" ? `mailto:${link}` : link as string
+          }))
+          .filter(link => link.url && typeof link.url === "string" && link.url.trim() !== "")
+        : []
     }];
   } catch (error) {
+    console.error({ error });
     throw createError({
       statusCode: 404,
       statusMessage: `Failed to fetch proprerty data: ${(error as Error).message}`
