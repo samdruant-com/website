@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { usePortfolioStore } from "~/stores/portfolio.store";
 
-useSeoSetup({ title: "Contact" });
-
 const portfolioStore = usePortfolioStore();
+
+useSeoSetup({
+  title: "Contact",
+  description: portfolioStore.getPortfolio.description,
+  image: portfolioStore.getPortfolio.photo?.url
+});
 </script>
 
 <template>

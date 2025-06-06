@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import { usePortfolioStore } from "~/stores/portfolio.store";
 
-const { data, error } = await useFetch("/api/artists");
-
 const portfolioStore = usePortfolioStore();
 
-if (error.value) {
-  console.error("Failed to fetch portfolio data:", error.value);
-} else if (data.value && data.value.length > 0) {
-  portfolioStore.setPortfolio(data.value[0]);
-}
+const { data, error } = await useFetch("/api/artists");
 
-useSeoSetup();
+if (!data.value || error.value) {
+  console.error("Failed to fetch portfolio data:", error.value);
+} else if (data.value.length === 0) {
+  console.warn("No portfolio data found.");
+} else {
+  // Set the portfolio data in the store
+  portfolioStore.setPortfolio(data.value[0]);
+
+  // Use the portfolio for SEO setup
+  useSeoSetup({
+    title: portfolioStore.getPortfolio.name || "Sam Druant",
+    description: portfolioStore.getPortfolio.description || "Portfolio of Sam Druant, a creative artist.",
+    image: portfolioStore.getPortfolio.featuredPhoto?.url || "/images/landing.webp"
+  });
+}
 </script>
 
 <template>
