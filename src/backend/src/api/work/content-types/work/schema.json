@@ -15,9 +15,6 @@
       "type": "string",
       "required": true
     },
-    "date": {
-      "type": "string"
-    },
     "material": {
       "type": "string"
     },
@@ -40,7 +37,12 @@
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
     }
   }
 }

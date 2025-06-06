@@ -14,9 +14,6 @@
     "title": {
       "type": "string"
     },
-    "date": {
-      "type": "string"
-    },
     "description": {
       "type": "richtext"
     },
@@ -27,7 +24,12 @@
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
     }
   }
 }
