@@ -14,9 +14,11 @@ spec:
       labels:
         app: sam
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: backend
-          image: thisoliver/sam:server
+          image: ghcr.io/samdruant-com/website-backend:latest
           imagePullPolicy: Always
           env:
             - name: ADMIN_JWT_SECRET
@@ -59,7 +61,7 @@ spec:
             - name: sam
               mountPath: /app/src
         - name: frontend
-          image: thisoliver/sam:frontend
+          image: ghcr.io/samdruant-com/website-frontend:latest
           imagePullPolicy: Always
           env:
             - name: NUXT_API_TOKEN
