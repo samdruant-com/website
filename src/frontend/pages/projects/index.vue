@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Project } from "~/types";
+import type { Image, Project } from "~/types";
 import { useProjectStore } from "~/stores/project.store";
 
 const projectStore = useProjectStore();
@@ -21,20 +21,43 @@ const getSortedProjects = computed(() => {
     (a: Project, b: Project) => Number(b.date) - Number(a.date)
   );
 });
+
+function getThumbnail(project: Project): Image {
+  const fallBackThumbnail: Image = {
+    id: "default-thumbnail",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    url: "/images/landing.webp",
+    caption: "Default thumbnail"
+  };
+
+  return project.works[0]?.photos[0] || fallBackThumbnail;
+}
 </script>
 
 <template>
   <base-page title="Projects">
     <div v-if="getSortedProjects.length > 0" class="flex flex-col md:grid md:grid-cols-3 gap-4">
-
-      <project-card
+      <nuxt-link
         v-for="project in getSortedProjects"
         :key="project.id"
-        :project="project"
-      />
+        class="flex flex-col h-[50vh]"
+        :to="`/projects/${project.slug}`"
+      >
+        <img
+          :src="getThumbnail(project).url"
+          :alt="getThumbnail(project).caption"
+          class="h-full w-full object-cover"
+        >
+
+        <p>
+          <span class="font-bold">{{ project.title }}</span>, {{ project.date }}
+        </p>
+      </nuxt-link>
+    </div>
 
     <div v-else-if="error" class="text-red-500 text-center">
-      <p>Error loading projects: {{ error }}</p>
+      <p>Error loading projects: {{ error.message }}</p>
     </div>
 
     <div v-else class="text-center text-gray-500">

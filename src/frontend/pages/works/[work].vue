@@ -29,13 +29,14 @@ const getTitle = computed<string>(() => {
 
 <template>
   <base-page :title="getTitle">
-    <div v-if="data" class="flex flex-col gap-4">
-      <image-card
-        v-for="image in data.photos"
-        :key="image.id"
-        :image="image"
-        :expand="true"
-      />
+    <div v-if="data" class="flex flex-col items-center gap-4">
+      <div v-for="image in data.photos" :key="image.id" class="flex flex-col">
+        <img :src="image.url" :alt="image.caption" class="block w-fit">
+
+        <div v-if="image.caption" class="mt-2 text-start">
+          {{ image.caption }}
+        </div>
+      </div>
     </div>
     <div v-else-if="error" class="text-red-500">
       <p>Error loading work: {{ error.message }}</p>

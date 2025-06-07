@@ -7,12 +7,12 @@ const portfolioStore = usePortfolioStore();
 <template>
   <div class="flex flex-row gap-2 mt-2 mx-2 p-2">
     <a
-      v-for="social in portfolioStore.getSocials"
+      v-for="social in portfolioStore.getPortfolio.links"
       :key="social.name"
+      :href="social.url"
       class="plain"
       target="_blank"
       rel="noreferrer"
-      :href="social.url"
     >
       {{ social.name }}
     </a>

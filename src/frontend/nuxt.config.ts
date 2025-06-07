@@ -6,16 +6,6 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   /**
-   * Use components in this array globaly without having to import
-   * the explicitly
-   */
-  components: [
-    { path: "~/components/app" },
-    { path: "~/components/base" },
-    { path: "~/components/cards" }
-  ],
-
-  /**
    * Adds modules to app
    */
   modules: [

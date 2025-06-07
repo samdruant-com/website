@@ -13,13 +13,12 @@ useSeoSetup({
 <template>
   <base-page>
     <div class="flex flex-col md:flex-row md:justify-around gap-2">
-      <image-card
+      <img
         v-if="portfolioStore.getPortfolio.photo"
         class="md:w-4/12"
-        :image="portfolioStore.getPortfolio.photo"
-        :hide-details="true"
-        :expand="true"
-      />
+        :src="portfolioStore.getPortfolio.photo.url"
+        :alt="portfolioStore.getPortfolio.photo.caption"
+      >
 
       <div class="md:w-4/12 p-2 flex flex-col md:justify-center">
         <p>

@@ -18,7 +18,7 @@ const { data, error } = await useAsyncData("project", async () => {
   return project;
 });
 
-const getTitle = computed<string>(() => {
+const getProjectTitle = computed<string>(() => {
   const name = data.value?.title || "N/a";
   const year = data.value?.date || "N/a";
 
@@ -27,9 +27,13 @@ const getTitle = computed<string>(() => {
 </script>
 
 <template>
-  <base-page :title="getTitle">
+  <base-page :title="getProjectTitle">
     <div v-if="data" class="flex flex-col md:grid md:grid-cols-2 gap-4">
-      <work-card v-for="work in data?.works" :key="work.id" :work="work" />
+      <work-card
+        v-for="work in data?.works"
+        :key="work.id"
+        :work="work"
+      />
     </div>
     <div v-else-if="error" class="text-red-500">
       <p>Error loading project: {{ error.message }}</p>

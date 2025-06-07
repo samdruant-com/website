@@ -30,6 +30,8 @@ const getSortedWorks = computed(() => {
         v-for="work in getSortedWorks"
         :key="work.id"
         :work="work"
+        :minimal="true"
+        class="h-[50vh]"
       />
     </div>
 
