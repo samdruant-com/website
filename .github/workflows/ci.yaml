@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  check-commit-lint:
+  lint-commits:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -14,27 +14,15 @@ jobs:
 
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
-          node-version: latest
-
-      - name: Print versions
-        run: |
-          git --version
-          node --version
-          npm --version
-          npx commitlint --version
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Lint latest commit
-        if: github.event_name == 'push'
-        run: npx commitlint --last --verbose
+          node-version-file: package.json
 
       - name: Lint PR commits
-        if: github.event_name == 'pull_request'
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
-  check-code-lint:
+      - name: Lint PR title
+        run: echo "${{ github.event.pull_request.title }}" | npx npx commitlint
+
+  lint-code:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -49,7 +37,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
-  check-security:
+  scan-security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -74,3 +62,23 @@ jobs:
           scanners: "vuln,secret,misconfig"
           severity: "CRITICAL,HIGH"
           exit-code: "1"
+
+  test-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [frontend, backend]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+        with:
+          node-version-file: src/${{ matrix.app }}/package.json
+
+      - name: install deps
+        working-directory: src/${{ matrix.app }}
+        run: npm install
+
+      - name: build
+        working-directory: src/${{ matrix.app }}
+        run: npm run build
