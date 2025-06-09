@@ -41,7 +41,7 @@ function getThumbnail(project: Project): Image {
       <nuxt-link
         v-for="project in getSortedProjects"
         :key="project.id"
-        class="flex flex-col"
+        class="flex flex-col md:h-[60vh]"
         :to="`/projects/${project.slug}`"
       >
         <img

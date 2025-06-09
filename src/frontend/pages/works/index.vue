@@ -31,6 +31,7 @@ const getSortedWorks = computed(() => {
         :key="work.id"
         :work="work"
         :minimal="true"
+        class="md:h-[60vh]"
       />
     </div>
 

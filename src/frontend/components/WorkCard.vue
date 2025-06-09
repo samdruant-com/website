@@ -18,7 +18,7 @@ const getThumbnail = computed<Image>(() => {
 </script>
 
 <template>
-  <nuxt-link class="flex flex-col" :to="`/works/${props.work.slug}`">
+  <nuxt-link class="flex flex-col h-full w-full" :to="`/works/${props.work.slug}`">
     <img
       :src="getThumbnail.url"
       :alt="getThumbnail.caption"
