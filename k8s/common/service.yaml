@@ -11,9 +11,11 @@ spec:
     app: sam
 
   ports:
-    - protocol: TCP
+    - name: frontend
+      protocol: TCP
       port: 3000
       targetPort: frontend-port # <- frontend container port in deployment.yaml
-    - protocol: TCP
+    - name: backend
+      protocol: TCP
       port: 1337
       targetPort: backend-port # <- client container port in deployment.yaml
