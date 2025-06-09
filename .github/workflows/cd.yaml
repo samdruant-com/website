@@ -23,7 +23,6 @@ jobs:
         with:
           release-type: simple
   build:
-    if: ${{ needs.release.outputs.released == 'true' }}
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -32,6 +31,7 @@ jobs:
     strategy:
       matrix:
         app: [frontend, backend]
+        platform: [linux/amd64, linux/arm64]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
@@ -48,7 +48,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
 
-      - name: Build and push (frontend)
+      - name: Build and push ${{ matrix.app }} container image
+        if: ${{ needs.release.outputs.released != 'true' }}
+        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
+        with:
+          context: src/${{ matrix.app }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:latest
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          platforms: ${{ matrix.platform }}
+
+      - name: Build and push ${{ matrix.app }} container image (RELEASE)
+        if: ${{ needs.release.outputs.released == 'true' }}
         uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
         with:
           context: src/${{ matrix.app }}
@@ -58,7 +71,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:latest
           labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platform }}
   # deploy:
   #  needs: [release, build]
   #  runs-on: ubuntu-latest
