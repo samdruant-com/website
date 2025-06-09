@@ -31,6 +31,7 @@ export default defineEventHandler(async (event): Promise<Project> => {
       date: project.date,
       works: project.works.map((work: any) => ({
         id: work.id,
+        slug: work.slug,
         createdAt: work.createdAt,
         updatedAt: work.updatedAt,
         publishedAt: work.publishedAt,
