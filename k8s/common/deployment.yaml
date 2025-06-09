@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sam
+  labels:
+    app: sam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sam
+  template:
+    metadata:
+      labels:
+        app: sam
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: backend
+          image: ghcr.io/samdruant-com/website-backend:latest
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          env:
+            - name: ADMIN_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: ADMIN_JWT_SECRET
+            - name: API_TOKEN_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: API_TOKEN_SALT
+            - name: APP_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: APP_KEYS
+            - name: DATABASE_CLIENT
+              value: sqlite
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: JWT_SECRET
+          ports:
+            - containerPort: 1337
+              name: backend-port
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: "0.1"
+            limits:
+              memory: 256Mi
+              cpu: "0.5"
+          volumeMounts:
+            - name: sam
+              mountPath: /app/.database
+            - name: sam
+              mountPath: /app/public
+            - name: sam
+              mountPath: /app/src
+        - name: frontend
+          image: ghcr.io/samdruant-com/website-frontend:latest
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          env:
+            - name: NUXT_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: sam
+                  key: NUXT_API_TOKEN
+            - name: NUXT_API_URL
+              value: "http://backend:1337/api"
+            - name: NUXT_PUBLIC_MEDIA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sam
+                  key: NUXT_PUBLIC_MEDIA_URL
+          ports:
+            - containerPort: 3000
+              name: frontend-port
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: "0.5"
+            requests:
+              memory: 128Mi
+              cpu: "0.1"
+      volumes:
+        - name: backend-storage
+          persistentVolumeClaim:
+            claimName: backend-pvc

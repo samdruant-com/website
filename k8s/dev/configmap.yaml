@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sam
+data:
+  NUXT_PUBLIC_MEDIA_URL: "http://cms-dev.samdruant.com"

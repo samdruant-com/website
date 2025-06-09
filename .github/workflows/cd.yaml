@@ -1,0 +1,112 @@
+name: CD
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  release:
+    outputs:
+      tag: ${{ steps.release.outputs.version }}
+      released: ${{ steps.release.outputs.releases_created}}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Create release
+        id: release
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 # v4.2.0
+        with:
+          release-type: simple
+  build:
+    if: ${{ needs.release.outputs.released == 'true' }}
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # needs write permission to push tag and release
+      packages: write # needs write permission to publish Docker image
+    strategy:
+      matrix:
+        app: [frontend, backend]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Login to registry
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+
+      - name: Build and push (frontend)
+        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
+        with:
+          context: src/${{ matrix.app }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ needs.release.outputs.tag }}
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:latest
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          platforms: linux/amd64
+  # deploy:
+  #  needs: [release, build]
+  #  runs-on: ubuntu-latest
+  #  permissions:
+  #    packages: read # needs write permission to publish Docker image
+  #  env:
+  #    DEPLOYMENT_HOST: ${{ secrets.DEPLOYMENT_HOST }}
+  #    DEPLOYMENT_USER: ${{ secrets.DEPLOYMENT_USER }}
+  #    DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+  #    REGISTRY_USERNAME: ${{ github.actor }}
+  #    REGISTRY_TOKEN: ${{ github.token }}
+  #    IMAGE_TAG: ${{ github.sha }}
+  #    ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+  #    API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
+  #    APP_KEYS: ${{ secrets.APP_KEYS }}
+  #    JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  #    NUXT_API_TOKEN: ${{ secrets.NUXT_API_TOKEN }}
+  #  steps:
+  #    - name: Update deployment
+  #      id: update-deployment
+  #      run: |
+  #        echo "::notice::Setting up SSH key for deployment"
+  #        mkdir -p ~/.ssh
+  #        echo "$DEPLOYMENT_KEY" > ~/.ssh/deployment_key
+  #        chmod 600 ~/.ssh/deployment_key
+
+  #        ssh -i ~/.ssh/deployment_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DEPLOYMENT_USER@$DEPLOYMENT_HOST << EOF
+  #          echo "::notice::Patch regcred secret"
+  #          kubectl delete secret regcred || true
+  #          kubectl create secret docker-registry regcred \
+  #            --docker-server=ghcr.io \
+  #            --docker-username=$REGISTRY_USERNAME \
+  #            --docker-password=$REGISTRY_TOKEN
+
+  #          echo "::notice::Patch opaque secret"
+  #          kubectl delete secret sam || true
+  #          kubectl create secret generic sam \
+  #            --from-literal=ADMIN_JWT_SECRET="$ADMIN_JWT_SECRET" \
+  #            --from-literal=API_TOKEN_SALT="$API_TOKEN_SALT" \
+  #            --from-literal=APP_KEYS="$APP_KEYS" \
+  #            --from-literal=JWT_SECRET="$JWT_SECRET" \
+  #            --from-literal=NUXT_API_TOKEN="$NUXT_API_TOKEN"
+
+  #          echo "::notice::Patch deployment container images"
+  #          kubectl set image deployment/sam backend=ghcr.io/samdruant-com/website-backend:$IMAGE_TAG frontend=ghcr.io/samdruant-com/website-frontend:$IMAGE_TAG
+
+  #          echo "::notice::Restart deployment"
+  #          kubectl rollout restart deployment/sam
+  #        EOF
+
+  #        echo "::notice::Deployment completed successfully"
