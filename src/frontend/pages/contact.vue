@@ -25,11 +25,11 @@ useSeoSetup({
           {{ portfolioStore.getPortfolio.description }}
         </p>
 
-        <div class="pl-4 flex flex-col gap-2 mt-4">
+        <div class="flex flex-col gap-2 mt-4 md:pl-2">
           <a
             v-for="social in portfolioStore.getPortfolio.links"
             :key="social.name"
-            class="hide-link"
+            class="hide-link hover:underline"
             :href="social.url"
             target="_blank"
             rel="noreferrer"

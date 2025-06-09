@@ -10,7 +10,7 @@ const portfolioStore = usePortfolioStore();
       v-for="social in portfolioStore.getPortfolio.links"
       :key="social.name"
       :href="social.url"
-      class="plain"
+      class="plain hover:underline"
       target="_blank"
       rel="noreferrer"
     >
@@ -18,7 +18,7 @@ const portfolioStore = usePortfolioStore();
     </a>
 
     <a
-      class="ml-auto hide-link"
+      class="ml-auto hide-link hover:underline"
       target="_blank"
       rel="noreferrer"
       href="https://www.oliverrr.net"
