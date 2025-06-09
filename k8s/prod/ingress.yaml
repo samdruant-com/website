@@ -23,7 +23,7 @@ spec:
               service:
                 name: sam
                 port:
-                  number: 3000
+                  name: frontend
     - host: cms.samdruant.com
       http:
         paths:
@@ -33,7 +33,7 @@ spec:
               service:
                 name: sam
                 port:
-                  number: 1337
+                  name: backend
   tls:
     - hosts:
         - www.samdruant.com
