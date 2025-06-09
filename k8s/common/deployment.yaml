@@ -61,7 +61,7 @@ spec:
             - name: backend-storage
               mountPath: /app/.database
             - name: backend-storage
-              mountPath: /app/public
+              mountPath: /app/public/uploads
             - name: backend-storage
               mountPath: /app/src
         - name: frontend

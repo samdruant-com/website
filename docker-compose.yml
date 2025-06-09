@@ -19,7 +19,7 @@ services:
       - '1337'
     volumes:
       - ./src/backend/src:/app/src
-      - ./src/backend/public:/app/public
+      - ./src/backend/public/uploads:/app/public/uploads
       - ./src/backend/.database:/app/.database
     restart: unless-stopped
 
