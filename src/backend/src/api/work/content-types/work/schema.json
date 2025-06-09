@@ -21,12 +21,9 @@
     "photos": {
       "type": "media",
       "multiple": true,
-      "required": false,
+      "required": true,
       "allowedTypes": [
-        "images",
-        "videos",
-        "audios",
-        "files"
+        "images"
       ]
     },
     "description": {
