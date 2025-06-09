@@ -10,9 +10,9 @@ const portfolioStore = usePortfolioStore();
 
 <template>
   <div class="flex flex-row md:mr-20">
-    <base-btn class="basis-1/4 grow-0 text-3xl md:hidden" color="transparent" @click="drawer.toggle">
+    <button class="basis-1/4 grow-0 text-3xl md:hidden" color="transparent" @click="drawer.toggle">
       <span class="i-mdi-menu" />
-    </base-btn>
+    </button>
 
     <router-link class="basis-1/2 md:basis-1/4 mr-auto" to="/">
       <p class="text-3xl font-semibold text-center mt-2">
