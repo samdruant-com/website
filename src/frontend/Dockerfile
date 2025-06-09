@@ -28,6 +28,7 @@ RUN npm run build
 
 # Set node user for security
 RUN chown -R node:node /app
+# The 'node' user in the official Node.js image has UID 1000
 USER node
 
 # Expose the port the app runs on

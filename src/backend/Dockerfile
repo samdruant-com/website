@@ -43,6 +43,7 @@ EXPOSE $PORT
 
 # Set user to run the application and give them permissions to the app directory
 RUN chown -R node:node /app
+# The 'node' user in the official Node.js image has UID 1000
 USER node
 
 # Start the application

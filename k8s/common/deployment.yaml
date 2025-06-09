@@ -20,6 +20,10 @@ spec:
         - name: backend
           image: ghcr.io/samdruant-com/website-backend:latest
           imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
           env:
             - name: ADMIN_JWT_SECRET
               valueFrom:
@@ -63,6 +67,10 @@ spec:
         - name: frontend
           image: ghcr.io/samdruant-com/website-frontend:latest
           imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
           env:
             - name: NUXT_API_TOKEN
               valueFrom:
