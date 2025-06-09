@@ -36,6 +36,6 @@ spec:
                   number: 1337
   tls:
     - hosts:
-        - www.samdruant.com
-        - cms.samdruant.com
+        - dev.samdruant.com
+        - cms-dev.samdruant.com
       secretName: sam-tls
