@@ -4,6 +4,7 @@ import { useWorkStore } from "~/stores/work.store";
 const workStore = useWorkStore();
 
 const route = useRoute();
+const formatter = useFormatter();
 
 const { data, error, status } = await useAsyncData("work", async () => {
   const id = route.params.work;
@@ -92,19 +93,25 @@ onUnmounted(() => {
 
 <template>
   <NuxtLayout name="page" :title="getTitle">
-    <div v-if="data" class="flex flex-col items-center md:flex-row md:grid-cols-12 md:place-content-center gap-4">
-      <div v-if="getDetails.length > 0" id="work-details" class="md:w-full md:self-start md:col-span-4">
+    <div v-if="data" class="flex flex-col items-center md:grid md:grid-cols-12 md:place-content-center gap-4">
+      <div v-if="getDetails.length > 0" id="work-details" class="md:w-full md:self-start md:col-span-3">
         <span v-for="(detail, index) in getDetails" :key="detail.label">
           <span class="text-gray-600">{{ detail.label }}: {{ detail.value }}</span>
           <span v-if="index < getDetails.length - 1">,<br></span>
         </span>
+
+        <div
+          v-if="data?.description"
+          class="mt-4 w-full"
+          v-html="formatter.convertMarkdownToHtml(data.description)"
+        />
       </div>
-      <div id="work-images" class="flex flex-col items-center gap-4 md:col-span-6">
+      <div id="work-images" class="flex flex-col items-center gap-4 md:col-span-7">
         <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full">
           <img
             :src="image.url"
             :alt="image.caption"
-            class="block w-fit md:h-auto md:w-6/12 object-contain cursor-pointer"
+            class="block w-fit md:h-auto md:w-8/12 object-contain cursor-pointer"
             @click="openSlideshow(index)"
           >
           <div v-if="image.caption" class="mt-2 md:text-xs">
