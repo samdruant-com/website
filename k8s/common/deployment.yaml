@@ -15,7 +15,7 @@ spec:
         app: sam
     spec:
       imagePullSecrets:
-        - name: regcred
+        - name: sam-regcred
       containers:
         - name: backend
           image: ghcr.io/samdruant-com/website-backend:latest
@@ -58,11 +58,11 @@ spec:
               memory: 256Mi
               cpu: "0.5"
           volumeMounts:
-            - name: sam
+            - name: backend-storage
               mountPath: /app/.database
-            - name: sam
+            - name: backend-storage
               mountPath: /app/public
-            - name: sam
+            - name: backend-storage
               mountPath: /app/src
         - name: frontend
           image: ghcr.io/samdruant-com/website-frontend:latest
@@ -97,4 +97,4 @@ spec:
       volumes:
         - name: backend-storage
           persistentVolumeClaim:
-            claimName: backend-pvc
+            claimName: sam-pvc
