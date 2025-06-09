@@ -24,14 +24,13 @@ const getSortedWorks = computed(() => {
 </script>
 
 <template>
-  <base-page title="Works">
+  <NuxtLayout name="page" title="Works">
     <div v-if="getSortedWorks.length > 0" class="flex flex-col md:grid md:grid-cols-3 gap-4">
       <work-card
         v-for="work in getSortedWorks"
         :key="work.id"
         :work="work"
         :minimal="true"
-        class="h-[50vh]"
       />
     </div>
 
@@ -42,5 +41,5 @@ const getSortedWorks = computed(() => {
     <div v-else class="text-center text-gray-500">
       No works found.
     </div>
-  </base-page>
+  </NuxtLayout>
 </template>

@@ -27,7 +27,7 @@ const getProjectTitle = computed<string>(() => {
 </script>
 
 <template>
-  <base-page :title="getProjectTitle">
+  <NuxtLayout name="page" :title="getProjectTitle">
     <div v-if="data" class="flex flex-col md:grid md:grid-cols-2 gap-4">
       <work-card
         v-for="work in data?.works"
@@ -41,5 +41,5 @@ const getProjectTitle = computed<string>(() => {
     <div v-else class="text-gray-500">
       <p>No project found.</p>
     </div>
-  </base-page>
+  </NuxtLayout>
 </template>

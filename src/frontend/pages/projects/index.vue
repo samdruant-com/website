@@ -36,7 +36,7 @@ function getThumbnail(project: Project): Image {
 </script>
 
 <template>
-  <base-page title="Projects">
+  <NuxtLayout name="page" title="Projects">
     <div v-if="getSortedProjects.length > 0" class="flex flex-col md:grid md:grid-cols-3 gap-4">
       <nuxt-link
         v-for="project in getSortedProjects"
@@ -63,5 +63,5 @@ function getThumbnail(project: Project): Image {
     <div v-else class="text-center text-gray-500">
       No projects found.
     </div>
-  </base-page>
+  </NuxtLayout>
 </template>

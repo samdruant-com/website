@@ -11,7 +11,7 @@ useSeoSetup({
 </script>
 
 <template>
-  <base-page>
+  <NuxtLayout name="page" title="Contact">
     <div class="flex flex-col md:flex-row md:justify-around gap-2">
       <img
         v-if="portfolioStore.getPortfolio.photo"
@@ -39,5 +39,5 @@ useSeoSetup({
         </div>
       </div>
     </div>
-  </base-page>
+  </NuxtLayout>
 </template>
