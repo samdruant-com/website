@@ -15,7 +15,7 @@ spec:
         app: sam
     spec:
       imagePullSecrets:
-        - name: regcred
+        - name: sam-regcred
       containers:
         - name: backend
           image: ghcr.io/samdruant-com/website-backend:latest
