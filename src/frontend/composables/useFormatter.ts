@@ -1,3 +1,4 @@
+import type { Project, Work } from "~/types";
 import sanitize from "sanitize-html";
 import showdown from "showdown";
 
@@ -23,9 +24,18 @@ export function useFormatter() {
     return date.split("-")[0];
   }
 
+  function sortListByDate(list: Project[] | Work[]): Project[] | Work[] {
+    return list.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return dateB - dateA; // Sort in descending order
+    });
+  }
+
   return {
     sanitizeHtml,
     convertMarkdownToHtml,
-    convertDateToYear
+    convertDateToYear,
+    sortListByDate
   };
 }

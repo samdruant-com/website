@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Work } from "~/types";
 import { useProjectStore } from "~/stores/project.store";
 
 const projectStore = useProjectStore();
@@ -27,6 +28,12 @@ const getProjectTitle = computed<string>(() => {
 
   return `${name}, ${year}`;
 });
+
+const getProjectWorks = computed<Work[]>(() => {
+  return data.value?.works
+    ? formatter.sortListByDate(data.value.works) as Work[]
+    : [];
+});
 </script>
 
 <template>
@@ -40,7 +47,7 @@ const getProjectTitle = computed<string>(() => {
       />
 
       <div id="works" class="flex flex-col items-center gap-4 md:col-span-7">
-        <div v-for="work in data?.works" :key="work.id" class="md:h-[70vh] md:w-full">
+        <div v-for="work in getProjectWorks" :key="work.id" class="md:h-[70vh] md:w-full">
           <work-card :work="work" />
         </div>
       </div>

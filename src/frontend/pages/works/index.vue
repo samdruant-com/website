@@ -3,6 +3,7 @@ import type { Work } from "~/types";
 import { useWorkStore } from "~/stores/work.store";
 
 const workStore = useWorkStore();
+const formatter = useFormatter();
 
 const { data, error } = await useAsyncData("works", async () => {
   const works = await workStore.indexWorks();
@@ -18,8 +19,7 @@ const getSortedWorks = computed(() => {
     return [];
   }
 
-  // sort works by date (unix timestamp) latest first
-  return [...data.value].sort((a: Work, b: Work) => Number(b.date) - Number(a.date));
+  return formatter.sortListByDate(data.value) as Work[];
 });
 </script>
 

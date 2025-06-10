@@ -18,9 +18,7 @@ const getSortedProjects = computed(() => {
   }
 
   // sort works by date (unix timestamp) latest first
-  return [...data.value].sort(
-    (a: Project, b: Project) => Number(b.date) - Number(a.date)
-  );
+  return formatter.sortListByDate(data.value) as Project[];
 });
 
 function getThumbnail(project: Project): Image {
