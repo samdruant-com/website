@@ -27,11 +27,11 @@ const getThumbnail = computed<Image>(() => {
       class="h-full w-full object-cover"
     >
 
-    <div v-if="!props.minimal && getThumbnail" class="mt-2">
+    <div v-if="!props.minimal && getThumbnail" class="h-12 mt-2">
       {{ getThumbnail.caption }}
     </div>
 
-    <p>
+    <p class="h-12 mt-2">
       <span class="font-bold">{{ props.work.title }}</span>, {{ formatter.convertDateToYear(props.work.date) }}
     </p>
   </nuxt-link>
