@@ -11,28 +11,18 @@
       "type": "string",
       "regex": "^https:\\/\\/www.instagram.com\\/[\\w-]+"
     },
-    "website": {
-      "type": "string",
-      "regex": "^https:\\/\\/([\\w-]+\\.)+[a-z]+"
-    },
     "substack": {
-      "type": "string",
-      "regex": "^https:\\/\\/([\\w-]+\\.)+[a-z]+"
-    },
-    "linkedin": {
-      "type": "string",
-      "regex": "^https:\\/\\/([\\w-]+\\.)+[a-z]+"
-    },
-    "facebook": {
-      "type": "string",
-      "regex": "^https:\\/\\/([\\w-]+\\.)+[a-z]+"
-    },
-    "twitter": {
       "type": "string",
       "regex": "^https:\\/\\/([\\w-]+\\.)+[a-z]+"
     },
     "email": {
       "type": "email"
+    },
+    "miro": {
+      "type": "string"
+    },
+    "arena": {
+      "type": "string"
     }
   }
 }

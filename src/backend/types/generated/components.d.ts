@@ -70,13 +70,11 @@ export interface SharedSocialMedia extends Struct.ComponentSchema {
     icon: 'link';
   };
   attributes: {
+    arena: Schema.Attribute.String;
     email: Schema.Attribute.Email;
-    facebook: Schema.Attribute.String;
     instagram: Schema.Attribute.String;
-    linkedin: Schema.Attribute.String;
+    miro: Schema.Attribute.String;
     substack: Schema.Attribute.String;
-    twitter: Schema.Attribute.String;
-    website: Schema.Attribute.String;
   };
 }
 
