@@ -95,8 +95,12 @@ onUnmounted(() => {
 
 <template>
   <NuxtLayout name="page" :title="getTitle">
-    <div v-if="data" class="flex flex-col items-center md:grid md:grid-cols-12 md:place-content-center gap-4">
-      <div v-if="getDetails.length > 0" id="work-details" class="md:w-full md:self-start md:col-span-3">
+    <div v-if="data" class="flex flex-col items-center md:flex-row md:justify-between gap-4">
+      <div
+        v-if="getDetails.length > 0"
+        id="work-details"
+        class="w-full md:self-start md:basis-1/3 md:sticky md:top-16"
+      >
         <span v-for="(detail, index) in getDetails" :key="detail.label">
           <span class="text-gray-600">{{ detail.label }}: {{ detail.value }}</span>
           <span v-if="index < getDetails.length - 1">,<br></span>
@@ -108,7 +112,7 @@ onUnmounted(() => {
           v-html="formatter.convertMarkdownToHtml(data.description)"
         />
       </div>
-      <div id="work-images" class="flex flex-col items-center gap-4 md:col-span-7">
+      <div id="work-images" class="flex flex-col items-center gap-4 md:basis-2/3 md:max-w-2xl">
         <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full">
           <img
             :src="image.url"
