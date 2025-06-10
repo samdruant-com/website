@@ -23,7 +23,7 @@
         "security"
       ]
     ],
-    "type-empty": [1, "never"],
+    "type-empty": [2, "never"],
     "scope-empty": [1, "never"]
   }
 }
