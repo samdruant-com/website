@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { Work } from "~/types";
-import { useProjectStore } from "~/stores/project.store";
 
-const projectStore = useProjectStore();
 const route = useRoute();
 const formatter = useFormatter();
 
@@ -13,9 +11,11 @@ const { data, error } = await useAsyncData("project", async () => {
     throw new Error("Project ID is not defined");
   }
 
-  const project = await projectStore.getProject(id as string);
-  const thumbnail = project.works[0]?.photos[0]?.url || undefined;
-  useSeoSetup({ title: project.title, image: thumbnail });
+  const project = await $fetch(`/api/projects/${id}`);
+
+  if (project.works[0]?.photos[0]?.url) {
+    useSeoSetup({ title: project.title, image: project.works[0]?.photos[0]?.url });
+  }
 
   return project;
 });

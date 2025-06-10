@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { useWorkStore } from "~/stores/work.store";
-
-const workStore = useWorkStore();
-
 const route = useRoute();
 const formatter = useFormatter();
 
@@ -13,7 +9,7 @@ const { data, error, status } = await useAsyncData("work", async () => {
     throw new Error("Work ID is not defined");
   }
 
-  const work = await workStore.getWork(id as string);
+  const work = await $fetch(`/api/works/${id}`);
   const thumbnail = work.photos[0]?.url || undefined;
   useSeoSetup({ title: work.title, image: thumbnail });
 
