@@ -17,13 +17,16 @@ const portfolioStore = usePortfolioStore();
       {{ social.name }}
     </a>
 
-    <a
-      class="ml-auto hide-link hover:underline"
-      target="_blank"
-      rel="noreferrer"
-      href="https://www.oliverrr.net"
-    >
-      Oliver 🤠
-    </a>
+    <span class="ml-auto">
+      website by
+      <a
+        class="hover:underline"
+        target="_blank"
+        rel="noreferrer"
+        href="https://www.oliverrr.net"
+      >
+        Oliver 🤠
+      </a>
+    </span>
   </div>
 </template>
