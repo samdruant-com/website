@@ -12,15 +12,16 @@ useSeoSetup({
 
 <template>
   <NuxtLayout name="page" title="Contact">
-    <div class="flex flex-col md:flex-row md:justify-around gap-2">
-      <img
-        v-if="portfolioStore.getPortfolio.photo"
-        class="md:w-4/12"
-        :src="portfolioStore.getPortfolio.photo.url"
-        :alt="portfolioStore.getPortfolio.photo.caption"
-      >
+    <div class="flex flex-col gap-2 md:grid md:grid-cols-12 md:place-content-center">
+      <div v-if="portfolioStore.getPortfolio.photo" class="md:col-span-8 p-2">
+        <img
+          :src="portfolioStore.getPortfolio.photo.url"
+          :alt="portfolioStore.getPortfolio.photo.caption"
+          class="w-full h-auto object-contain"
+        >
+      </div>
 
-      <div class="md:w-4/12 p-2 flex flex-col md:justify-center">
+      <div class="md:col-span-4 p-2 flex flex-col md:justify-center">
         <p>
           {{ portfolioStore.getPortfolio.description }}
         </p>
