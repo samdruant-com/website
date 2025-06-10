@@ -12,6 +12,8 @@ const props = defineProps({
   }
 });
 
+const formatter = useFormatter();
+
 const getThumbnail = computed<Image>(() => {
   return props.work.photos[0];
 });
@@ -25,12 +27,12 @@ const getThumbnail = computed<Image>(() => {
       class="h-full w-full object-cover"
     >
 
-    <div v-if="!props.minimal && getThumbnail" class="mt-2">
+    <div v-if="!props.minimal && getThumbnail" class="h-12 mt-2">
       {{ getThumbnail.caption }}
     </div>
 
-    <p>
-      <span class="font-bold">{{ props.work.title }}</span>, {{ props.work.date }}
+    <p class="h-12 mt-2">
+      <span class="font-bold">{{ props.work.title }}</span>, {{ formatter.convertDateToYear(props.work.date) }}
     </p>
   </nuxt-link>
 </template>

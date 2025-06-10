@@ -11,29 +11,14 @@ const getBackgroundImage = computed<string>(() => {
 </script>
 
 <template>
-  <div id="start-page" :style="{ backgroundImage: `url(${getBackgroundImage})` }">
-    <nuxt-link class="landing-text s-brand hide-link" to="/projects">
-      <h1 class="text-center text-background">
-        {{ portfolioStore.getPortfolio.name }}
-      </h1>
-    </nuxt-link>
-  </div>
+  <nuxt-link
+    id="start-page"
+    to="/projects"
+    :style="{ backgroundImage: `url(${getBackgroundImage})` }"
+    class="block relative h-screen bg-cover bg-center bg-no-repeat cursor-pointer"
+  >
+    <h1 class="text-center text-background text-[1.5rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      {{ portfolioStore.getPortfolio.name }}
+    </h1>
+  </nuxt-link>
 </template>
-
-<style scoped>
-#start-page {
-  position: relative;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.landing-text {
-  font-size: 1.5rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>
