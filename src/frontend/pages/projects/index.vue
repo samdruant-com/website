@@ -2,6 +2,7 @@
 import type { Image, Project } from "~/types";
 import { useProjectStore } from "~/stores/project.store";
 
+const formatter = useFormatter();
 const projectStore = useProjectStore();
 
 const { data, error } = await useAsyncData("projects", async () => {
@@ -51,7 +52,7 @@ function getThumbnail(project: Project): Image {
         >
 
         <p>
-          <span class="font-bold">{{ project.title }}</span>, {{ project.date }}
+          <span class="font-bold">{{ project.title }}</span>, {{ formatter.convertDateToYear(project.date) }}
         </p>
       </nuxt-link>
     </div>

@@ -21,7 +21,9 @@ const { data, error } = await useAsyncData("project", async () => {
 
 const getProjectTitle = computed<string>(() => {
   const name = data.value?.title || "N/a";
-  const year = data.value?.date || "N/a";
+  const year = data.value?.date
+    ? formatter.convertDateToYear(data.value?.date)
+    : "N/a";
 
   return `${name}, ${year}`;
 });

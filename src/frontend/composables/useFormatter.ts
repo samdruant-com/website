@@ -19,5 +19,13 @@ export function useFormatter() {
     return sanitizeHtml(html);
   }
 
-  return { sanitizeHtml, convertMarkdownToHtml };
+  function convertDateToYear(date: string): string {
+    return date.split("-")[0];
+  }
+
+  return {
+    sanitizeHtml,
+    convertMarkdownToHtml,
+    convertDateToYear
+  };
 }

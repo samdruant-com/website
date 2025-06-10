@@ -12,6 +12,8 @@ const props = defineProps({
   }
 });
 
+const formatter = useFormatter();
+
 const getThumbnail = computed<Image>(() => {
   return props.work.photos[0];
 });
@@ -30,7 +32,7 @@ const getThumbnail = computed<Image>(() => {
     </div>
 
     <p>
-      <span class="font-bold">{{ props.work.title }}</span>, {{ props.work.date }}
+      <span class="font-bold">{{ props.work.title }}</span>, {{ formatter.convertDateToYear(props.work.date) }}
     </p>
   </nuxt-link>
 </template>
