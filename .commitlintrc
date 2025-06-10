@@ -19,7 +19,8 @@
       [
         "frontend",
         "backend",
-        "pipeline"
+        "cicd",
+        "security"
       ]
     ],
     "type-empty": [1, "never"],
