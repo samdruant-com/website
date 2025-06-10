@@ -14,8 +14,8 @@ spec:
     - name: frontend
       protocol: TCP
       port: 3000
-      targetPort: frontend-port # <- frontend container port in deployment.yaml
+      targetPort: frontend-port
     - name: backend
       protocol: TCP
       port: 1337
-      targetPort: backend-port # <- client container port in deployment.yaml
+      targetPort: backend-port

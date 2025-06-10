@@ -52,11 +52,11 @@ spec:
               name: backend-port
           resources:
             requests:
-              memory: 128Mi
-              cpu: "0.1"
+              memory: 512Mi
+              cpu: "0.25"
             limits:
-              memory: 256Mi
-              cpu: "0.5"
+              memory: 1Gi
+              cpu: "1"
           volumeMounts:
             - name: backend-storage
               mountPath: /app/.database

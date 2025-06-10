@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: sam
 data:
-  NUXT_PUBLIC_MEDIA_URL: "http://cms-dev.samdruant.com"
+  NUXT_PUBLIC_MEDIA_URL: "https://cms-dev.samdruant.com"
