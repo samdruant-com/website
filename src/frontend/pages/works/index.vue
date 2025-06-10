@@ -1,25 +1,79 @@
 <script setup lang="ts">
 import type { Work } from "~/types";
-import { useWorkStore } from "~/stores/work.store";
 
-const workStore = useWorkStore();
 const formatter = useFormatter();
 
+useSeoSetup({ title: "Works" });
+
+const scrollY = ref(0);
+const pageLimit = 12; // Number of works to display per page
+const currentPage = ref(1); // Current page number
+const totalPages = ref(0); // Total number of pages
+const works = ref<Work[]>([]);
+
 const { data, error } = await useAsyncData("works", async () => {
-  const works = await workStore.indexWorks();
-  const thumbnail = works[0]?.photos[0]?.url || undefined;
-  useSeoSetup({ title: "Works", image: thumbnail });
-  return works;
+  const res = await $fetch(`/api/works?page=0&limit=${pageLimit}`);
+
+  if (res && res.works[0]?.photos[0]?.url) {
+    useSeoSetup({ title: "Works", image: res.works[0]?.photos[0]?.url });
+  }
+
+  return {
+    works: res.works as Work[],
+    currentPage: res.currentPage,
+    totalPages: res.totalPages
+  };
 });
 
-useSeoSetup({ title: "Works" });
+works.value = data.value?.works || [];
+currentPage.value = data.value?.currentPage || 1;
+totalPages.value = data.value?.totalPages || 0;
 
 const getSortedWorks = computed(() => {
   if (!data.value || error.value) {
     return [];
   }
 
-  return formatter.sortListByDate(data.value) as Work[];
+  return formatter.sortListByDate(works.value) as Work[];
+});
+
+// returns true if the user has scrolled to the bottom of the page
+const isRockBottom = computed<boolean>(() => {
+  // skip for SSR
+  if (import.meta.env.SSR) {
+    return false;
+  }
+
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+
+  return scrollY.value + windowHeight >= documentHeight - 100;
+});
+
+function updateScroll() {
+  scrollY.value = window.scrollY;
+};
+
+async function loadMoreWorks() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    const res = await $fetch(`/api/works?page=${currentPage.value}&limit=${pageLimit}`);
+    works.value.push(...(res.works as Work[]));
+  }
+}
+
+watch(isRockBottom, async (rockBottom) => {
+  if (rockBottom === true) {
+    await loadMoreWorks();
+  }
+});
+
+onMounted(() => {
+  window.addEventListener("scroll", updateScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", updateScroll);
 });
 </script>
 
