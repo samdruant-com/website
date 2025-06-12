@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePortfolioStore } from "~/stores/portfolio.store";
 
+const formatter = useFormatter();
 const portfolioStore = usePortfolioStore();
 
 useSeoSetup({
@@ -22,9 +23,11 @@ useSeoSetup({
       </div>
 
       <div class="md:col-span-4 p-2 flex flex-col md:justify-center">
-        <p>
-          {{ portfolioStore.getPortfolio.description }}
-        </p>
+        <div
+          v-if="portfolioStore.getPortfolio.description"
+          class="mt-4 w-full"
+          v-html="formatter.convertMarkdownToHtml(portfolioStore.getPortfolio.description)"
+        />
 
         <div class="flex flex-col gap-2 mt-4 md:pl-2">
           <a
