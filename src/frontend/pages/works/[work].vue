@@ -108,18 +108,14 @@ onUnmounted(() => {
           v-html="formatter.convertMarkdownToHtml(data.description)"
         />
       </div>
-      <div id="work-images" class="flex flex-col items-center gap-4 md:grow">
-        <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full md:max-w-2xl">
-          <img
-            :src="image.url"
-            :alt="image.caption"
-            class="block w-fit md:h-auto md:w-8/12 object-contain cursor-pointer"
-            @click="openSlideshow(index)"
-          >
-          <div v-if="image.caption" class="mt-2 md:text-xs">
-            {{ image.caption }}
-          </div>
-        </div>
+      <div id="work-images" class="flex flex-col items-center gap-4 md:grow md:max-w-2xl">
+        <base-image
+          v-for="(image, index) in getPhotos"
+          :key="image.id"
+          :image="image"
+          class="cursor-pointer md:w-8/12"
+          @click="openSlideshow(index)"
+        />
       </div>
     </div>
     <div v-else-if="error" class="text-red-500">
@@ -143,11 +139,8 @@ onUnmounted(() => {
           >
             &times;
           </button>
-          <img :src="getPhotos[currentSlideshowIndex]?.url" :alt="getPhotos[currentSlideshowIndex]?.caption" class="max-h-[80vh] object-contain rounded shadow-lg">
-          <div v-if="getPhotos[currentSlideshowIndex]?.caption" class="mt-4 text-white text-center">
-            {{ getPhotos[currentSlideshowIndex]?.caption }}
-          </div>
-          <div class="flex justify-between w-full mt-4">
+          <base-image :image="getPhotos[currentSlideshowIndex]" class="px-2 max-h-[80vh] shadow-lg text-white" />
+          <div v-if="getPhotos.length > 1" class="flex justify-between w-full mt-4">
             <button
               class="text-white text-2xl px-4 py-2"
               @click="prevSlide"

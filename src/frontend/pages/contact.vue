@@ -14,12 +14,8 @@ useSeoSetup({
 <template>
   <NuxtLayout name="page" title="Contact">
     <div class="flex flex-col gap-2 md:grid md:grid-cols-12 md:place-content-center">
-      <div v-if="portfolioStore.getPortfolio.photo" class="md:col-span-8 p-2">
-        <img
-          :src="portfolioStore.getPortfolio.photo.url"
-          :alt="portfolioStore.getPortfolio.photo.caption"
-          class="w-full h-auto object-contain"
-        >
+      <div v-if="portfolioStore.getPortfolio.photo" class="md:col-span-8 flex flex-col items-center p-2">
+        <base-image :image="portfolioStore.getPortfolio.photo" />
       </div>
 
       <div class="md:col-span-4 p-2 flex flex-col md:justify-center">
