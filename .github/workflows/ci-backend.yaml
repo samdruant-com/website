@@ -1,0 +1,16 @@
+name: CI Backend
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize]
+    paths:
+      - ".github/workflows/**"
+      - "k8s/**"
+      - "src/backend/**"
+
+jobs:
+  call-base-ci:
+    uses: ./.github/workflows/ci.yaml
+    with:
+      app: backend
+    secrets: inherit

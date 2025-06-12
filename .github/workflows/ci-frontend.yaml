@@ -1,0 +1,16 @@
+name: CI Frontend
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize]
+    paths:
+      - ".github/workflows/**"
+      - "k8s/**"
+      - "src/frontend/**"
+
+jobs:
+  call-base-ci:
+    uses: ./.github/workflows/ci.yaml
+    with:
+      app: frontend
+    secrets: inherit

@@ -1,0 +1,13 @@
+name: CD Backend
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/backend/**"
+
+jobs:
+  call-base-cd:
+    uses: ./.github/workflows/cd.yaml
+    with:
+      app: backend
+    secrets: inherit

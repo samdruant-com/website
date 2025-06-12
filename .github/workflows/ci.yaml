@@ -1,10 +1,23 @@
 name: CI
 on:
-  pull_request:
-    types: [opened, edited, synchronize]
-    branches: [main]
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+        description: "Which app to continously integrate: frontend or backend"
 
 jobs:
+  verify-input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify input
+        run: |
+          if [[ "${{ inputs.app }}" != "frontend" && "${{ inputs.app }}" != "backend" ]]; then
+            echo "::error::Invalid app input: ${{ inputs.app }}. Must be 'frontend' or 'backend'."
+            exit 1
+          fi
+
   lint-commits:
     runs-on: ubuntu-latest
     steps:
@@ -76,21 +89,19 @@ jobs:
           exit-code: "0" # Configs are not as critical, so we don't fail the build on them
 
   test-build:
+    needs: verify-input
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: [frontend, backend]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
-          node-version-file: src/${{ matrix.app }}/package.json
+          node-version-file: src/${{ inputs.app }}/package.json
 
       - name: install deps
-        working-directory: src/${{ matrix.app }}
+        working-directory: src/${{ inputs.app }}
         run: npm install
 
       - name: build
-        working-directory: src/${{ matrix.app }}
+        working-directory: src/${{ inputs.app }}
         run: npm run build
