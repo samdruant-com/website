@@ -21,15 +21,12 @@ const getThumbnail = computed<Image>(() => {
 
 <template>
   <nuxt-link class="flex flex-col h-full w-full" :to="`/works/${props.work.slug}`">
-    <img
-      :src="getThumbnail.url"
-      :alt="getThumbnail.caption"
-      class="h-full w-full object-cover"
-    >
-
-    <div v-if="!props.minimal && getThumbnail" class="h-12 mt-2">
-      {{ getThumbnail.caption }}
-    </div>
+    <base-image
+      class="h-full w-full"
+      :image="getThumbnail"
+      image-style="cover"
+      :hide-caption="props.minimal"
+    />
 
     <p class="h-12 mt-2">
       <span class="font-bold">{{ props.work.title }}</span>, {{ formatter.convertDateToYear(props.work.date) }}

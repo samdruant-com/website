@@ -108,18 +108,14 @@ onUnmounted(() => {
           v-html="formatter.convertMarkdownToHtml(data.description)"
         />
       </div>
-      <div id="work-images" class="flex flex-col items-center gap-4 md:grow">
-        <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full md:max-w-2xl">
-          <img
-            :src="image.url"
-            :alt="image.caption"
-            class="block w-fit md:h-auto md:w-8/12 object-contain cursor-pointer"
-            @click="openSlideshow(index)"
-          >
-          <div v-if="image.caption" class="mt-2 md:text-xs">
-            {{ image.caption }}
-          </div>
-        </div>
+      <div id="work-images" class="flex flex-col items-center gap-4 md:grow md:max-w-2xl">
+        <base-image
+          v-for="(image, index) in getPhotos"
+          :key="image.id"
+          :image="image"
+          class="cursor-pointer md:w-8/12"
+          @click="openSlideshow(index)"
+        />
       </div>
     </div>
     <div v-else-if="error" class="text-red-500">
