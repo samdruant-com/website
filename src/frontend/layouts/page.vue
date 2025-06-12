@@ -9,9 +9,9 @@ const props = defineProps({
 
 <template>
   <div class="flex flex-col gap-2 p-2">
-    <h1 v-if="props.title" class="text-2xl font-semibold border-b-2 border-black">
+    <div v-if="props.title" class="sticky top-0 bg-white z-10 py-2 flex items-end text-2xl font-semibold border-b-2 border-black">
       {{ props.title }}
-    </h1>
+    </div>
 
     <slot />
   </div>

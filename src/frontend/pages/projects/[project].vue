@@ -38,15 +38,15 @@ const getProjectWorks = computed<Work[]>(() => {
 
 <template>
   <NuxtLayout name="page" :title="getProjectTitle">
-    <div v-if="data" class="flex flex-col items-center md:flex-row md:justify-between gap-4">
+    <div v-if="data" class="flex flex-col items-center md:flex-row md:justify-between gap-2 md:gap-x-2 md:gap-y-4">
       <div
-        v-if="data?.description"
-        id="work-details"
-        class="w-full my-4 md:my-0 md:self-start md:basis-1/3 md:sticky md:top-16"
+        id="project-details"
+        class="w-full my-2 md:my-0 md:self-start md:basis-4/12 md:sticky md:top-16 md:max-h-[80vh] md:overflow-y-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent"
+        style="scrollbar-width: thin; scrollbar-color: transparent transparent;"
         v-html="formatter.convertMarkdownToHtml(data.description)"
       />
 
-      <div id="works" class="flex flex-col items-center gap-4 md:basis-2/3 md:max-w-2xl">
+      <div id="project-works" class="flex flex-col items-center gap-2 md:grow md:max-w-2xl">
         <div v-for="work in getProjectWorks" :key="work.id" class="md:h-[70vh] md:w-full">
           <work-card :work="work" />
         </div>

@@ -91,11 +91,11 @@ onUnmounted(() => {
 
 <template>
   <NuxtLayout name="page" :title="getTitle">
-    <div v-if="data" class="flex flex-col items-center md:flex-row md:justify-between gap-4">
+    <div v-if="data" class="flex flex-col items-center md:flex-row md:justify-between gap-2 md:gap-x-2 md:gap-y-4">
       <div
-        v-if="getDetails.length > 0"
         id="work-details"
-        class="w-full md:self-start md:basis-1/3 md:sticky md:top-16"
+        class="w-full my-2 md:my-0 md:self-start md:basis-3/12 md:sticky md:top-16 md:max-h-[80vh] md:overflow-y-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent"
+        style="scrollbar-width: thin; scrollbar-color: transparent transparent;"
       >
         <span v-for="(detail, index) in getDetails" :key="detail.label">
           <span class="text-gray-600">{{ detail.label }}: {{ detail.value }}</span>
@@ -108,8 +108,8 @@ onUnmounted(() => {
           v-html="formatter.convertMarkdownToHtml(data.description)"
         />
       </div>
-      <div id="work-images" class="flex flex-col items-center gap-4 md:basis-2/3 md:max-w-2xl">
-        <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full">
+      <div id="work-images" class="flex flex-col items-center gap-4 md:grow">
+        <div v-for="(image, index) in getPhotos" :key="image.id" class="flex flex-col items-center md:w-full md:max-w-2xl">
           <img
             :src="image.url"
             :alt="image.caption"
