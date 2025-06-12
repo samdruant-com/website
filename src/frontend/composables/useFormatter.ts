@@ -18,12 +18,12 @@ export function useFormatter() {
   }
 
   function convertMarkdownToHtml(markdown: string): string {
-    let html = new showdown.Converter().makeHtml(markdown);
+    const converter = new showdown.Converter();
 
-    // convert any \n to <br> tags
-    html = html.replace(/\n/g, "<br>");
+    // convert markdown to HTML and replace newlines with <br>
+    const html = converter.makeHtml(markdown)
+      .replace(/\n/g, "<br>");
 
-    // sanitize the HTML
     return sanitizeHtml(html);
   }
 
