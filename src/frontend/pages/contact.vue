@@ -38,7 +38,9 @@ useSeoSetup({
             target="_blank"
             rel="noreferrer"
           >
-            visit my <b>{{ social.name }}</b>
+            <span v-if="social.name.toLowerCase() === 'email'">reach me by </span>
+            <span v-else>visit my </span>
+            <b>{{ social.name }}</b>
           </a>
         </div>
       </div>
