@@ -7,16 +7,23 @@ export function useFormatter() {
     return sanitize(html, {
       allowedAttributes: {
         ...sanitize.defaults.allowedAttributes,
-        a: [...sanitize.defaults.allowedAttributes.a, "class"]
+        a: [...sanitize.defaults.allowedAttributes.a, "class"],
+        p: ["class"]
       },
       transformTags: {
-        a: sanitize.simpleTransform("a", { class: "underline text-blue-500" })
+        a: sanitize.simpleTransform("a", { class: "underline text-blue-500" }),
+        p: sanitize.simpleTransform("p", { class: "mb-2" })
       }
     });
   }
 
   function convertMarkdownToHtml(markdown: string): string {
-    const html = new showdown.Converter().makeHtml(markdown);
+    let html = new showdown.Converter().makeHtml(markdown);
+
+    // convert any \n to <br> tags
+    html = html.replace(/\n/g, "<br>");
+
+    // sanitize the HTML
     return sanitizeHtml(html);
   }
 
