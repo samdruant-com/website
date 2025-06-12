@@ -2,17 +2,6 @@
 import { useGeneralStore } from "~/stores/app.store";
 
 const generalStore = useGeneralStore();
-const navigator = useNavigator();
-
-function runEvent(event: { url?: string, action?: () => void }) {
-  if (event.url) {
-    navigator.openLink(event.url);
-  } else if (event.action) {
-    event.action();
-  }
-
-  generalStore.showsidebar = false;
-}
 </script>
 
 <template>
@@ -35,10 +24,10 @@ function runEvent(event: { url?: string, action?: () => void }) {
         </button>
 
         <div class="flex flex-col h-4/5 gap-4 items-center place-content-center">
-          <div v-for="option in generalStore.pages" :key="option.label" class="text-4xl font-semibold first:mt-0 my-2">
-            <button color="transparent" @click="runEvent({ url: option.to });">
-              {{ option.label }}
-            </button>
+          <div v-for="page in generalStore.pages" :key="page.label" class="text-4xl font-semibold first:mt-0 my-2">
+            <nuxt-link color="transparent" :to="page.to" @click="generalStore.showsidebar = false;">
+              {{ page.label }}
+            </nuxt-link>
           </div>
         </div>
       </div>
