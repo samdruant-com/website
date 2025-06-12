@@ -31,8 +31,8 @@ function runEvent(event: { url?: string, action?: () => void }) {
     <div class="drawer-side">
       <label for="app-sidebar" aria-label="close sidebar" class="drawer-overlay" />
 
-      <div class="w-full h-full flex flex-col bg-background">
-        <button class="max-w-20 text-4xl font-semibold" color="transparent" @click="sidebarStore.visible = false">
+      <div class="w-full h-full flex flex-col bg-background relative">
+        <button class="absolute top-4 right-4 p-4 text-6xl font-semibold" color="transparent" @click="sidebarStore.visible = false">
           <span class="i-mdi-close" />
         </button>
 
