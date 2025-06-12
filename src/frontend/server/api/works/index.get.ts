@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<{ works: Work[], curren
 
   try {
     const res = await $fetch(
-      `${config.apiUrl}/works?populate=photos&pagination[page]=${page}&pagination[pageSize]=${limit}`,
+      `${config.apiUrl}/works?sort=date:desc&populate=photos&pagination[page]=${page}&pagination[pageSize]=${limit}`,
       {
         headers: {
           Authorization: `Bearer ${config.apiToken}`
