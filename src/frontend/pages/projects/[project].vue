@@ -57,10 +57,13 @@ const getProjectWorks = computed<Work[]>(() => {
         />
       </div>
 
-      <div id="project-works" class="flex flex-col items-center gap-2 md:grow md:max-w-2xl">
-        <div v-for="work in getProjectWorks" :key="work.id" class="md:h-[70vh] md:w-full">
-          <work-card :work="work" />
-        </div>
+      <div id="project-works" class="flex flex-col items-center gap-4 md:grow md:max-w-2xl">
+        <work-card
+          v-for="work in getProjectWorks"
+          :key="work.id"
+          :work="work"
+          class="md:w-8/12"
+        />
       </div>
     </div>
     <div v-else-if="error" class="text-red-500">
