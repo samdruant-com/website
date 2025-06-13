@@ -29,6 +29,12 @@ const getProjectTitle = computed<string>(() => {
   return `${name}, ${year}`;
 });
 
+const getProjectDescription = computed<string | undefined>(() => {
+  return data.value?.description
+    ? formatter.convertMarkdownToHtml(data.value.description)
+    : undefined;
+});
+
 const getProjectWorks = computed<Work[]>(() => {
   return data.value?.works
     ? formatter.sortListByDate(data.value.works) as Work[]
@@ -51,16 +57,22 @@ const isMobile = computed<boolean>(() => {
         id="project-details"
         class="w-full my-2 md:my-0 md:self-start md:basis-4/12 md:sticky md:top-16 md:max-h-[80vh] md:overflow-y-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent"
         style="scrollbar-width: thin; scrollbar-color: transparent transparent;"
-        v-html="formatter.convertMarkdownToHtml(data.description)"
-      />
+      >
+        <div
+          v-if="getProjectDescription"
+          class="w-full"
+          v-html="formatter.convertMarkdownToHtml(getProjectDescription)"
+        />
+      </div>
 
-      <div id="project-works" class="flex flex-col items-center gap-2 md:grow md:max-w-2xl">
-        <div v-for="work in getProjectWorks" :key="work.id" class="md:h-[70vh] md:w-full">
-          <work-card
-            :work="work"
-            :rotate-caption="!isMobile"
-          />
-        </div>
+      <div id="project-works" class="flex flex-col items-center gap-4 md:grow md:max-w-2xl">
+        <work-card
+          v-for="work in getProjectWorks"
+          :key="work.id"
+          :work="work"
+          :rotate-caption="!isMobile"
+          class="md:w-8/12"
+        />
       </div>
     </div>
     <div v-else-if="error" class="text-red-500">

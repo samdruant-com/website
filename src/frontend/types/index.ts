@@ -14,7 +14,7 @@ export interface Image extends Document {
 
 export interface Portfolio extends Document {
   name: string
-  description: string
+  description?: string
   photo?: Image
   featuredPhoto?: Image
   links: { name: string, url: string }[]
@@ -24,16 +24,16 @@ export interface Work extends Document {
   slug: string
   title: string
   date: string
-  material: string
-  size: string
-  description: string
+  material?: string
+  size?: string
+  description?: string
   photos: Image[]
 }
 
 export interface Project extends Document {
   slug: string
   title: string
-  description: string
+  description?: string
   date: string
   works: Work[]
 }
