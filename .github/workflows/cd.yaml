@@ -1,4 +1,5 @@
 name: CD
+run-name: "CD for ${{ inputs.app }}"
 on:
   workflow_call:
     inputs:
@@ -36,6 +37,7 @@ jobs:
         with:
           release-type: simple
   build:
+    name: Build and push ${{ inputs.app }} container image
     needs: [verify-input, release]
     runs-on: ubuntu-latest
     permissions:
@@ -43,7 +45,6 @@ jobs:
       packages: write # needs write permission to publish Docker image
     strategy:
       matrix:
-        app: [frontend, backend]
         platform: [linux/amd64, linux/arm64]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4

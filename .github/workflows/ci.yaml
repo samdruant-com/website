@@ -1,14 +1,22 @@
 name: CI
+run-name: CI for ${{ inputs.app }}
 on:
   workflow_call:
     inputs:
       app:
-        required: true
         type: string
         description: "Which app to continously integrate: frontend or backend"
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize]
+    paths-ignore:
+      - "src/frontend/**"
+      - "src/backend/**"
 
 jobs:
   verify-input:
+    if: ${{ inputs.app != '' }}
+    name: Verify input
     runs-on: ubuntu-latest
     steps:
       - name: Verify input
@@ -89,7 +97,9 @@ jobs:
           exit-code: "0" # Configs are not as critical, so we don't fail the build on them
 
   test-build:
+    if: ${{ inputs.app != '' }}
     needs: verify-input
+    name: Build and test ${{ inputs.app }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4

@@ -4,12 +4,10 @@ on:
     branches: [main]
     types: [opened, edited, synchronize]
     paths:
-      - ".github/workflows/**"
-      - "k8s/**"
       - "src/backend/**"
 
 jobs:
-  call-base-ci:
+  backend-ci:
     uses: ./.github/workflows/ci.yaml
     with:
       app: backend

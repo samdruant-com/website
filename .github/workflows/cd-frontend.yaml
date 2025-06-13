@@ -6,7 +6,7 @@ on:
       - "src/frontend/**"
 
 jobs:
-  call-base-cd:
+  deploy-frontend:
     uses: ./.github/workflows/cd.yaml
     with:
       app: frontend
