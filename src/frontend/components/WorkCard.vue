@@ -9,6 +9,10 @@ const props = defineProps({
   minimal: {
     type: Boolean,
     default: false
+  },
+  rotateCaption: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -26,6 +30,7 @@ const getThumbnail = computed<Image>(() => {
       :image="getThumbnail"
       image-style="cover"
       :hide-caption="props.minimal"
+      :rotate-caption="props.rotateCaption"
     />
 
     <p class="h-12 mt-2">

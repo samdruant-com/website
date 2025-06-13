@@ -40,6 +40,14 @@ const getProjectWorks = computed<Work[]>(() => {
     ? formatter.sortListByDate(data.value.works) as Work[]
     : [];
 });
+
+const isMobile = computed<boolean>(() => {
+  if (import.meta.server) {
+    return false; // Server-side rendering, assume not mobile
+  }
+
+  return window.innerWidth < 768; // Adjust the breakpoint as needed
+});
 </script>
 
 <template>
@@ -62,6 +70,7 @@ const getProjectWorks = computed<Work[]>(() => {
           v-for="work in getProjectWorks"
           :key="work.id"
           :work="work"
+          :rotate-caption="!isMobile"
           class="md:w-8/12"
         />
       </div>
