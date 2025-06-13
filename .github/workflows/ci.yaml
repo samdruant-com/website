@@ -1,4 +1,5 @@
 name: CI
+run-name: CI for ${{ inputs.app }}
 on:
   workflow_call:
     inputs:
@@ -89,6 +90,7 @@ jobs:
           exit-code: "0" # Configs are not as critical, so we don't fail the build on them
 
   test-build:
+    name: Build and test ${{ inputs.app }}
     needs: verify-input
     runs-on: ubuntu-latest
     steps:

@@ -9,7 +9,7 @@ on:
       - "src/frontend/**"
 
 jobs:
-  call-base-ci:
+  frontend-ci:
     uses: ./.github/workflows/ci.yaml
     with:
       app: frontend

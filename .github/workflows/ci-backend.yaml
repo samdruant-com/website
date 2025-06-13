@@ -9,7 +9,7 @@ on:
       - "src/backend/**"
 
 jobs:
-  call-base-ci:
+  backend-ci:
     uses: ./.github/workflows/ci.yaml
     with:
       app: backend

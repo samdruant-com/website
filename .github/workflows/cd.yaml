@@ -1,4 +1,5 @@
 name: CD
+run-name: "CD for ${{ inputs.app }}"
 on:
   workflow_call:
     inputs:
@@ -36,6 +37,7 @@ jobs:
         with:
           release-type: simple
   build:
+    name: Build and push ${{ inputs.app }} container image
     needs: [verify-input, release]
     runs-on: ubuntu-latest
     permissions:
