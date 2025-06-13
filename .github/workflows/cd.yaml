@@ -43,7 +43,6 @@ jobs:
       packages: write # needs write permission to publish Docker image
     strategy:
       matrix:
-        app: [frontend, backend]
         platform: [linux/amd64, linux/arm64]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
