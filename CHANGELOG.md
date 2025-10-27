@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.2](https://github.com/samdruant-com/website/compare/v2.0.1...v2.0.2) (2025-10-27)
+
+
+### Bug Fixes
+
+* **cicd:** workfow building for frontend & backend unecessarily ([#122](https://github.com/samdruant-com/website/issues/122)) ([71b0c7c](https://github.com/samdruant-com/website/commit/71b0c7c6ba81893c4920c3b86cd61d81eb74a92f))
+* **frontend:** adds base-image component with position captions [#108](https://github.com/samdruant-com/website/issues/108) ([#112](https://github.com/samdruant-com/website/issues/112)) ([fa1f20a](https://github.com/samdruant-com/website/commit/fa1f20aaa25e93747a75167a3d60cd3c1aad4037))
+* **frontend:** adjust contact prompts based on social link [#107](https://github.com/samdruant-com/website/issues/107) ([#111](https://github.com/samdruant-com/website/issues/111)) ([6b0fee5](https://github.com/samdruant-com/website/commit/6b0fee5476a4c6041df37154b08e37e1478fe634))
+* **frontend:** markdown parser not handling newlines and paragraphs ([#113](https://github.com/samdruant-com/website/issues/113)) ([cab2b69](https://github.com/samdruant-com/website/commit/cab2b695c75abb382301bf9aa52ab2d612c0e2c0))
+* **frontend:** project page crashes when no description is added ([#119](https://github.com/samdruant-com/website/issues/119)) ([a57996b](https://github.com/samdruant-com/website/commit/a57996bb82a283c4ddcb99afd03a7678496f0368))
+* **frontend:** project works were overlapping each other ([#120](https://github.com/samdruant-com/website/issues/120)) ([bbf6f66](https://github.com/samdruant-com/website/commit/bbf6f6623e3e4309a87b743f8b973aa29fdb32d1))
+* **frontend:** rotate image captions for projects on large screens ([#121](https://github.com/samdruant-com/website/issues/121)) ([d44dd96](https://github.com/samdruant-com/website/commit/d44dd96a8cf27390a1eab3411367804b7fd3473f))
+* **frontend:** updates work/project layout structure ([#114](https://github.com/samdruant-com/website/issues/114)) ([c5d8c36](https://github.com/samdruant-com/website/commit/c5d8c3625b3815544c313375b9b9298346ed7dd2))
+
 ## [2.0.1](https://github.com/samdruant-com/website/compare/v2.0.0...v2.0.1) (2025-06-10)
 
 
