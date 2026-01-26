@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { useNavigationStore } from "~/stores/navigation.store";
+import { useGeneralStore } from "~/stores/app.store";
 import { usePortfolioStore } from "~/stores/portfolio.store";
-import { useSidebarStore } from "~/stores/sidebar.store";
 
-const drawer = useSidebarStore();
-const navigation = useNavigationStore();
+const generalStore = useGeneralStore();
 const portfolioStore = usePortfolioStore();
 </script>
 
 <template>
   <div class="flex flex-row items-center md:mr-20">
-    <button class="basis-1/4 grow-0 ml-2 p-2 flex items-center text-3xl md:hidden" color="transparent" @click="drawer.toggle">
+    <button class="basis-1/4 grow-0 ml-2 p-2 flex items-center text-3xl md:hidden" color="transparent" @click="generalStore.toggleSidebar">
       <span class="i-mdi-menu" />
     </button>
 
@@ -19,12 +17,12 @@ const portfolioStore = usePortfolioStore();
     </router-link>
 
     <nuxt-link
-      v-for="option in navigation.options"
-      :key="option.label"
+      v-for="page in generalStore.pages"
+      :key="page.label"
       class="mr-4 place-content-end hidden lg:block text-xl hover:underline"
-      :to="option.to"
+      :to="page.to"
     >
-      {{ option.label }}
+      {{ page.label }}
     </nuxt-link>
   </div>
 </template>
