@@ -1,26 +1,15 @@
-name: CD
-run-name: "CD for ${{ inputs.app }}"
+name: Continous Deployment
 on:
-  workflow_call:
-    inputs:
-      app:
-        required: true
-        type: string
-        description: "Which app to continously deploy: frontend or backend"
+  push:
+    branches:
+      - main
+    paths:
+      - CHANGELOG.md
 
 env:
   REGISTRY: ghcr.io
 
 jobs:
-  verify-input:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify input
-        run: |
-          if [[ "${{ inputs.app }}" != "frontend" && "${{ inputs.app }}" != "backend" ]]; then
-            echo "::error::Invalid app input: ${{ inputs.app }}. Must be 'frontend' or 'backend'."
-            exit 1
-          fi
   release:
     outputs:
       tag: ${{ steps.release.outputs.version }}
@@ -37,14 +26,16 @@ jobs:
         with:
           release-type: node
   build:
-    name: Build and push ${{ inputs.app }} container image
-    needs: [verify-input, release]
+    if: ${{ needs.release.outputs.released == 'true' }}
+    name: Build and push container image
+    needs: [release]
     runs-on: ubuntu-latest
     permissions:
       contents: read # needs write permission to push tag and release
       packages: write # needs write permission to publish Docker image
     strategy:
       matrix:
+        app: [frontend, backend]
         platform: [linux/amd64, linux/arm64]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
@@ -62,27 +53,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
-      - name: Build and push ${{ inputs.app }} container image
-        if: ${{ needs.release.outputs.released != 'true' }}
+      - name: Build and push ${{ matrix.app }} container image
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
-          context: src/${{ inputs.app }}
+          context: src/${{ matrix.app }}
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.app }}:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.app }}:latest
-          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-          platforms: ${{ matrix.platform }}
-
-      - name: Build and push ${{ inputs.app }} container image (RELEASE)
-        if: ${{ needs.release.outputs.released == 'true' }}
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          context: src/${{ inputs.app }}
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.app }}:${{ needs.release.outputs.tag }}
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.app }}:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.app }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ needs.release.outputs.tag }}
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:latest
           labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           platforms: ${{ matrix.platform }}
