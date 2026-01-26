@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3](https://github.com/samdruant-com/website/compare/v2.0.2...v2.0.3) (2026-01-26)
+
+
+### Bug Fixes
+
+* **frontend:** consolidates navigation/sidebar stores into general store ([#118](https://github.com/samdruant-com/website/issues/118)) ([513697b](https://github.com/samdruant-com/website/commit/513697bf3483bc3d9a8cc0cdc34b3f710692242c))
+* **frontend:** works are not sorted by date on initial load ([#145](https://github.com/samdruant-com/website/issues/145)) ([ba6c754](https://github.com/samdruant-com/website/commit/ba6c7545dbb95bc3e1b947769e0e27e093d7bf0c))
+
 ## [2.0.2](https://github.com/samdruant-com/website/compare/v2.0.1...v2.0.2) (2025-10-27)
 
 
