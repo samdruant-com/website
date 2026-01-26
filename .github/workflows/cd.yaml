@@ -35,7 +35,7 @@ jobs:
         id: release
         uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
-          release-type: simple
+          release-type: node
   build:
     name: Build and push ${{ inputs.app }} container image
     needs: [verify-input, release]
