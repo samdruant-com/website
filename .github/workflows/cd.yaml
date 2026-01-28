@@ -5,6 +5,10 @@ on:
       - main
     paths:
       - CHANGELOG.md
+      - docker-compose.yml
+      - nginx.conf
+      - package*.json
+      - src/**
 
 env:
   REGISTRY: ghcr.io
