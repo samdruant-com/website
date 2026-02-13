@@ -54,7 +54,7 @@ jobs:
 
       - name: Build and push ${{ matrix.app }} release container image
         if: ${{ needs.release.outputs.released == 'true' }}
-        uses: docker/build-push-action@ee4ca427a2f43b6a16632044ca514c076267da23 # v6.19.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: src/${{ matrix.app }}
           push: true
@@ -67,7 +67,7 @@ jobs:
 
       - name: Build and push ${{ matrix.app }} container image
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: docker/build-push-action@ee4ca427a2f43b6a16632044ca514c076267da23 # v6.19.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: src/${{ matrix.app }}
           push: true
