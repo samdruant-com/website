@@ -28,16 +28,18 @@ export default defineEventHandler(async (event): Promise<Work> => {
       date: work.date,
       size: work.size,
       material: work.material,
-      photos: work.photos.map((photo: any) => ({
-        id: photo.id,
-        createdAt: photo.createdAt,
-        updatedAt: photo.updatedAt,
-        publishedAt: photo.publishedAt,
-        name: photo.name,
-        alt: photo.alt,
-        caption: photo.caption,
-        url: `${config.public.mediaUrl}${photo.url}`
-      }))
+      photos: work.photos
+        ? work.photos.map((photo: any) => ({
+          id: photo.id,
+          createdAt: photo.createdAt,
+          updatedAt: photo.updatedAt,
+          publishedAt: photo.publishedAt,
+          name: photo.name,
+          alt: photo.alt,
+          caption: photo.caption,
+          url: `${config.public.mediaUrl}${photo.url}`
+        }))
+        : []
     };
   } catch (error) {
     throw createError({
