@@ -26,6 +26,16 @@ updates:
         applies-to: version-updates
         update-types:
           - patch
+      safe-updates-dev-version:
+        update-types:
+          - patch
+          - minor
+        patterns:
+          - "@antfu/eslint-config"
+          - "@commitlint/*"
+          - eslint
+          - husky
+          - lint-staged
       safe-updates-security:
         applies-to: security-updates
         update-types:
