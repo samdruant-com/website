@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.4](https://github.com/samdruant-com/website/compare/v2.0.3...v2.0.4) (2026-03-01)
+
+
+### Bug Fixes
+
+* **frontend:** fetches projects by date (latest first) on initial load ([#149](https://github.com/samdruant-com/website/issues/149)) ([9e59a36](https://github.com/samdruant-com/website/commit/9e59a36bac916548387fa3c7e959f7691bb24d99))
+* **frontend:** stop assuming works or photos exist ([#172](https://github.com/samdruant-com/website/issues/172)) ([e2262ef](https://github.com/samdruant-com/website/commit/e2262ef7742922c3a333541d9346d9b3fd147205))
+
 ## [2.0.3](https://github.com/samdruant-com/website/compare/v2.0.2...v2.0.3) (2026-01-26)
 
 
