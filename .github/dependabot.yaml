@@ -14,18 +14,13 @@ updates:
     schedule:
       interval: daily
     commit-message:
-      prefix: "chore(dep): "
-    open-pull-requests-limit: 10
+      prefix: "chore(deps): "
     target-branch: main
     labels:
       - dependencies
     # IMPORTANT: The group IDs are used in auto-merge workflow. Make sure to update the
     # references in your workflow to match the group IDs if you decide to change them.
     groups:
-      safe-updates-version:
-        applies-to: version-updates
-        update-types:
-          - patch
       safe-updates-dev-version:
         update-types:
           - patch
@@ -36,6 +31,10 @@ updates:
           - eslint
           - husky
           - lint-staged
+      safe-updates-version:
+        applies-to: version-updates
+        update-types:
+          - patch
       safe-updates-security:
         applies-to: security-updates
         update-types:
@@ -49,8 +48,7 @@ updates:
     schedule:
       interval: daily
     commit-message:
-      prefix: "chore(dep): "
-    open-pull-requests-limit: 10
+      prefix: "chore(deps): "
     target-branch: main
     labels:
       - dependencies
@@ -72,8 +70,7 @@ updates:
     schedule:
       interval: daily
     commit-message:
-      prefix: "chore(dep): "
-    open-pull-requests-limit: 10
+      prefix: "chore(deps): "
     target-branch: main
     labels:
       - dependencies
