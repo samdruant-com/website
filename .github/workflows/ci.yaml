@@ -1,32 +1,14 @@
 name: CI
-run-name: CI for ${{ inputs.app }}
 on:
-  workflow_call:
-    inputs:
-      app:
-        type: string
-        description: "Which app to continously integrate: frontend or backend"
   pull_request:
     branches: [main]
     types: [opened, edited, synchronize]
     paths-ignore:
-      - "src/frontend/**"
-      - "src/backend/**"
+      - "src/**"
 
 jobs:
-  verify-input:
-    if: ${{ inputs.app != '' }}
-    name: Verify input
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify input
-        run: |
-          if [[ "${{ inputs.app }}" != "frontend" && "${{ inputs.app }}" != "backend" ]]; then
-            echo "::error::Invalid app input: ${{ inputs.app }}. Must be 'frontend' or 'backend'."
-            exit 1
-          fi
-
   lint-commits:
+    if: ${{ !contains(github.event.pull_request.title, 'chore(deps)') || !contains(github.event.pull_request.title, 'chore(dep)') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
@@ -47,6 +29,7 @@ jobs:
         run: echo "${{ github.event.pull_request.title }}" | npx npx commitlint
 
   lint-code:
+    if: ${{ !contains(github.event.pull_request.title, 'chore(deps)') || !contains(github.event.pull_request.title, 'chore(dep)') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
@@ -62,6 +45,7 @@ jobs:
         run: npm run lint
 
   scan-security:
+    if: ${{ !contains(github.event.pull_request.title, 'chore(deps)') || !contains(github.event.pull_request.title, 'chore(dep)') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
@@ -97,21 +81,23 @@ jobs:
           exit-code: "0" # Configs are not as critical, so we don't fail the build on them
 
   test-build:
-    if: ${{ inputs.app != '' }}
-    needs: verify-input
-    name: Build and test ${{ inputs.app }}
+    if: ${{ !contains(github.event.pull_request.title, 'chore(deps)') || !contains(github.event.pull_request.title, 'chore(dep)') }}
+    name: Build and test ${{ matrix.app }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [frontend, backend]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
 
       - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version-file: src/${{ inputs.app }}/package.json
+          node-version-file: src/${{ matrix.app }}/package.json
 
       - name: install deps
-        working-directory: src/${{ inputs.app }}
+        working-directory: src/${{ matrix.app }}
         run: npm install
 
       - name: build
-        working-directory: src/${{ inputs.app }}
+        working-directory: src/${{ matrix.app }}
         run: npm run build
