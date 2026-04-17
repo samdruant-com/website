@@ -25,12 +25,14 @@ updates:
         update-types:
           - patch
           - minor
+          - major
         patterns:
           - "@antfu/eslint-config"
           - "@commitlint/*"
           - eslint
           - husky
           - lint-staged
+          - typescript
       safe-updates-version:
         applies-to: version-updates
         update-types:
