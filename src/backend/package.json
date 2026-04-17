@@ -36,7 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "typescript": "^6"
   },
   "strapi": {
     "uuid": "6187172f-80df-42f6-b942-29b2613eea77"
