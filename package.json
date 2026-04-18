@@ -9,12 +9,12 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.6.1",
+    "@antfu/eslint-config": "^8.2.0",
     "@commitlint/cli": "^20.4.2",
     "@commitlint/config-conventional": "^20.3.1",
-    "eslint": "^9.27.0",
+    "eslint": "^10.2.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7"
+    "lint-staged": "^16.4.0"
   },
   "lint-staged": {
     "*.{vue,ts,mjs,yaml,yml,json}": "npm run lint"
