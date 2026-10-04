@@ -3,7 +3,23 @@ on:
   push:
     branches:
       - main
+    paths:
+      - src/**
+      - k8s/**
+      - package*.json
+
   workflow_dispatch:
+    inputs:
+      build:
+        description: Trigger build
+        type: boolean
+        required: false
+        default: true
+      deploy:
+        description: Trigger deploy
+        type: boolean
+        required: false
+        default: true
 
 env:
   REGISTRY: ghcr.io
@@ -75,3 +91,68 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
           labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           platforms: ${{ matrix.platform }}
+
+  deploy:
+    name: Deploy applications
+    if: ${{ needs.release.outputs.released == 'true' || inputs.deploy == true }}
+    needs: [release, build]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.release.outputs.released == 'true' && 'production' || 'development' }}
+    permissions:
+      contents: read
+      packages: read
+    env:
+      NAMESPACE: ${{ vars.NAMESPACE }}
+      DEPLOYMENT_ENV: ${{ needs.release.outputs.released == 'true' && 'prod' || 'dev' }}
+    steps:
+      - name: Setup Kubectl
+        run: |
+          kubectl version --client
+
+      - name: Configure Kubectl
+        env:
+          CLUSTER_CONTEXT: k8s
+          CLUSTER_HOST: ${{ secrets.CLUSTER_HOST }}
+          CLUSTER_PORT: ${{ secrets.CLUSTER_PORT }}
+          SERVICE_ACCOUNT_TOKEN: ${{ secrets.SERVICE_ACCOUNT_TOKEN }}
+        run: |
+          kubectl config set-cluster "${CLUSTER_CONTEXT}-cluster" --server="https://${CLUSTER_HOST}:${CLUSTER_PORT}" --insecure-skip-tls-verify
+          kubectl config set-credentials "${CLUSTER_CONTEXT}-user" --token "$SERVICE_ACCOUNT_TOKEN"
+          kubectl config set-context "${CLUSTER_CONTEXT}-context" --cluster="${CLUSTER_CONTEXT}-cluster" --user="${CLUSTER_CONTEXT}-user" --namespace="$NAMESPACE"
+          kubectl config use-context "${CLUSTER_CONTEXT}-context"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Apply resources
+        run: |
+          kubectl -n "$NAMESPACE" apply -k "k8s/env/${DEPLOYMENT_ENV}"
+
+      - name: Patch secrets
+        run: |
+          kubectl create secret generic "oliverrr-${DEPLOYMENT_ENV}" \
+            --from-literal=BACKEND_ADMIN_JWT_SECRET='${{ secrets.BACKEND_ADMIN_JWT_SECRET }}' \
+            --from-literal=BACKEND_API_TOKEN_SALT='${{ secrets.BACKEND_API_TOKEN_SALT }}' \
+            --from-literal=BACKEND_APP_KEYS='${{ secrets.BACKEND_APP_KEYS }}' \
+            --from-literal=BACKEND_JWT_SECRET='${{ secrets.BACKEND_JWT_SECRET }}' \
+            --from-literal=BACKEND_ENCRYPTION_KEY='${{ secrets.BACKEND_ENCRYPTION_KEY }}' \
+            --from-literal=BACKEND_TRANSFER_TOKEN_SALT='${{ secrets.BACKEND_TRANSFER_TOKEN_SALT }}' \
+            --from-literal=FRONTEND_NUXT_CMS_API_TOKEN='${{ secrets.FRONTEND_NUXT_CMS_API_TOKEN }}' \
+            --dry-run=client -o yaml | kubectl -n "$NAMESPACE" apply -f -
+
+      - name: Patch container images
+        run: |
+          tag="latest"
+          if [[ "${{ needs.release.outputs.released }}" == "true" ]]; then
+            tag="${{ needs.release.outputs.tag }}"
+          elif [[ "${{ inputs.build }}" == "true" ]]; then
+            tag="${{ github.sha }}"
+          fi
+
+          kubectl -n "$NAMESPACE" set image "deployment/oliverrr-frontend-${DEPLOYMENT_ENV}" frontend="ghcr.io/this-oliver/website-frontend:${tag}"
+          kubectl -n "$NAMESPACE" set image "deployment/oliverrr-backend-${DEPLOYMENT_ENV}" backend="ghcr.io/this-oliver/website-backend:${tag}"
+
+      - name: Restart deployments
+        run: |
+          kubectl rollout restart "deployment/oliverrr-frontend-${DEPLOYMENT_ENV}"
+          kubectl rollout restart "deployment/oliverrr-backend-${DEPLOYMENT_ENV}"
