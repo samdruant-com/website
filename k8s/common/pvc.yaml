@@ -1,10 +1,28 @@
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sam-pvc
+  name: sam-media
+  labels:
+    app: backend
 spec:
+  storageClassName: homelab-hostpath
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sam-database
+  labels:
+    app: backend
+spec:
+  storageClassName: homelab-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

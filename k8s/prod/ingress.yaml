@@ -1,41 +1,20 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: sam
-  labels:
-    app: sam
-    component: ingress
-  annotations:
-    cert-manager.io/issuer: cloudflare-issuer
-    cert-manager.io/issuer-kind: OriginIssuer
-    cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
-    nginx.ingress.kubernetes.io/proxy-body-size: 5m # increases the maximum body size to 5MB from 1 MiB (for file uploads)
-
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: www.samdruant.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: sam
-                port:
-                  name: frontend
-    - host: cms.samdruant.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: sam
-                port:
-                  name: backend
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`samdruant.com`)
+      kind: Rule
+      services:
+        - name: sam-frontend-prod
+          port: frontend
+    - match: Host(`cms.samdruant.com`)
+      kind: Rule
+      services:
+        - name: sam-backend-prod
+          port: backend
   tls:
-    - hosts:
-        - www.samdruant.com
-        - cms.samdruant.com
-      secretName: sam-tls
+    certResolver: defaultCertResolver

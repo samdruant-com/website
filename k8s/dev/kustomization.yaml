@@ -4,6 +4,15 @@ metadata:
   name: sam
 
 resources:
-  - configmap.yaml
+  - ../../common/
   - ingress.yaml
-  - ../common/
+
+nameSuffix: -dev
+
+labels:
+  - includeSelectors: true
+    pairs:
+      env: dev
+
+patches:
+  - path: overlay-configmap.yaml
