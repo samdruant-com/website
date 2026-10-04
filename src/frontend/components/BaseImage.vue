@@ -22,15 +22,17 @@ const getCaptionStyle = computed(() => {
 </script>
 
 <template>
-  <div :class="`flex flex-col items-center ${getCaptionParentStyle}`">
+  <div class="flex flex-col items-center" :class="`${getCaptionParentStyle}`">
     <img
       :src="props.image.url"
       :alt="props.image.caption"
-      :class="`h-full w-full ${getImageStyle}`"
+      :class="`${getImageStyle}`"
+      class="h-full w-full"
     >
     <div
       v-if="props.image.caption && !hideCaption"
-      :class="`w-full mt-2 text-end md:text-xs ${getCaptionStyle}`"
+      :class="`${getCaptionStyle}`"
+      class="w-full mt-2 text-end md:text-xs"
     >
       {{ props.image.caption }}
     </div>
