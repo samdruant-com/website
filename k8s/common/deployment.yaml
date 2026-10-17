@@ -21,7 +21,7 @@ spec:
       containers:
         - name: frontend
           image: ghcr.io/samdruant-com/website-frontend:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -87,7 +87,7 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/samdruant-com/website-backend:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           securityContext:
             readOnlyRootFilesystem: true
           env:
