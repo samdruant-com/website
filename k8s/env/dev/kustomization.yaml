@@ -7,7 +7,6 @@ resources:
   - ../../common/
   - ingress.yaml
 
-namePrefix: sam-
 nameSuffix: -dev
 
 labels:
