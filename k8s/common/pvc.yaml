@@ -6,7 +6,6 @@ metadata:
   labels:
     app: backend
 spec:
-  storageClassName: homelab-hostpath
   accessModes:
     - ReadWriteOnce
   resources:
@@ -20,7 +19,6 @@ metadata:
   labels:
     app: backend
 spec:
-  storageClassName: homelab-hostpath
   accessModes:
     - ReadWriteOnce
   resources:
