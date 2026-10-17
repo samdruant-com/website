@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cicd
+  name: devops
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -48,10 +48,10 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: deploy-apps
+  name: devops
 subjects:
   - kind: ServiceAccount
-    name: cicd
+    name: devops
 roleRef:
   kind: Role
   name: devops

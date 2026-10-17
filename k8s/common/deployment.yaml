@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam-frontend
+  name: frontend
   labels:
     app: frontend
 spec:
@@ -27,21 +27,21 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
           env:
+            - name: NUXT_PUBLIC_MEDIA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: configs
+                  key: FRONTEND_NUXT_PUBLIC_MEDIA_URL
             - name: NUXT_API_URL
               valueFrom:
                 configMapKeyRef:
-                  name: sam
+                  name: configs
                   key: FRONTEND_NUXT_API_URL
             - name: NUXT_API_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: FRONTEND_NUXT_API_TOKEN
-            - name: NUXT_PUBLIC_MEDIA_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: sam
-                  key: FRONTEND_NUXT_PUBLIC_MEDIA_URL
           livenessProbe:
             httpGet:
               path: /
@@ -68,7 +68,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam-backend
+  name: backend
   labels:
     app: backend
 spec:
@@ -94,32 +94,32 @@ spec:
             - name: ADMIN_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_ADMIN_JWT_SECRET
             - name: API_TOKEN_SALT
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_API_TOKEN_SALT
             - name: APP_KEYS
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_APP_KEYS
             - name: ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_ENCRYPTION_KEY
             - name: TRANSFER_TOKEN_SALT
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_TRANSFER_TOKEN_SALT
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: sam
+                  name: secrets
                   key: BACKEND_JWT_SECRET
           livenessProbe:
             httpGet:
@@ -151,7 +151,7 @@ spec:
       volumes:
         - name: database
           persistentVolumeClaim:
-            claimName: sam-database
+            claimName: database
         - name: media
           persistentVolumeClaim:
-            claimName: sam-media
+            claimName: media

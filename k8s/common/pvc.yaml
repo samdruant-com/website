@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sam-media
+  name: media
   labels:
     app: backend
 spec:
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sam-database
+  name: database
   labels:
     app: backend
 spec:

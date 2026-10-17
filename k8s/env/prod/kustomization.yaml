@@ -1,12 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
-  name: sam
+  name: prod
 
 resources:
   - ../../common/
   - ingress.yaml
 
+namePrefix: sam-
 nameSuffix: -prod
 
 labels:
