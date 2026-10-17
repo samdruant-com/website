@@ -4,16 +4,16 @@ kind: Deployment
 metadata:
   name: frontend
   labels:
-    app: frontend
+    component: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      component: frontend
   template:
     metadata:
       labels:
-        app: frontend
+        component: frontend
     spec:
       securityContext:
         runAsUser: 1000
@@ -70,16 +70,16 @@ kind: Deployment
 metadata:
   name: backend
   labels:
-    app: backend
+    component: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      component: backend
   template:
     metadata:
       labels:
-        app: backend
+        component: backend
     spec:
       securityContext:
         runAsUser: 1000
