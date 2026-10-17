@@ -32,16 +32,16 @@ spec:
                 configMapKeyRef:
                   name: sam
                   key: FRONTEND_NUXT_API_URL
-            - name: NUXT_PUBLIC_MEDIA_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: sam
-                  key: FRONTEND_NUXT_PUBLIC_MEDIA_URL
             - name: NUXT_API_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: sam
                   key: FRONTEND_NUXT_API_TOKEN
+            - name: NUXT_PUBLIC_MEDIA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sam
+                  key: FRONTEND_NUXT_PUBLIC_MEDIA_URL
           livenessProbe:
             httpGet:
               path: /
