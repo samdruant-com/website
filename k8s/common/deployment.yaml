@@ -123,16 +123,16 @@ spec:
                   key: BACKEND_JWT_SECRET
           livenessProbe:
             httpGet:
-              path: /
+              path: /api
               port: 1337
-            initialDelaySeconds: 3
-            periodSeconds: 3
+            initialDelaySeconds: 15
+            periodSeconds: 60
           readinessProbe:
             httpGet:
-              path: /
+              path: /api
               port: 1337
-            initialDelaySeconds: 3
-            periodSeconds: 3
+            initialDelaySeconds: 15
+            periodSeconds: 30
           ports:
             - containerPort: 1337
               name: backend-port
