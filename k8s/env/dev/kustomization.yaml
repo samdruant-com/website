@@ -5,7 +5,7 @@ metadata:
 
 resources:
   - ../../common/
-  - ingress.yaml
+  # - ingress.yaml
 
 nameSuffix: -dev
 

@@ -144,14 +144,14 @@ spec:
               memory: 2Gi
               cpu: "1"
           volumeMounts:
-            - name: sam-database
+            - name: database
               mountPath: /app/.database
-            - name: sam-media
+            - name: media
               mountPath: /app/public/uploads
       volumes:
-        - name: sam-database
+        - name: database
           persistentVolumeClaim:
             claimName: sam-database
-        - name: sam-media
+        - name: media
           persistentVolumeClaim:
             claimName: sam-media
