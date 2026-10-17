@@ -130,7 +130,7 @@ jobs:
 
       - name: Patch secrets
         run: |
-          kubectl create secret generic "oliverrr-${DEPLOYMENT_ENV}" \
+          kubectl create secret generic "secrets-${DEPLOYMENT_ENV}" \
             --from-literal=BACKEND_ADMIN_JWT_SECRET='${{ secrets.BACKEND_ADMIN_JWT_SECRET }}' \
             --from-literal=BACKEND_API_TOKEN_SALT='${{ secrets.BACKEND_API_TOKEN_SALT }}' \
             --from-literal=BACKEND_APP_KEYS='${{ secrets.BACKEND_APP_KEYS }}' \
@@ -149,10 +149,10 @@ jobs:
             tag="${{ github.sha }}"
           fi
 
-          kubectl -n "$NAMESPACE" set image "deployment/oliverrr-frontend-${DEPLOYMENT_ENV}" frontend="ghcr.io/this-oliver/website-frontend:${tag}"
-          kubectl -n "$NAMESPACE" set image "deployment/oliverrr-backend-${DEPLOYMENT_ENV}" backend="ghcr.io/this-oliver/website-backend:${tag}"
+          kubectl -n "$NAMESPACE" set image "deployment/frontend-${DEPLOYMENT_ENV}" frontend="${{ env.REGISTRY }}/${{ github.repository }}-frontend:${tag}"
+          kubectl -n "$NAMESPACE" set image "deployment/backend-${DEPLOYMENT_ENV}" backend="${{ env.REGISTRY }}/${{ github.repository }}-backend:${tag}"
 
       - name: Restart deployments
         run: |
-          kubectl rollout restart "deployment/oliverrr-frontend-${DEPLOYMENT_ENV}"
-          kubectl rollout restart "deployment/oliverrr-backend-${DEPLOYMENT_ENV}"
+          kubectl rollout restart "deployment/frontend-${DEPLOYMENT_ENV}"
+          kubectl rollout restart "deployment/backend-${DEPLOYMENT_ENV}"
