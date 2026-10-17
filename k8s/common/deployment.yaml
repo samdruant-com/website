@@ -89,7 +89,7 @@ spec:
           image: ghcr.io/samdruant-com/website-backend:latest
           imagePullPolicy: IfNotPresent
           securityContext:
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
           env:
             - name: ADMIN_JWT_SECRET
               valueFrom:
