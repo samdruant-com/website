@@ -123,13 +123,13 @@ spec:
                   key: BACKEND_JWT_SECRET
           livenessProbe:
             httpGet:
-              path: /api
+              path: /
               port: 1337
             initialDelaySeconds: 15
             periodSeconds: 60
           readinessProbe:
             httpGet:
-              path: /api
+              path: /
               port: 1337
             initialDelaySeconds: 15
             periodSeconds: 30
