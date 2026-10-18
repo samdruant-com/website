@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.5](https://github.com/samdruant-com/website/compare/v2.0.4...v2.0.5) (2026-10-18)
+
+
+### Bug Fixes
+
+* **cicd:** adds k8s rbac permissions for networking.k8s.io group ([677850d](https://github.com/samdruant-com/website/commit/677850d4c30787ed2e6374cd04dcb9799f5a1785))
+* **cicd:** adds time between k8s deployment probes ([f60f587](https://github.com/samdruant-com/website/commit/f60f587505db058ea981ab9610a6bb8573b07714))
+* **cicd:** backend k8s deployment readiness probes not triggering ([f7dd9da](https://github.com/samdruant-com/website/commit/f7dd9daf6f79dacad568aa52267c578c4fca14a7))
+* **cicd:** k8s ingress resources not mapping to correct services ([d7bb0e8](https://github.com/samdruant-com/website/commit/d7bb0e8d8e43697bba98c902c74be955a5025c17))
+* **cicd:** updates k8s deployment and cd workflow ([#274](https://github.com/samdruant-com/website/issues/274)) ([ec2202a](https://github.com/samdruant-com/website/commit/ec2202af69b7dff8e44fb41e9333b7ab5f326bc2))
+* **cicd:** updates k8s frontend deployment media url ([c025c68](https://github.com/samdruant-com/website/commit/c025c681ce8813c5e509d00aae3d36afc7b6e253))
+
 ## [2.0.4](https://github.com/samdruant-com/website/compare/v2.0.3...v2.0.4) (2026-03-01)
 
 
