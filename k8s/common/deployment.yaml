@@ -1,89 +1,59 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam
+  name: frontend
   labels:
-    app: sam
+    component: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sam
+      component: frontend
   template:
     metadata:
       labels:
-        app: sam
+        component: frontend
     spec:
-      imagePullSecrets:
-        - name: sam-regcred
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
-        - name: backend
-          image: ghcr.io/samdruant-com/website-backend:latest
-          imagePullPolicy: Always
-          securityContext:
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-          env:
-            - name: ADMIN_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: ADMIN_JWT_SECRET
-            - name: API_TOKEN_SALT
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: API_TOKEN_SALT
-            - name: APP_KEYS
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: APP_KEYS
-            - name: DATABASE_CLIENT
-              value: sqlite
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: JWT_SECRET
-          ports:
-            - containerPort: 1337
-              name: backend-port
-          resources:
-            requests:
-              memory: 512Mi
-              cpu: "0.25"
-            limits:
-              memory: 1Gi
-              cpu: "1"
-          volumeMounts:
-            - name: backend-storage
-              mountPath: /app/.database
-            - name: backend-storage
-              mountPath: /app/public
-            - name: backend-storage
-              mountPath: /app/src
         - name: frontend
           image: ghcr.io/samdruant-com/website-frontend:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           securityContext:
+            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
-            runAsUser: 1000
           env:
-            - name: NUXT_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: sam
-                  key: NUXT_API_TOKEN
-            - name: NUXT_API_URL
-              value: "http://backend:1337/api"
             - name: NUXT_PUBLIC_MEDIA_URL
               valueFrom:
                 configMapKeyRef:
-                  name: sam
-                  key: NUXT_PUBLIC_MEDIA_URL
+                  name: configs
+                  key: FRONTEND_NUXT_PUBLIC_MEDIA_URL
+            - name: NUXT_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: configs
+                  key: FRONTEND_NUXT_API_URL
+            - name: NUXT_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: FRONTEND_NUXT_API_TOKEN
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 3
           ports:
             - containerPort: 3000
               name: frontend-port
@@ -94,7 +64,94 @@ spec:
             requests:
               memory: 128Mi
               cpu: "0.1"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: backend
+          image: ghcr.io/samdruant-com/website-backend:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: false
+          env:
+            - name: ADMIN_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_ADMIN_JWT_SECRET
+            - name: API_TOKEN_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_API_TOKEN_SALT
+            - name: APP_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_APP_KEYS
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_ENCRYPTION_KEY
+            - name: TRANSFER_TOKEN_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_TRANSFER_TOKEN_SALT
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: BACKEND_JWT_SECRET
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: 1337
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: 1337
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          ports:
+            - containerPort: 1337
+              name: backend-port
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: "0.25"
+            limits:
+              memory: 2Gi
+              cpu: "1"
+          volumeMounts:
+            - name: database
+              mountPath: /app/.database
+            - name: media
+              mountPath: /app/public/uploads
       volumes:
-        - name: backend-storage
+        - name: database
           persistentVolumeClaim:
-            claimName: sam-pvc
+            claimName: database
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
