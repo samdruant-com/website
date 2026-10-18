@@ -17,7 +17,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: sam-frontend-prod
+                name: frontend-prod
                 port:
                   name: frontend
     - host: cms.samdruant.com
@@ -27,6 +27,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: sam-backend-prod
+                name: backend-prod
                 port:
                   name: backend
