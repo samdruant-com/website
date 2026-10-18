@@ -9,15 +9,6 @@ kind: Role
 metadata:
   name: devops
 rules:
-  - apiGroups: [apps]
-    resources:
-      - deployments
-    verbs:
-      - create
-      - update
-      - patch
-      - get
-      - list
   - apiGroups: [""] # "" indicates the core API group
     resources:
       - configmaps
@@ -31,6 +22,24 @@ rules:
       - create
       - update
       - patch
+  - apiGroups: [apps]
+    resources:
+      - deployments
+    verbs:
+      - create
+      - update
+      - patch
+      - get
+      - list
+  - apiGroups: [networking.k8s.io]
+    resources:
+      - ingresses
+    verbs:
+      - create
+      - update
+      - patch
+      - list
+      - get
   - apiGroups: [traefik.io]
     resources:
       - ingressroutes
