@@ -4,4 +4,4 @@ metadata:
   name: configs
 data:
   FRONTEND_NUXT_API_URL: "https://dev-cms.samdruant.com/api"
-  FRONTEND_NUXT_PUBLIC_MEDIA_URL: "https://dev-cms.samdruant.com/uploads"
+  FRONTEND_NUXT_PUBLIC_MEDIA_URL: "https://dev-cms.samdruant.com"

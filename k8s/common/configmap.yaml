@@ -4,4 +4,4 @@ metadata:
   name: configs
 data:
   FRONTEND_NUXT_API_URL: "http://backend:1337/api"
-  FRONTEND_NUXT_PUBLIC_MEDIA_URL: "http://backend:1337/uploads"
+  FRONTEND_NUXT_PUBLIC_MEDIA_URL: "http://backend:1337"
